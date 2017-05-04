@@ -1,0 +1,6 @@
+SpaceStation():setTemplate("Large Station"):setFaction("Independent"):setCallSign("DS312"):setPosition(-29962, -49906)
+Nebula():setPosition(-42814, -45403)
+Nebula():setPosition(-42251, -55629)
+Nebula():setPosition(-20300, -59850)
+BlackHole():setPosition(-30901, -60694)
+Nebula():setPosition(-38218, -70638)
