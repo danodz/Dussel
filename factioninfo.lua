@@ -1,6 +1,64 @@
 neutral = FactionInfo():setName("Independent")
 neutral:setGMColor(128, 128, 128)
-neutral:setDescription([[Despite appearing as a faction, independents are distinguished primarily by having no strong affiliation with any faction at all. Most traders consider themselves independent, though certain voices have started to speak up about creating a merchant faction.]])
+neutral:setDescription([[Marchands indépendants, vaisseaux de croisières et flottilles privées arpentent les confins de l'espace, sans bannière ni couleurs.
+Bien que celà soit démenti par le Conglomerat d'Arianne, plusieurs rapportent avoir perdu leurs cargaisons aux mains de "marchands" du conglomérat.]])
+
+dussel = FactionInfo():setName("Dussel")
+dussel:setGMColor(0, 0, 255)
+dussel:setDescription([[Vaisseaux restants des ducs de Dussel. 
+En nombre inférieur, ceux-ci ne s'interposent normalement pas aux grandes nations de la galaxie.]])
+
+vindh = FactionInfo():setName("Vindh")
+vindh:setGMColor(255, 102, 0)
+vindh:setDescription([[Empire du vindh]])
+
+merillon = FactionInfo():setName("Merillon")
+merillon:setGMColor(255, 255, 128)
+merillon:setDescription([[Sainte alliance des Mérillons]])
+
+arianne = FactionInfo():setName("Arianne")
+arianne:setGMColor(0,255,255)
+arianne:setEnemy(neutral)
+arianne:setDescription([[Le Conglomerat d'arianne est un assemblement de marchands et stations minières aux extrémités de la galaxie célésienne.]])
+
+wreck = FactionInfo():setName("Epave")
+wreck:setGMColor(255, 255, 255)
+wreck:setDescription([[Vaisseaux à la dérive. Flottant sans vie dans la noirceur de l'espace.]])
+
+spectre = FactionInfo():setName("Spectre")
+spectre:setGMColor(255, 255, 255)
+spectre:setEnemy(vindh)
+spectre:setDescription([[Vaisseaux à la dérive activés par un système informatique toujours fonctionnel. 
+La plupart les ignorent et les évitent, ne souhaitant éveiller leurs systèmes de défense ou découvrir le mystère qui plane sur eux.
+Certains croient même qu'ils sont animés des esprits de leurs équipages depuis longtemps disparus.
+Les vaisseaux du Vindh n'hésitent pas une seconde à éradiquer ces aberrations sans vie et réfutent toutes les superstitions à leurs propos.]])
+
+baron = FactionInfo():setName("Barons")
+baron:setGMColor(204, 0, 204)
+baron:setEnemy(merillon)
+baron:setDescription([[Barons des états libres. 
+Ils sont pour la plupart toujours en conflits territoriaux avec la Sainte-Alliance des Mérillons]])
+
+namori = FactionInfo():setName("Namorites")
+namori:setGMColor(255, 0, 0)
+namori:setDescription([[vaisseaux étranges et mystérieux venant de la bordure Namori]])
+namori:setEnemy(vindh)
+namori:setEnemy(arianne)
+namori:setEnemy(merillon)
+namori:setEnemy(spectre)
+
+looter = FactionInfo():setName("Charognards")
+looter:setGMColor(255, 0, 0)
+looter:setDescription([[Vaisseaux sans foi ni loi, attaquant toute flotille ou station faible et scrutant l'espace à la recherche d'épaves abandonnées. 
+Il s'agit réellement de la pire racaille de la galaxie]])
+looter:setEnemy(vindh)
+looter:setEnemy(arianne)
+looter:setEnemy(merillon)
+looter:setEnemy(spectre)
+looter:setEnemy(namori)
+
+
+-- add empty-epsilon standard factions
 
 human = FactionInfo():setName("Human Navy")
 human:setGMColor(255, 255, 255)
@@ -62,22 +120,3 @@ Hive:setEnemy(human)
 Hive:setEnemy(exuari)
 Hive:setEnemy(kraylor)
 
-rebel = FactionInfo():setName("Rebelle")
-rebel:setGMColor(255, 0, 0)
-rebel:setDescription([[Veulent une federation.]])
-
-confederation = FactionInfo():setName("Confederation")
-confederation:setGMColor(0, 0, 255)
-confederation:setEnemy(rebel)
-confederation:setDescription([[Vive la confederation]])
-
-pirate = FactionInfo():setName("Pirates")
-pirate:setGMColor(0, 255,0)
-pirate:setEnemy(rebel)
-pirate:setEnemy(confederation)
-pirate:setDescription([[Fuck toute]])
-
-unknown = FactionInfo():setName("Unknown")
-unknown:setGMColor(255, 255,0)
-unknown:setEnemy(confederation)
-unknown:setDescription([[Aucune information disponible]])

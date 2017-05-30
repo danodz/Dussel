@@ -18,33 +18,33 @@ end
 
 function friendlyComms(comms_data)
 	if comms_data.friendlyness < 20 then
-		setCommsMessage("What do you want?");
+		setCommsMessage("Qu’est-ce que vous nous voulez?");
 	else
-		setCommsMessage("Sir, how can we assist?");
+		setCommsMessage("Comment pouvons-nous vous assister?");
 	end
-	addCommsReply("Defend a waypoint", function()
+	addCommsReply("Prenez et défendez ce point", function()
 		if player:getWaypointCount() == 0 then
-			setCommsMessage("No waypoints set. Please set a waypoint first.");
+			setCommsMessage("Vous n’avez pas envoyé les coordonnées");
 			addCommsReply("Back", mainMenu)
 		else
-			setCommsMessage("Which waypoint should we defend?");
+			setCommsMessage("Quel point devons-nous défendre?");
 			for n=1,player:getWaypointCount() do
 				addCommsReply("Defend WP" .. n, function()
 					comms_target:orderDefendLocation(player:getWaypoint(n))
-					setCommsMessage("We are heading to assist at WP" .. n ..".");
+					setCommsMessage("En route vers les coordonnées" .. n ..".");
 					addCommsReply("Back", mainMenu)
 				end)
 			end
 		end
 	end)
 	if comms_data.friendlyness > 0.2 then
-		addCommsReply("Assist me", function()
-			setCommsMessage("Heading toward you to assist.");
+		addCommsReply("Besoin d’assistance", function()
+			setCommsMessage("Nous sommes en route.");
 			comms_target:orderDefendTarget(player)
 			addCommsReply("Back", mainMenu)
 		end)
 	end
-	addCommsReply("Report status", function()
+	addCommsReply("Quel est votre situation?", function()
 		msg = "Hull: " .. math.floor(comms_target:getHull() / comms_target:getHullMax() * 100) .. "%\n"
 		shields = comms_target:getShieldCount()
 		if shields == 1 then
@@ -83,17 +83,33 @@ end
 function enemyComms(comms_data)
 	if comms_data.friendlyness > 50 then
 		faction = comms_target:getFaction()
-		taunt_option = "We will see to your destruction!"
-		taunt_success_reply = "Your bloodline will end here!"
-		taunt_failed_reply = "Your feeble threats are meaningless."
-		if faction == "Kraylor" then
+		taunt_option = "Nous vous détruirons"
+		taunt_success_reply = "Vous serez exterminés!"
+		taunt_failed_reply = "Vos insultes sont médiocres. Allez vous faire voir."
+		if faction == "Barons" then
+			setCommsMessage("Cessez ces affronts. Laissez nous en paix, nous ne voulons plus rien à voir avec la fédération");
+		elseif faction == "Charognards" then
+			setCommsMessage("Vous ne nous aurez pas vivant, [INSULTE].");
+		elseif faction == "Namorites" then
+			setCommsMessage("[La seule réponse que vous recevez est une succession de bruits sourds]");
+		elseif faction == "Spectre" then
+			setCommsMessage("[Vous ne recevez pas de réponse]");
+			taunt_option = "Nous vous détruirons!"
+			taunt_success_reply = "Commande inconnue reçue. Nous traquons sa source"
+			taunt_failed_reply = "Commande externe ignorée"
+		elseif faction == "Independent" then
+			setCommsMessage("Nous sommes sous la protection de la fédération. Laissez-nous passer.");
+			taunt_option = "Désolé, nous prendrons votre cargaison"
+			taunt_success_reply = "Vous ne nous aurez pas vivant"
+			taunt_failed_reply = "Je répète. Laissez nous passer, ou vous subirez les représailles de la Fédération"
+		elseif faction == "Kraylor" then
 			setCommsMessage("Ktzzzsss.\nYou will DIEEee weaklingsss!");
 		elseif faction == "Arlenians" then
 			setCommsMessage("We wish you no harm, but will harm you if we must.\nEnd of transmission.");
 		elseif faction == "Exuari" then
 			setCommsMessage("Stay out of our way, or your death will amuse us extremely!");
 		elseif faction == "Ghosts" then
-			setCommsMessage("One zero one.\nNo binary communication detected.\nSwitching to universal speech.\nGenerating appropriate response for target from human language archives.\n:Do not cross us:\nCommunication halted.");
+			setCommsMessage("One zero one.\nNo binary communication detected.\nSwitching to universal speech.\nGenerating appropriate response for target from human language archives.\n:Do not fucking cross us:\nCommunication halted.");
 			taunt_option = "EXECUTE: SELFDESTRUCT"
 			taunt_success_reply = "Rogue command received. Targeting source."
 			taunt_failed_reply = "External command ignored."
@@ -102,9 +118,12 @@ function enemyComms(comms_data)
 			taunt_option = "<Transmit 'The Itsy-Bitsy Spider' on all wavelengths>"
 			taunt_success_reply = "We do not need permission to pluck apart such an insignificant threat."
 			taunt_failed_reply = "The hive has greater priorities than exterminating pests."
+		elseif faction == "Epave" then
+			setCommsMessage(".. aucune transmission .. ");
 		else
-			setCommsMessage("Mind your own business!");
+			setCommsMessage("Laissez nous tranquille");
 		end
+
 		comms_data.friendlyness = comms_data.friendlyness - random(0, 10)
 		addCommsReply(taunt_option, function()
 			if random(0, 100) < 30 then
@@ -121,9 +140,9 @@ end
 
 function neutralComms(comms_data)
 	if comms_data.friendlyness > 50 then
-		setCommsMessage("Sorry, we have no time to chat with you.\nWe are on an important mission.");
-	else
-		setCommsMessage("We have nothing for you.\nGood day.");
+			setCommsMessage("Sorry, we have no time to chat with you.\nWe are on an important mission.");
+		else
+			setCommsMessage("We have nothing for you.\nGood day.");
 	end
 	return true
 end
