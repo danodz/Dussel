@@ -21,6 +21,13 @@ arianne:setGMColor(0,255,255)
 arianne:setEnemy(neutral)
 arianne:setDescription([[Le Conglomerat d'arianne est un assemblement de marchands et stations minières aux extrémités de la galaxie célésienne.]])
 
+wreckDefend = FactionInfo():setName("Epave defence")
+wreckDefend:setGMColor(255, 255, 255)
+wreckDefend:setDescription([[Vaisseaux à la dérive. Flottant sans vie dans la noirceur de l'espace Systeme de defence operationel.]])
+wreckDefend:setEnemy(vindh)
+wreckDefend:setEnemy(arianne)
+wreckDefend:setEnemy(merillon)
+
 wreck = FactionInfo():setName("Epave")
 wreck:setGMColor(255, 255, 255)
 wreck:setDescription([[Vaisseaux à la dérive. Flottant sans vie dans la noirceur de l'espace.]])
