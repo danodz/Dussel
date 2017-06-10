@@ -1,7 +1,7 @@
 --Name: Expérimentation dans un vaisseau
 nbPlayers = 3;
 
-scenarioPart = "explore";
+scenarioPart = "alert";
 
 scenarioParts = {
     alert = {
@@ -83,7 +83,7 @@ function init()
         addGMFunction(partName, function() changePart(partName) end);
     end
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("DusselAcademieBase"):setCallSign("ASD"):setPosition(-50000, -28000)
+    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("DusselAcademieBase"):setCallSign("ASD")
               , PlayerSpaceship():setFaction("Vindh"):setTemplate("DusselAcademieBase"):setCallSign("SDF")
               , PlayerSpaceship():setFaction("Merillon"):setTemplate("DusselAcademieBase"):setCallSign("ZXC")
               };
