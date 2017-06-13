@@ -1,6 +1,6 @@
 template = ShipTemplate():setName("Mothership"):setClass("Mothership", "Jumper"):setModel("battleship_destroyer_1_upgraded"):setType("playership")
 template:setDescription([[Transporte des chasseurs]])
-template:setDockClasses("Starfighter", "Frigates", "Corvette");
+template:setDockClasses("Starfighter", "Frigates", "Corvette", "Chasseur");
 template:setHull(150)
 template:setShields(100, 100)
 template:setSpeed(80, 10, 10)
@@ -41,3 +41,4 @@ template:addDoor(5, 3, false);
 template:addDoor(7, 3, false);
 template:addDoor(3, 4, true);
 template:addDoor(3, 4, false);
+

@@ -21,6 +21,87 @@ Chaque faction modifie les vaisseaux types selon leurs technologies :
 * Conglomérat d'Arianne : speed (+10, +2, +2), WeaponStorage +50%, Radartrace = Transport
 ----------------------------------------------------------]]
 
+
+--[[----------------------Chasseur----------------------]]
+template = ShipTemplate():setName("Chasseur"):setClass("Chasseur",""):setModel("small_frigate_4")
+template:setDescription([[Le Chaseur est un petit vaisseau de défense de station ou parfois envoyé en station lorsque jumelé à un vaisseau mère.]])
+template:setRadarTrace("radar_fighter.png")
+template:setHull(50)
+template:setShields(100, 50)
+template:setSpeed(200, 50, 50)
+template:setCombatManeuver(600, 300)
+
+template:setEnergyStorage(650)
+template:setRepairCrewCount(1)
+
+--                  Arc, Dir, Range, CycleTime, Dmg
+template:setBeam(0,20, 0, 2000.0, 6.0, 6)
+template:setBeam(1,100, 0, 750.0, 3.0, 5)
+template:setTubes(1, 8.0)
+template:setWeaponStorage("HVLI", 6)
+template:setWeaponStorage("Homing", 2)
+template:setTubeDirection(0, 0)
+
+template:addRoomSystem(1, 1, 2, 1, "Maneuver");
+template:addRoomSystem(3, 1, 1, 1, "BeamWeapons");
+
+template:addRoomSystem(2, 2, 1, 1, "RearShield");
+template:addRoomSystem(3, 2, 2, 1, "Reactor");
+template:addRoomSystem(5, 2, 1, 1, "FrontShield");
+
+template:addRoomSystem(1, 3, 2, 1, "Impulse");
+template:addRoomSystem(3, 3, 1, 1, "MissileSystem");
+
+template:addDoor(3, 1, false);
+template:addDoor(3, 2, true);
+template:addDoor(4, 2, false);
+template:addDoor(5, 2, false);
+
+template:addDoor(3, 3, true);
+template:addDoor(3, 3, false);
+
+--[----------------------Vindh----------------------]
+
+variation = template:copy("C-Ouvrier"):setClass("Chasseur", "Vindh")
+variation:setBeam(0,15, 0, 2000.0, 6.0, 8)
+variation:setBeam(1,100, 0, 750.0, 3.0, 6)
+variation:setHull(65)
+variation:setDescription([[Similaire au chasseur, l'Ouvrier bénificie des coques renforcées du vindh et de lasers à fusion plus puissants]])
+
+
+variation = variation:copy("Ouvrier"):setType("playership")
+variation:setCombatManeuver(600, 300)
+
+--[---------------------Mérillon----------------------]
+
+variation = template:copy("C-Chasseur1"):setClass("Chasseur","Mérillon")
+variation:setModel("LindwurmFighterGrey")
+variation:setBeam(0,15, 0, 2000.0, 4.5, 6)
+variation:setBeam(1,100, 0, 1000.0, 2.5, 5)
+variation:setShields(110,60)
+--variation:setDescription([[Similaire au raptor, l'Apotre bénificie des saints boucliers et de lasers à meilleure cadence]])
+
+variation = variation:copy("Apotre"):setType("playership")
+variation:setCombatManeuver(600, 300)
+
+--[---------------------Arianne----------------------]
+
+variation = template:copy("C-Chasseur2"):setClass("Chasseur","Arianne")
+variation:setModel("transport_3_1")
+variation:setRadarTrace("radar_transport.png")
+variation:setSpeed(225, 60, 60)
+variation:setWeaponStorage("HVLI", 10)
+variation:setWeaponStorage("Homing", 4)
+--variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau éclaireur, possède de plus grandes quantités de missiles et une propulsion accrue]])
+
+variation = variation:copy("Camelot"):setType("playership")
+variation:setCombatManeuver(600, 300)
+
+
+
+---////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\---
+
+
 --[[----------------------Raptor----------------------]]
 template = ShipTemplate():setName("Raptor"):setClass("Dussel","Raptor"):setModel("small_frigate_4")
 template:setDescription([[Le Raptor est un vaisseau éclaireur munis d'un système de saut stellaire. Souvent employé pour explorer les territoires dangereux et miner le territoire. Sa maneuvrabilité en fait un redoutable ennemi sur le champs de bataille]])
@@ -76,14 +157,14 @@ template:addDoor(3, 4, false);
 
 --[----------------------Vindh----------------------]
 
-variation = template:copy("R-Ouvrier"):setClass("Dussel","Raptor")
+variation = template:copy("R-Citoyen"):setClass("Dussel","Raptor")
 variation:setBeam(0,15, 0, 2000.0, 6.0, 8)
 variation:setBeam(1,100, 0, 1000.0, 6.0, 12)
 variation:setHull(100)
-variation:setDescription([[Similaire au raptor, l'Ouvrier bénificie des coques renforcées du vindh et de lasers à fusion plus puissants]])
+variation:setDescription([[Similaire au raptor, le Citoyen bénificie des coques renforcées du vindh et de lasers à fusion plus puissants]])
 
 
-variation = variation:copy("Ouvrier"):setType("playership"):setClass("Vindh","Raptor")
+variation = variation:copy("Citoyen"):setType("playership"):setClass("Vindh","Raptor")
 variation:setCombatManeuver(600, 300)
 
 --[---------------------Mérillon----------------------]
@@ -237,6 +318,7 @@ template:setJumpDrive(true)
 
 template:setEnergyStorage(1200)
 template:setRepairCrewCount(4)
+template:setDockClasses("Chasseur")
 
 --                  Arc, Dir, Range, CycleTime, Dmg
 template:setBeam(0,360, 0, 750.0, 6.0, 8)
@@ -303,7 +385,6 @@ variation:setDescription([[ L'Artheurge est une version dan-geu-reuse du camarad
 
 variation = variation:copy("Artheurge"):setType("playership"):setClass("Vindh","Destroyer")
 variation:setCombatManeuver(200, 125)
-
 
 --[---------------------Mérillon----------------------]
 
