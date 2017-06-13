@@ -1,9 +1,11 @@
---Name: ExpÃ©rimentation dans un vaisseau
+--Name: Expérimentation dans un vaisseau
 nbPlayers = 3;
 
 scenarioPart = "alert";
 
 scenarioParts = {
+    
+-- Part 1
     alert = {
         init = function() 
             maraudeursGuards = generateMobs(4 * nbPlayers, "MT52 Hornet", "Charognards", -50000, -30000, 5000, function(mob) mob:orderDefendTarget(epave) end);
@@ -37,9 +39,11 @@ scenarioParts = {
 
         end
     },
+
+-- Part 2
     explore = {
         init = function()
-            sendCommToAll(station, "Le systeme de defence est trop puissant, hackez le avant de le detruire. L'intÃrieur du vaisseau surchauffe, dÃtruisez le rÃacteur avant d'aborder.");
+            sendCommToAll(station, "Le systeme de defense est trop puissant, hackez le avant de le detruire. L'intérieur du vaisseau surchauffe, détruisez le réacteur avant d'aborder.");
         end,
         update = function()
             if epave:getSystemHealth("Reactor") <= 0 then
@@ -53,6 +57,8 @@ scenarioParts = {
             end
         end
     },
+
+-- Part 3
     ambush = {
         init = function()
             ambush = generateMobs(4 * nbPlayers, "MT52 Hornet", "Charognards", -50000, -30000, 20000, function(mob) mob:orderDefendTarget(epave) end);
@@ -83,15 +89,35 @@ function init()
         addGMFunction(partName, function() changePart(partName) end);
     end
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("DusselAcademieBase"):setCallSign("ASD")
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("DusselAcademieBase"):setCallSign("SDF")
-              , PlayerSpaceship():setFaction("Merillon"):setTemplate("DusselAcademieBase"):setCallSign("ZXC")
+    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("AD-3"):setCallSign("ARI")
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("AD-3"):setCallSign("VIN")
+              , PlayerSpaceship():setFaction("Merillon"):setTemplate("AD-3"):setCallSign("MER")
               };
     station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(0, 0);
     epave =  CpuShip():setFaction("Epave defence"):setTemplate("epave"):setCallSign("VK4"):setPosition(-50000, -30000):orderRoaming();
 
     scenarioParts[scenarioPart].init();
+
+    addGMFunction("CleanShips", function()
+        for i,player in pairs(players) do
+
+            local emptyShip = true
+
+            for i,position in pairs(crewPosition) do
+                if  player:hasPlayerAtPosition(position) then
+                    emptyShip = false
+                end
+            end
+
+            if emptyShip then
+               player:destroy()
+            end
+        end
+    end)
 end
+
+
+crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
 function update()
     scenarioParts[scenarioPart].update();
@@ -121,7 +147,7 @@ function generateMobs(nb, template, faction, centerX, centerY, radius, fn)
 end
 
 charset = {}
--- QWERTYUIOPASDFGHJKLZXCVBNM
+-- QWERTYUIOPASDFGHJKL tZXCVBNM
 for i = 65,  90 do table.insert(charset, string.char(i)) end
 
 function srandom(length)
@@ -139,3 +165,4 @@ function map(array, func)
     end
     return new_array
 end
+
