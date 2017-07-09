@@ -24,10 +24,67 @@ scenarioParts = {
 -- Part 2
     explore = {
         init = function() 
+            sendCommToAll(rebelStation, "Merci de votre aide, venez nous voir sur la base d'opération. Nous avons du bon équipement à bon prix.")
         end,
         update = function()
+            for i,player in pairs(players) do
+                allDocked = true;
+                if player:isDocked(rebelStation) then
+                    station:sendCommsMessage(player, "Information sur les rebelles");
+                    player.docked = true;
+                end
+                if not player.docked then
+                    allDocked = false;
+                end
+            end
+            if allDocked then
+                changePart("liberation");
+            end
         end
     },
+
+-- Part 3
+    liberation = {
+        init = function() 
+            sendCommToAll(rebelStation, "Aidez nous à libérer les autres stations.");
+        end,
+        update = function()
+            local allLiberated = true;
+            for i,station in pairs(stationsToLiberate) do
+                if allDead(station.defenders) and not station.isConquered then
+                    allLiberated = false;
+                    station.station:setFaction("Aucune faction");
+                    for i,player in pairs(players) do
+                        if player:isDocked(station.station) then
+                            station:conquered("Rebelles");
+                            station:sendCommsMessage(player, "Merci de nous avoir aidé, maintenant va libérer une autre station.");
+                        end
+                    end
+                end
+            end
+            if allLiberated then
+                changePart(return);
+            end
+        end
+    }
+    return = {
+        init = function()
+            sendCommToAll(rebelStation, "Merci d'avoir libéré les environs. Revenez me voir");
+        end,
+        update = function()
+            
+            for i,player in pairs(players) do
+                allDocked = true;
+                if player:isDocked(rebelStation) and not player.docked then
+                    station:sendCommsMessage(player, "Merci d'avoir libéré les environs. Revenez me voir");
+                    player.docked = true;
+                end
+                if not player.docked then
+                    allDocked = false;
+                end
+            end
+        end
+    }
 };
 
 function init()
@@ -35,6 +92,10 @@ function init()
     miningStation = SpaceStation():setTemplate("Medium Station"):setFaction("Rebelles"):setCallSign("Station minière"):setPosition(-40692, -9680)
     rebelStation = SpaceStation():setTemplate("Large Station"):setFaction("Rebelles"):setCallSign("Base d'opération"):setPosition(-40786, -7425)
     
+    stationsToLiberate = { makeStationToLiberate("Loyalistes", -11839, -42575, 10)
+                         , makeStationToLiberate("Loyalistes", 11839, 42575, 10)
+                         }
+
     for partName, partFunction in pairs(scenarioParts) do
         addGMFunction(partName, function() changePart(partName) end);
     end
@@ -122,4 +183,19 @@ function allDead (...)
         end
     end
     return allDead;
+end
+
+function makeStationToLiberate(faction, x, y, nbDefender)
+    local station = SpaceStation():setTemplate("Medium Station"):setFaction(faction):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y)
+    return { station = station
+           , faction = faction
+           , defenders = generateMobs(nbDefender, "MT52 Hornet", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end)
+           , isConquered = false
+           , conquered = function(self, faction)
+                 self.faction = faction
+                 self.station:setFaction(faction);
+                 defenders = generateMobs(nbDefender, "MT52 Hornet", self.faction, x, y, 1000, function(mob) mob:orderDefendTarget(self.station) end)
+                 self.isConquered = true;
+             end
+           }
 end
