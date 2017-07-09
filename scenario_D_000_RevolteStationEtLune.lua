@@ -1,0 +1,125 @@
+--Name: Révoltes dans une station et sur la lune adjacente
+crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
+
+nbPlayers = 3;
+
+scenarioPart = "alert";
+
+scenarioParts = {
+    
+-- Part 1
+    alert = {
+        init = function() 
+            sendCommToAll(rebelStation, "Nous avons reconquis la base, mais les loyalistes sont revenus en force. Nous avons besoin d'aide.");
+            rebels = generateMobs(5, "MT52 Hornet", "Rebelles", -40786, -7425, 1000, function(mob) mob:orderDefendTarget(rebelStation) end)
+            loyalists = generateMobs(10, "MT52 Hornet", "Loyalistes", -50786, -7425, 2000, function(mob) mob:orderRoaming() end)
+        end,
+        update = function()
+            if allDead(loyalists) then
+                changePart("explore");
+            end
+        end
+    },
+
+-- Part 2
+    explore = {
+        init = function() 
+        end,
+        update = function()
+        end
+    },
+};
+
+function init()
+
+    miningStation = SpaceStation():setTemplate("Medium Station"):setFaction("Rebelles"):setCallSign("Station minière"):setPosition(-40692, -9680)
+    rebelStation = SpaceStation():setTemplate("Large Station"):setFaction("Rebelles"):setCallSign("Base d'opération"):setPosition(-40786, -7425)
+    
+    for partName, partFunction in pairs(scenarioParts) do
+        addGMFunction(partName, function() changePart(partName) end);
+    end
+    
+    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("AD-3"):setCallSign("ARI")
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("AD-3"):setCallSign("VIN")
+              , PlayerSpaceship():setFaction("Merillon"):setTemplate("AD-3"):setCallSign("MER")
+              };
+    station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(0, 0);
+
+    scenarioParts[scenarioPart].init();
+
+    addGMFunction("CleanShips", function()
+        for i,player in pairs(players) do
+
+            local emptyShip = true
+
+            for i,position in pairs(crewPosition) do
+                if  player:hasPlayerAtPosition(position) then
+                    emptyShip = false
+                end
+            end
+
+            if emptyShip then
+               player:destroy()
+            end
+        end
+    end)
+end
+
+function update()
+    scenarioParts[scenarioPart].update();
+end
+
+function changePart(partName)
+    scenarioPart = partName;
+    scenarioParts[scenarioPart].init();
+end
+
+function sendCommToAll(origin, comm)
+    for i,player in pairs(players) do
+        origin:sendCommsMessage(player, comm);
+    end
+end
+
+function generateMobs(nb, template, faction, centerX, centerY, radius, fn)
+    local mobs = {};
+
+    for i=1, nb, 1 do
+        local mob = CpuShip():setFaction(faction):setTemplate(template):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(irandom(centerX - radius, centerX + radius), irandom(centerY - radius, centerY + radius))
+        fn(mob);
+        table.insert(mobs, mob);
+    end
+
+    return mobs;
+end
+
+charset = {}
+-- QWERTYUIOPASDFGHJKL tZXCVBNM
+for i = 65,  90 do table.insert(charset, string.char(i)) end
+
+function srandom(length)
+  if length > 0 then
+    return srandom(length - 1) .. charset[irandom(1, #charset)]
+  else
+    return ""
+  end
+end
+
+function map(array, func)
+    local new_array = {}
+    for i,v in ipairs(array) do
+        new_array[i] = func(v)
+    end
+    return new_array
+end
+
+function allDead (...)
+    local allDead = true;
+    for i,mobs in ipairs({...}) do
+        for i,mob in pairs(mobs) do
+            if mob:isValid() then
+                allDead = false;
+            end
+        end
+    end
+    return allDead;
+end

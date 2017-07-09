@@ -46,6 +46,18 @@ baron:setEnemy(merillon)
 baron:setDescription([[Barons des états libres. 
 Ils sont pour la plupart toujours en conflits territoriaux avec la Sainte-Alliance des Mérillons]])
 
+loyalistes = FactionInfo():setName("Loyalistes")
+loyalistes:setGMColor(255, 0, 0)
+loyalistes:setEnemy(vindh)
+loyalistes:setEnemy(arianne)
+loyalistes:setEnemy(merillon)
+loyalistes:setDescription([[Ils sont resté loyaux à leur duc.]])
+
+rebels = FactionInfo():setName("Rebelles")
+rebels:setGMColor(0, 0, 255)
+rebels:setEnemy(loyalistes)
+rebels:setDescription([[Refusent le joug du dictateur.]])
+
 namori = FactionInfo():setName("Namorites")
 namori:setGMColor(255, 0, 0)
 namori:setDescription([[vaisseaux étranges et mystérieux venant de la bordure Namori]])
