@@ -3,7 +3,7 @@ crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
 nbPlayers = 3;
 
-scenarioPart = "temple";
+scenarioPart = "gettingTheData";
 
 scenarioParts = {
     gettingTheData = {
