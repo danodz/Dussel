@@ -18,7 +18,7 @@ scenarioParts = {
                 station.spawnCountdown = 0;
                 station:setCommsFunction(stationComms);
             end
-            bigShip = CpuShip():setFaction("Loyalistes"):setTemplate("Dreadnought"):setCallSign("CSS4"):setPosition(-8455, -13346)
+            bigShip = CpuShip():setFaction("Loyalistes"):setTemplate("Dreadnought"):setCallSign("CSS4"):setPosition(-8455, -13346):setBeamWeapon(0, 28, 2, 1500, 10.4, 50.0):setBeamWeaponTurret(0, 0, 2, 0):setBeamWeapon(1, 0, -180, 0, 0.1, 0.1):setBeamWeaponTurret(1, 0, -180, 0):setBeamWeapon(2, 100, 300, 0, 0.1, 0.1):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 100, 60, 0, 0.1, 0.1):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 0, 0, 0.1, 0.1):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 100, 180, 0, 0.1, 0.1):setBeamWeaponTurret(5, 0, 0, 0)
         end,
         update = function()
             for i,station in pairs(stations) do
