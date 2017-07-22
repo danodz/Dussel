@@ -156,7 +156,7 @@ variation:setHull(160)
 variation:setDescription([[Similaire au raptor, le Citoyen bénificie des coques renforcées du vindh et de lasers à fusion plus puissants]])
 
 
-variation = variation:copy("Citoyen"):setType("playership"):setClass("Vindh","Corvette")
+variation = variation:copy("VCorvette"):setType("playership"):setClass("Vindh","Corvette")
 variation:setCombatManeuver(600, 300)
 
 --[---------------------Mérillon----------------------]
@@ -168,7 +168,7 @@ variation:setBeam(1,100, 0, 1000.0, 5.0, 10)
 variation:setShields(220,220)
 variation:setDescription([[Similaire au raptor, l'Apotre bénificie des saints boucliers et de lasers à meilleure cadence]])
 
-variation = variation:copy("Apotre"):setType("playership"):setClass("Merillon","Corvette")
+variation = variation:copy("MCorvette"):setType("playership"):setClass("Merillon","Corvette")
 variation:setCombatManeuver(600, 300)
 
 --[---------------------Arianne----------------------]
@@ -182,7 +182,7 @@ variation:setWeaponStorage("Homing", 9)
 variation:setWeaponStorage("EMP", 3)
 variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau éclaireur, possède de plus grandes quantités de missiles et une propulsion accrue]])
 
-variation = variation:copy("Camelot"):setType("playership"):setClass("Arianne","Corvette")
+variation = variation:copy("ACorvette"):setType("playership"):setClass("Arianne","Corvette")
 variation:setCombatManeuver(600, 300)
 
 

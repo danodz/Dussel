@@ -94,9 +94,9 @@ function init()
     temple = SpaceStation():setTemplate("Medium Station"):setFaction("Aucune faction"):setPosition(1000, 1000);
     templeDefence = generateMobs(10, "MT52 Hornet", "Loyalistes", 1000, 1000, 1000, function(mob) mob:orderDefendTarget(temple) end );
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("AD-3"):setCallSign("ARI")
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("AD-3"):setCallSign("VIN")
-              , PlayerSpaceship():setFaction("Merillon"):setTemplate("AD-3"):setCallSign("MER")
+    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI")
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("VIN")
+              , PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER")
               };
 
     scenarioParts[scenarioPart].init();

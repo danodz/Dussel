@@ -332,11 +332,11 @@ function init()
     confStation = SpaceStation():setTemplate("Medium Station"):setFaction("Vindh"):setCallSign("Vini"):setPosition(irandom(-60000,-25000), irandom(-10000,30000));
     rebelStation = SpaceStation():setTemplate("Medium Station"):setFaction("Merillon"):setCallSign("Meri"):setPosition(irandom(25000,60000), irandom(-30000,10000));
 
-    confShip1 = PlayerSpaceship():setFaction("Vindh"):setTemplate("C-Citoyen"):setCallSign("Camarade"):setPosition(-100000,-2000);
-    confShip2 = PlayerSpaceship():setFaction("Vindh"):setTemplate("C-Citoyen"):setCallSign("Citoyen"):setPosition(-100000,2000);
+    confShip1 = PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Camarade"):setPosition(-100000,-2000);
+    confShip2 = PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Citoyen"):setPosition(-100000,2000);
 
-    rebelShip1 = PlayerSpaceship():setFaction("Merillon"):setTemplate("C-Citoyen"):setCallSign("Apotre"):setPosition(100000,-2000);
-    rebelShip2 = PlayerSpaceship():setFaction("Merillon"):setTemplate("C-Citoyen"):setCallSign("Celesien"):setPosition(100000,2000);
+    rebelShip1 = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("Apotre"):setPosition(100000,-2000);
+    rebelShip2 = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("Celesien"):setPosition(100000,2000);
 
     local confStationX, confStationY = confStation:getPosition();
     local rebelStationX, rebelStationY = rebelStation:getPosition();
@@ -439,13 +439,13 @@ function update(delta)
 end
 
 function respawnConf()
-    local ship = PlayerSpaceship():setFaction("Vindh"):setTemplate("C-Citoyen"):setCallSign("Camarade" .. irandom(100,999)):setPosition(irandom(-80000,-60000),irandom(-40000,40000));
+    local ship = PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Camarade" .. irandom(100,999)):setPosition(irandom(-80000,-60000),irandom(-40000,40000));
     setRespawnAmmo(ship);
     return ship;
 end
 
 function respawnRebel()
-    local ship = PlayerSpaceship():setFaction("Merillon"):setTemplate("C-Citoyen"):setCallSign("Celesien" .. irandom(100,999)):setPosition(irandom(60000,80000),irandom(-40000,40000));
+    local ship = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("Celesien" .. irandom(100,999)):setPosition(irandom(60000,80000),irandom(-40000,40000));
     setRespawnAmmo(ship);
     return ship;
 end

@@ -19,7 +19,7 @@ require("shipTemplates_Corvette.lua")
 require("shipTemplates_Dreadnaught.lua")
 --]]
 --For now, we add our old ship templates as well. These should be removed at some point.
---require("shipTemplates_OLD.lua")
+require("shipTemplates_OLD.lua")
 --require("shipTemplates_testDrone.lua")
 --require("shipTemplates_testShip.lua")
 require("shipTemplates_ToEscort.lua")

@@ -100,9 +100,9 @@ function init()
         addGMFunction(partName, function() changePart(partName) end);
     end
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("AD-3"):setCallSign("ARI")
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("AD-3"):setCallSign("VIN")
-              , PlayerSpaceship():setFaction("Merillon"):setTemplate("AD-3"):setCallSign("MER")
+    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI")
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("VIN")
+              , PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER")
               };
     station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(0, 0);
 

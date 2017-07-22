@@ -11,7 +11,7 @@ scenarioParts = {
             maraudeursGuards = generateMobs(4 * nbPlayers, "MT52 Hornet", "Charognards", -50000, -30000, 5000, function(mob) mob:orderDefendTarget(epave) end);
             maraudeursBoss = generateMobs(1 * nbPlayers, "Atlantis X23", "Charognards", -50000, -30000, 5000, function(mob) mob:orderDefendTarget(epave) end);
             maraudeursTransport = generateMobs(1 * nbPlayers, "Transport2x3", "Charognards", -50000, -30000, 100, function(mob) mob:orderDock(epave) end);
-            sendCommToAll(station, "Message d'alerte du vaisseau. Rendez-vous en D2");
+            sendCommToAll(station, "Capitaines nous avons reçus un message de détresse provenant du secteur D2, suivie d'une importante puissance, un anomalie que vous devez investiguer.");
         end,
         update = function()
             for i,player in pairs(players) do
@@ -36,14 +36,13 @@ scenarioParts = {
             if allDead then
                 changePart("explore");
             end
-
         end
     },
 
 -- Part 2
     explore = {
         init = function()
-            sendCommToAll(station, "Le systeme de defense est trop puissant, hackez le avant de le detruire. L'intérieur du vaisseau surchauffe, détruisez le réacteur avant d'aborder.");
+            sendCommToAll(station, "Le systeme de defense est trop puissant, vous devez le hacker avant de le detruire. Par la suite, l'intérieur du vaisseau surchauffe, détruisez le réacteur avant d'aborder.");
         end,
         update = function()
             if epave:getSystemHealth("Reactor") <= 0 then
@@ -77,7 +76,7 @@ scenarioParts = {
                 end
             end
             if allDead then
-                sendCommToAll(station, "Des renforts arrivent, revenez.");
+                sendCommToAll(station, "Des renforts arrivent, revenez à la station.");
             end
         end
     }
@@ -89,12 +88,13 @@ function init()
         addGMFunction(partName, function() changePart(partName) end);
     end
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("AD-3"):setCallSign("ARI")
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("AD-3"):setCallSign("VIN")
-              , PlayerSpaceship():setFaction("Merillon"):setTemplate("AD-3"):setCallSign("MER")
+    players = { --PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setPosition(-7640, 39663)
+              PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("DIVX"):setPosition(-7640, 39663)
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-7640, 39663)
+              --, PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER"):setPosition(-7640, 39663)
               };
-    station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(0, 0);
-    epave =  CpuShip():setFaction("Epave defence"):setTemplate("epave"):setCallSign("VK4"):setPosition(-50000, -30000):orderRoaming();
+    station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(-7640, 39663);
+    epave =  CpuShip():setFaction("Epave defence"):setTemplate("epave"):setCallSign("Indomptable"):setPosition(-50000, -30000):orderRoaming();
 
     scenarioParts[scenarioPart].init();
 
@@ -114,6 +114,148 @@ function init()
             end
         end
     end)
+
+
+    BlackHole():setPosition(-78912, 21462)
+    Asteroid():setPosition(-75369, 2960)
+    Asteroid():setPosition(-70120, -2289)
+    Asteroid():setPosition(-68283, 3485)
+    Asteroid():setPosition(-67102, 4141)
+    Asteroid():setPosition(-58835, 4666)
+    Asteroid():setPosition(-55423, -1633)
+    Asteroid():setPosition(-63296, -1501)
+    Asteroid():setPosition(-60672, 3091)
+    Asteroid():setPosition(-48600, 4141)
+    Asteroid():setPosition(-44270, 7684)
+    Asteroid():setPosition(-42957, 9652)
+    Asteroid():setPosition(-32460, 4403)
+    Asteroid():setPosition(-25243, 6503)
+    Asteroid():setPosition(-21700, 9259)
+    Asteroid():setPosition(-16320, 4010)
+    Asteroid():setPosition(-10284, 6897)
+    Asteroid():setPosition(-35347, 9259)
+    Asteroid():setPosition(-44007, 6372)
+    Asteroid():setPosition(-49387, 2566)
+    Asteroid():setPosition(-57785, 3485)
+    Asteroid():setPosition(-58179, 5584)
+    Asteroid():setPosition(-52405, 6372)
+    Asteroid():setPosition(-56604, 2304)
+    Asteroid():setPosition(-58179, 1254)
+    Asteroid():setPosition(-65002, -452)
+    Asteroid():setPosition(-71038, 336)
+    Asteroid():setPosition(-79305, -2158)
+    Asteroid():setPosition(-84029, -4126)
+    Asteroid():setPosition(-75631, -2289)
+    Asteroid():setPosition(-76812, 2304)
+    Asteroid():setPosition(-77337, 3616)
+    Asteroid():setPosition(-66183, 4928)
+    Asteroid():setPosition(-63953, 9390)
+    Asteroid():setPosition(-50174, 7946)
+    Asteroid():setPosition(-43220, 8078)
+    Asteroid():setPosition(-38365, 1648)
+    Asteroid():setPosition(-32985, 2041)
+    Asteroid():setPosition(-32985, 6372)
+    Asteroid():setPosition(-27867, 8602)
+    Asteroid():setPosition(-22487, 3091)
+    Asteroid():setPosition(-18682, 2304)
+    Asteroid():setPosition(-16057, 8471)
+    Asteroid():setPosition(-14220, 10571)
+    Asteroid():setPosition(-9365, 4010)
+    Asteroid():setPosition(-6872, 1123)
+    Asteroid():setPosition(-180, 5978)
+    Asteroid():setPosition(476, 10964)
+    Asteroid():setPosition(-2017, 11752)
+    Asteroid():setPosition(-3591, 9390)
+    Asteroid():setPosition(-967, 5453)
+    Asteroid():setPosition(345, 4403)
+    Asteroid():setPosition(4938, 7421)
+    Asteroid():setPosition(5988, 8734)
+    Asteroid():setPosition(-967, 8734)
+    Asteroid():setPosition(-7266, 5716)
+    Asteroid():setPosition(-10940, 9521)
+    Asteroid():setPosition(-2935, 9652)
+    Asteroid():setPosition(-2673, 6372)
+    Asteroid():setPosition(-1229, 1123)
+    Asteroid():setPosition(2707, 336)
+    Asteroid():setPosition(6775, 4666)
+    Asteroid():setPosition(9268, 7815)
+    Asteroid():setPosition(15436, 10177)
+    Asteroid():setPosition(19635, 9783)
+    Asteroid():setPosition(18322, 3222)
+    Asteroid():setPosition(17404, 2960)
+    Asteroid():setPosition(13205, 4010)
+    Asteroid():setPosition(14779, 4928)
+    Asteroid():setPosition(17666, 6240)
+    Asteroid():setPosition(12811, 9783)
+    Asteroid():setPosition(16616, 8734)
+    Asteroid():setPosition(22390, 5978)
+    Asteroid():setPosition(25146, 3091)
+    Asteroid():setPosition(18847, 729)
+    Asteroid():setPosition(-11465, 4272)
+    Asteroid():setPosition(-2410, 3879)
+    Asteroid():setPosition(-4641, 4535)
+    Asteroid():setPosition(-7003, 10833)
+    Asteroid():setPosition(-13695, 9521)
+    Asteroid():setPosition(-14876, 5978)
+    Asteroid():setPosition(-20256, 4666)
+    Asteroid():setPosition(-24980, 4928)
+    Asteroid():setPosition(-23143, 7684)
+    Asteroid():setPosition(-33116, 7684)
+    Asteroid():setPosition(-42433, 4272)
+    Asteroid():setPosition(-38496, 12933)
+    Asteroid():setPosition(-37971, 8078)
+    Asteroid():setPosition(-37709, 6240)
+    Asteroid():setPosition(-42826, 5453)
+    Asteroid():setPosition(-51618, 3354)
+    Asteroid():setPosition(-52012, 4928)
+    Asteroid():setPosition(-58441, 8078)
+    Asteroid():setPosition(-55292, 9127)
+    Asteroid():setPosition(-48600, 7815)
+    Asteroid():setPosition(-45975, 7684)
+    Asteroid():setPosition(-45188, 2173)
+    Asteroid():setPosition(-37446, 1648)
+    Asteroid():setPosition(-24062, 5847)
+    Asteroid():setPosition(-10546, 7421)
+    Asteroid():setPosition(-967, 5453)
+    Asteroid():setPosition(-23038, 6301)
+    Nebula():setPosition(-64267, -26053)
+    Nebula():setPosition(-60040, -48702)
+    Nebula():setPosition(-43279, -47041)
+    Nebula():setPosition(-15496, -38283)
+    Nebula():setPosition(-26066, -17144)
+    Nebula():setPosition(-56265, -25902)
+    Nebula():setPosition(-43732, -24845)
+    Nebula():setPosition(-48564, -29978)
+    Nebula():setPosition(-42626, -15091)
+    Nebula():setPosition(-35626, -19291)
+    Nebula():setPosition(-25426, -7691)
+    Nebula():setPosition(-30026, 1109)
+    Nebula():setPosition(-24426, 4109)
+    Nebula():setPosition(-18426, 10309)
+    Nebula():setPosition(-30026, 12509)
+    Nebula():setPosition(-24026, 14909)
+    Nebula():setPosition(-23426, 18709)
+    Nebula():setPosition(-31426, 24509)
+    Nebula():setPosition(-24226, 34909)
+    Nebula():setPosition(-32226, 45109)
+    Nebula():setPosition(-30226, 51309)
+    Nebula():setPosition(-36226, 37109)
+    Nebula():setPosition(-83493, -51446)
+    Nebula():setPosition(-45048, -72557)
+    Nebula():setPosition(10729, -89446)
+    Nebula():setPosition(-6382, -61446)
+    Nebula():setPosition(-58604, 69220)
+    Nebula():setPosition(-73493, 78331)
+    Nebula():setPosition(-28826, 77220)
+    Nebula():setPosition(-46604, 51887)
+    Nebula():setPosition(-51493, 33220)
+    Nebula():setPosition(-47271, 22554)
+    Nebula():setPosition(8285, 83887)
+
+    SupplyDrop():setFaction("Independent"):setPosition(-30604, 11665):setEnergy(500):setWeaponStorage("Homing", 4):setWeaponStorage("Nuke", 1):setWeaponStorage("Mine", 2):setWeaponStorage("EMP", 1)
+    WarpJammer():setFaction("Independent"):setPosition(-57715, -25891)
+    SpaceStation():setTemplate("Small Station"):setFaction("Charognards"):setCallSign("DS166"):setPosition(-82354, -49943)
+
 end
 
 
@@ -165,4 +307,3 @@ function map(array, func)
     end
     return new_array
 end
-
