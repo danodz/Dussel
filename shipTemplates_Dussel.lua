@@ -102,6 +102,96 @@ variation:setCombatManeuver(600, 300)
 ---////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\---
 
 
+--[[----------------------Corvette----------------------]]
+
+template = ShipTemplate():setName("D3-Corvette"):setClass("Corvette","basic"):setModel("battleship_destroyer_1_upgraded")
+template:setRadarTrace("radar_cruiser.png")
+template:setHull(150)
+template:setShields(100, 100)
+template:setSpeed(80, 10, 10)
+template:setCombatManeuver(300, 150)
+template:setJumpDrive(true)
+template:setEnergyStorage(800)
+template:setRepairCrewCount(1)-- Arc, Dir, Range, CycleTime, Dmgtemplate:setBeam(0,20, 0, 2000.0, 6.0, 6)
+template:setBeam(1,100, 0, 1000.0, 6.0, 10)
+template:setTubes(4, 10.0)
+template:setWeaponStorage("HVLI", 4)
+template:setWeaponStorage("Mine", 2)
+template:setWeaponStorage("Homing", 6)
+template:setWeaponStorage("EMP", 2)
+template:setWeaponStorage("Nuke", 1)
+--template:setTubeDirection(1, 0)
+template:setTubeDirection(0, 0)
+template:setTubeDirection(1, -90)
+template:setTubeDirection(2, 90)
+template:setTubeDirection(3, 180)
+template:setWeaponTubeExclusiveFor(0, "HVLI")
+template:weaponTubeDisallowMissle(1, "Mine")
+template:weaponTubeDisallowMissle(2, "Mine")
+template:setWeaponTubeExclusiveFor(3, "Mine")
+template:addRoomSystem(1, 1, 2, 1, "Maneuver");
+template:addRoomSystem(3, 1, 1, 1, "BeamWeapons");
+template:addRoomSystem(2, 2, 1, 2, "RearShield");
+template:addRoomSystem(3, 2, 2, 2, "Reactor");
+template:addRoomSystem(5, 2, 2, 1, "JumpDrive");
+template:addRoomSystem(5, 3, 2, 1, "warp");
+template:addRoomSystem(7, 2, 1, 2, "FrontShield");
+template:addRoomSystem(1, 4, 2, 1, "Impulse");
+template:addRoomSystem(3, 4, 1, 1, "MissileSystem");
+template:addDoor(3, 1, false);
+template:addDoor(3, 2, true);
+template:addDoor(3, 2, false);
+template:addDoor(5, 2, false);
+template:addDoor(5, 3, false);
+template:addDoor(7, 3, false);
+template:addDoor(3, 4, true);
+template:addDoor(3, 4, false);
+
+
+--[----------------------Vindh----------------------]
+
+variation = template:copy("C-Citoyen"):setClass("Corvette","basic")
+variation:setBeam(1,100, 0, 1000.0, 6.0, 12)
+variation:setHull(160)
+variation:setDescription([[Similaire au raptor, le Citoyen bénificie des coques renforcées du vindh et de lasers à fusion plus puissants]])
+
+
+variation = variation:copy("Citoyen"):setType("playership"):setClass("Vindh","Corvette")
+variation:setCombatManeuver(600, 300)
+
+--[---------------------Mérillon----------------------]
+
+variation = template:copy("C-Apotre"):setClass("Corvette","basic")
+variation:setModel("LindwurmFighterGrey")
+variation:setBeam(0,15, 0, 2000.0, 5.0, 6)
+variation:setBeam(1,100, 0, 1000.0, 5.0, 10)
+variation:setShields(220,220)
+variation:setDescription([[Similaire au raptor, l'Apotre bénificie des saints boucliers et de lasers à meilleure cadence]])
+
+variation = variation:copy("Apotre"):setType("playership"):setClass("Merillon","Corvette")
+variation:setCombatManeuver(600, 300)
+
+--[---------------------Arianne----------------------]
+
+variation = template:copy("C-Camelot"):setClass("Corvette","basic")
+variation:setModel("transport_3_1")
+variation:setRadarTrace("radar_transport.png")
+variation:setSpeed(130, 24, 24)
+variation:setWeaponStorage("Mine", 15)
+variation:setWeaponStorage("Homing", 9)
+variation:setWeaponStorage("EMP", 3)
+variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau éclaireur, possède de plus grandes quantités de missiles et une propulsion accrue]])
+
+variation = variation:copy("Camelot"):setType("playership"):setClass("Arianne","Corvette")
+variation:setCombatManeuver(600, 300)
+
+
+
+
+
+---////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\---
+
+
 --[[----------------------Raptor----------------------]]
 template = ShipTemplate():setName("Raptor"):setClass("Dussel","Raptor"):setModel("small_frigate_4")
 template:setDescription([[Le Raptor est un vaisseau éclaireur munis d'un système de saut stellaire. Souvent employé pour explorer les territoires dangereux et miner le territoire. Sa maneuvrabilité en fait un redoutable ennemi sur le champs de bataille]])

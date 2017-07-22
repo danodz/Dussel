@@ -1,4 +1,4 @@
---Name: Ceinture d'astéroide
+--Name: C01-03B Station recherche
 crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
 nbPlayers = 3;

@@ -1,4 +1,4 @@
---Name: Révoltes dans une station et sur la lune adjacente
+--Name: C01-03A Révolte station
 crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
 nbPlayers = 3;

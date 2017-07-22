@@ -1,4 +1,4 @@
---Name : base fight
+--Name : Dussel PVP 
 function init()
     BlackHole():setPosition(236, 788)
     Asteroid():setPosition(-46829, 17480)
@@ -326,55 +326,55 @@ function init()
     Nebula():setPosition(-20000, 0)
     Nebula():setPosition(20000, 0)
 
-    confSupply = SpaceStation():setTemplate("Huge Station"):setFaction("Confederation"):setCallSign("DE394"):setPosition(-100000, 0);
-    rebelSupply = SpaceStation():setTemplate("Huge Station"):setFaction("Rebelle"):setCallSign("GK352"):setPosition(100000, 0);
+    confSupply = SpaceStation():setTemplate("Huge Station"):setFaction("Vindh"):setCallSign("Station V"):setPosition(-100000, 0);
+    rebelSupply = SpaceStation():setTemplate("Huge Station"):setFaction("Merillon"):setCallSign("Staiton M"):setPosition(100000, 0);
 
-    confStation = SpaceStation():setTemplate("Medium Station"):setFaction("Confederation"):setCallSign("Conf"):setPosition(irandom(-60000,-25000), irandom(-10000,30000));
-    rebelStation = SpaceStation():setTemplate("Medium Station"):setFaction("Rebelle"):setCallSign("Rebel"):setPosition(irandom(25000,60000), irandom(-30000,10000));
+    confStation = SpaceStation():setTemplate("Medium Station"):setFaction("Vindh"):setCallSign("Vini"):setPosition(irandom(-60000,-25000), irandom(-10000,30000));
+    rebelStation = SpaceStation():setTemplate("Medium Station"):setFaction("Merillon"):setCallSign("Meri"):setPosition(irandom(25000,60000), irandom(-30000,10000));
 
-    confShip1 = PlayerSpaceship():setFaction("Confederation"):setTemplate("Atlantis"):setCallSign("conf112"):setPosition(-100000,-2000);
-    confShip2 = PlayerSpaceship():setFaction("Confederation"):setTemplate("Atlantis"):setCallSign("conf358"):setPosition(-100000,2000);
+    confShip1 = PlayerSpaceship():setFaction("Vindh"):setTemplate("C-Citoyen"):setCallSign("Camarade"):setPosition(-100000,-2000);
+    confShip2 = PlayerSpaceship():setFaction("Vindh"):setTemplate("C-Citoyen"):setCallSign("Citoyen"):setPosition(-100000,2000);
 
-    rebelShip1 = PlayerSpaceship():setFaction("Rebelle"):setTemplate("Atlantis"):setCallSign("reb1321"):setPosition(100000,-2000);
-    rebelShip2 = PlayerSpaceship():setFaction("Rebelle"):setTemplate("Atlantis"):setCallSign("reb3455"):setPosition(100000,2000);
+    rebelShip1 = PlayerSpaceship():setFaction("Merillon"):setTemplate("C-Citoyen"):setCallSign("Apotre"):setPosition(100000,-2000);
+    rebelShip2 = PlayerSpaceship():setFaction("Merillon"):setTemplate("C-Citoyen"):setCallSign("Celesien"):setPosition(100000,2000);
 
     local confStationX, confStationY = confStation:getPosition();
     local rebelStationX, rebelStationY = rebelStation:getPosition();
-    mobTeams = { { data = { amount = 10, minX = confStationX - 1000, maxX = confStationX + 1000, minY = confStationY - 1000, maxY = confStationY + 1000, faction = "Confederation" , timer = 0, maxTimer = 60 * 60 * 3}
+    mobTeams = { { data = { amount = 10, minX = confStationX - 1000, maxX = confStationX + 1000, minY = confStationY - 1000, maxY = confStationY + 1000, faction = "Vindh" , timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
-               , { data = {amount = 10, minX = rebelStationX - 1000, maxX = rebelStationX + 1000, minY = rebelStationY - 1000, maxY =  rebelStationY + 1000, faction = "Rebelle", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = rebelStationX - 1000, maxX = rebelStationX + 1000, minY = rebelStationY - 1000, maxY =  rebelStationY + 1000, faction = "Merillon", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
---               , { data = {amount = 10, minX = -41000, maxX = -39000, minY = -1000, maxY = 1000, faction = "Pirates", timer = 0, maxTimer = 60 * 60}
+--               , { data = {amount = 10, minX = -41000, maxX = -39000, minY = -1000, maxY = 1000, faction = "Charognards", timer = 0, maxTimer = 60 * 60}
 --                 , mobs = {}
 --                 }
---               , { data = {amount = 10, minX = 39000, maxX = 41000, minY = -1000, maxY = 1000, faction = "Pirates", timer = 0, maxTimer = 60 * 60}
+--               , { data = {amount = 10, minX = 39000, maxX = 41000, minY = -1000, maxY = 1000, faction = "Charognards", timer = 0, maxTimer = 60 * 60}
 --                 , mobs = {}
 --                 }
---               , { data = {amount = 10, minX = -30000, maxX = -28000, minY = 0, maxY = 2000, faction = "Pirates", timer = 0, maxTimer = 60 * 60}
+--               , { data = {amount = 10, minX = -30000, maxX = -28000, minY = 0, maxY = 2000, faction = "Charognards", timer = 0, maxTimer = 60 * 60}
 --                 , mobs = {}
 --                 }
-               , { data = {amount = 10, minX = -15000, maxX = -13000, minY = 24000, maxY = 26000, faction = "Pirates", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = -15000, maxX = -13000, minY = 24000, maxY = 26000, faction = "Charognards", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
-               , { data = {amount = 10, minX = -10000, maxX = -8000, minY = 7000, maxY = 9000, faction = "Pirates", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = -10000, maxX = -8000, minY = 7000, maxY = 9000, faction = "Charognards", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
-               , { data = {amount = 10, minX = -9000, maxX = -7000, minY = -35000, maxY = -33000, faction = "Pirates", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = -9000, maxX = -7000, minY = -35000, maxY = -33000, faction = "Charognards", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
 
---               , { data = {amount = 10, minX = 28000, maxX = 30000, minY = -2000, maxY = 0, faction = "Pirates", timer = 0, maxTimer = 60 * 60}
+--               , { data = {amount = 10, minX = 28000, maxX = 30000, minY = -2000, maxY = 0, faction = "Charognards", timer = 0, maxTimer = 60 * 60}
 --                 , mobs = {}
 --                 }
-               , { data = {amount = 10, minX = 13000, maxX = 15000, minY = -26000, maxY = -24000, faction = "Pirates", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = 13000, maxX = 15000, minY = -26000, maxY = -24000, faction = "Charognards", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
-               , { data = {amount = 10, minX = 8000, maxX = 10000, minY = -9000, maxY = -7000, faction = "Pirates", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = 8000, maxX = 10000, minY = -9000, maxY = -7000, faction = "Charognards", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
-               , { data = {amount = 10, minX = 7000, maxX = 9000, minY = 33000, maxY = 35000, faction = "Pirates", timer = 0, maxTimer = 60 * 60 * 3}
+               , { data = {amount = 10, minX = 7000, maxX = 9000, minY = 33000, maxY = 35000, faction = "Charognards", timer = 0, maxTimer = 60 * 60 * 3}
                  , mobs = {}
                  }
                };
@@ -382,6 +382,10 @@ function init()
     for index,team in ipairs(mobTeams) do
         team.mobs = generateMobTeam(team.data.amount, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY, team.data.faction);
     end
+
+
+    -- Spawn random neutral transports.
+    Script():run("util_random_transports.lua")
 end
 
 function update(delta)
@@ -396,26 +400,26 @@ function update(delta)
             team.data.timer = team.data.maxTimer;
 
         end
-        if team.data.faction == "Rebelle" and not shipInZone(confShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(confShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) then
+        if team.data.faction == "Merillon" and not shipInZone(confShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(confShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) then
             team.data.timer = team.data.timer - 1;
         end
 
-        if team.data.faction == "Confederation" and not shipInZone(rebelShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(rebelShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) then
+        if team.data.faction == "Vindh" and not shipInZone(rebelShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(rebelShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) then
             team.data.timer = team.data.timer - 1;
         end
 
-        if team.data.faction == "Pirates" and not shipInZone(rebelShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(rebelShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(confShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(confShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) then
+        if team.data.faction == "Charognards" and not shipInZone(rebelShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(rebelShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(confShip1, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) and not shipInZone(confShip2, team.data.minX, team.data.maxX, team.data.minY, team.data.maxY) then
             team.data.timer = team.data.timer - 1;
         end
         
     end
 
     if not confStation:isValid() then
-        victory("Rebelle");
+        victory("Merillon");
     end
 
     if not rebelStation:isValid() then
-        victory("Confederation");
+        victory("Vindh");
     end
 
     if not confShip1:isValid() then
@@ -435,13 +439,13 @@ function update(delta)
 end
 
 function respawnConf()
-    local ship = PlayerSpaceship():setFaction("Confederation"):setTemplate("Atlantis"):setCallSign("conf" .. irandom(100,999)):setPosition(irandom(-80000,-60000),irandom(-40000,40000));
+    local ship = PlayerSpaceship():setFaction("Vindh"):setTemplate("C-Citoyen"):setCallSign("Camarade" .. irandom(100,999)):setPosition(irandom(-80000,-60000),irandom(-40000,40000));
     setRespawnAmmo(ship);
     return ship;
 end
 
 function respawnRebel()
-    local ship = PlayerSpaceship():setFaction("Rebelle"):setTemplate("Atlantis"):setCallSign("reb" .. irandom(100,999)):setPosition(irandom(60000,80000),irandom(-40000,40000));
+    local ship = PlayerSpaceship():setFaction("Merillon"):setTemplate("C-Citoyen"):setCallSign("Celesien" .. irandom(100,999)):setPosition(irandom(60000,80000),irandom(-40000,40000));
     setRespawnAmmo(ship);
     return ship;
 end

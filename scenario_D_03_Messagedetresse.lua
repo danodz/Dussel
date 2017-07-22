@@ -1,4 +1,4 @@
---Name: Expérimentation dans un vaisseau
+--Name: C01-02 Message de détresse
 nbPlayers = 3;
 
 scenarioPart = "alert";

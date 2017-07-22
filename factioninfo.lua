@@ -14,11 +14,14 @@ vindh:setDescription([[Empire du vindh]])
 
 merillon = FactionInfo():setName("Merillon")
 merillon:setGMColor(255, 255, 128)
+merillon:setEnemy(vindh)
 merillon:setDescription([[Sainte alliance des Mérillons]])
 
 arianne = FactionInfo():setName("Arianne")
 arianne:setGMColor(0,255,255)
 arianne:setEnemy(neutral)
+arianne:setEnemy(vindh)
+arianne:setEnemy(arianne)
 arianne:setDescription([[Le Conglomerat d'arianne est un assemblement de marchands et stations minières aux extrémités de la galaxie célésienne.]])
 
 wreckDefend = FactionInfo():setName("Epave defence")
@@ -75,6 +78,7 @@ looter:setEnemy(arianne)
 looter:setEnemy(merillon)
 looter:setEnemy(spectre)
 looter:setEnemy(namori)
+looter:setEnemy(neutral)
 
 
 -- add empty-epsilon standard factions
