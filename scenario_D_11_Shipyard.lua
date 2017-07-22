@@ -155,16 +155,14 @@ function makeStationToLiberate(faction, x, y, nbDefender)
 end
 
 function stationComms()
-    if comms_source:isDocked(comms_target) then
-	        setCommsMessage("Convaincre les occupants de se rebeller.")
-            addCommsReply("Rebellez vous!", function()
-                if not comms_source:takeReputationPoints(50) then setCommsMessage("Pas assez de reputation."); return end
-                setCommsMessage("Vous avez raison")
-                comms_target:setFaction("Rebelles")
-                comms_target:setCommsFunction(rebelSellingComms);
-                addCommsReply("Je veux acheter des trucs", rebelSellingComms) 
-            end)
-    end
+    setCommsMessage("Convaincre les occupants de se rebeller.")
+    addCommsReply("Rebellez vous!", function()
+        if not comms_source:takeReputationPoints(50) then setCommsMessage("Pas assez de reputation."); return end
+        setCommsMessage("Vous avez raison")
+        comms_target:setFaction("Rebelles")
+        comms_target:setCommsFunction(rebelSellingComms);
+        addCommsReply("Je veux acheter des trucs", rebelSellingComms) 
+    end)
 end
 
 function rebelSellingComms()
