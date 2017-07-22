@@ -29,7 +29,7 @@ scenarioParts = {
                         generateMobs(irandom(0,1), "Phobos T3", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
                         generateMobs(irandom(0,1), "Atlantis X23", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
                     else
-                        generateMobs(irandom(1,2), "MT52 Hornet", "Rebelles", X, Y, 500, function(mob) mob:orderAttack(bigShip); end)
+                        generateMobs(irandom(1,2), "MT52 Hornet", "Rebelles", x, y, 500, function(mob) mob:orderAttack(bigShip); end)
                     end
                     station.spawnCountdown = irandom(45 * 60,75 * 60);
                 end
@@ -159,16 +159,14 @@ function makeStationToLiberate(faction, x, y, nbDefender)
 end
 
 function stationComms()
-    if comms_source:isDocked(comms_target) then
-	        setCommsMessage("Convaincre les occupants de se rebeller.")
-            addCommsReply("Rebellez vous!", function()
-                if not comms_source:takeReputationPoints(50) then setCommsMessage("Pas assez de reputation."); return end
-                setCommsMessage("Vous avez raison")
-                comms_target:setFaction("Rebelles")
-                comms_target:setCommsFunction(rebelSellingComms);
-                addCommsReply("Je veux acheter des trucs", rebelSellingComms) 
-            end)
-    end
+    setCommsMessage("Convaincre les occupants de se rebeller.")
+    addCommsReply("Rebellez vous!", function()
+        if not comms_source:takeReputationPoints(50) then setCommsMessage("Pas assez de reputation."); return end
+        setCommsMessage("Vous avez raison")
+        comms_target:setFaction("Rebelles")
+        comms_target:setCommsFunction(rebelSellingComms);
+        addCommsReply("Je veux acheter des trucs", rebelSellingComms) 
+    end)
 end
 
 function rebelSellingComms()
