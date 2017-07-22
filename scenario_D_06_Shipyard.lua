@@ -57,9 +57,11 @@ function init()
 
     station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(0, 0);
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setReputationPoints(1000)
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("VIN")
-              , PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER")
+    players = { --PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setPosition(-7640, 39663)
+              PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Larth1"):setPosition(-7640, 39663):setWeaponStorage("Nuke", 0)
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 0)
+              , PlayerSpaceship():setFaction("Loyalistes"):setTemplate("MCorvette"):setCallSign("Ducal-2"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 0)
+              --, PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER"):setPosition(-7640, 39663)
               };
 
     scenarioParts[scenarioPart].init();
