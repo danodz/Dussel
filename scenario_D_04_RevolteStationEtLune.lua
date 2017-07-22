@@ -63,11 +63,11 @@ scenarioParts = {
                 end
             end
             if allLiberated then
-                changePart("return");
+                changePart("retour");
             end
         end
-    }
-    return = {
+    },
+    retour = {
         init = function()
             sendCommToAll(rebelStation, "Merci d'avoir libéré les environs. Revenez me voir");
         end,

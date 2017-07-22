@@ -1,4 +1,4 @@
---Name: Shipyard
+--Name: C01-05 Leviathan
 systems = { "reactor","beamweapons","missilesystem","maneuver","impulse","warp","jumpdrive","frontshield","rearshield" };
 crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
@@ -9,10 +9,10 @@ scenarioPart = "main";
 scenarioParts = {
     main = {
         init = function() 
-            stations = { SpaceStation():setTemplate("Medium Station"):setFaction("Aucune faction"):setCallSign("DS13"):setPosition(-14094, -15695)
-                       , SpaceStation():setTemplate("Medium Station"):setFaction("Aucune faction"):setCallSign("DS12"):setPosition(-5636, -17199)
-                       , SpaceStation():setTemplate("Medium Station"):setFaction("Aucune faction"):setCallSign("DS11"):setPosition(-3098, -10808)
-                       , SpaceStation():setTemplate("Medium Station"):setFaction("Aucune faction"):setCallSign("DS10"):setPosition(-9865, -10150)
+            stations = { SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setCallSign("DS13"):setPosition(-14094, -15695)
+                       , SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setCallSign("DS12"):setPosition(-5636, -17199)
+                       , SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setCallSign("DS11"):setPosition(-3098, -10808)
+                       , SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setCallSign("DS10"):setPosition(-9865, -10150)
                        };
             for i,station in pairs(stations) do
                 station.spawnCountdown = 0;
@@ -24,10 +24,12 @@ scenarioParts = {
             for i,station in pairs(stations) do
                 if station.spawnCountdown <= 0 then
                     local x,y = station:getPosition();
-                    if station:getFaction() == "Aucune faction" then
-                        generateMobs(irandom(2,4), "MT52 Hornet", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
+                    if station:getFaction() == "Loyalistes" then
+                        generateMobs(irandom(1,2), "MT52 Hornet", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
+                        generateMobs(irandom(0,1), "Phobos T3", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
+                        generateMobs(irandom(0,1), "Atlantis X23", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
                     else
-                        generateMobs(irandom(2,4), "MT52 Hornet", "Rebelles", X, Y, 500, function(mob) mob:orderAttack(bigShip); end)
+                        generateMobs(irandom(1,2), "MT52 Hornet", "Rebelles", X, Y, 500, function(mob) mob:orderAttack(bigShip); end)
                     end
                     station.spawnCountdown = irandom(45 * 60,75 * 60);
                 end
@@ -55,9 +57,9 @@ function init()
 
     station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(0, 0);
     
-    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("AD-3"):setCallSign("ARI"):setReputationPoints(1000):setPosition(5000,5000)
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("AD-3"):setCallSign("VIN")
-              , PlayerSpaceship():setFaction("Merillon"):setTemplate("AD-3"):setCallSign("MER")
+    players = { PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setReputationPoints(1000)
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("VIN")
+              , PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER")
               };
 
     scenarioParts[scenarioPart].init();

@@ -142,6 +142,3 @@ It is known, however, that the strict Ktlitan hierarchy starts with their Queen 
 Hive:setEnemy(human)
 Hive:setEnemy(exuari)
 Hive:setEnemy(kraylor)
-
-nothing = FactionInfo():setName("Aucune faction")
-nothing:setGMColor(128, 128, 128)
