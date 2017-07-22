@@ -63,7 +63,7 @@ scenarioParts = {
                 end
             end
             if allLiberated then
-                changePart(return);
+                changePart("return");
             end
         end
     }
