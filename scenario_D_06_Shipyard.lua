@@ -29,7 +29,7 @@ scenarioParts = {
                         generateMobs(irandom(0,1), "Phobos T3", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
                         generateMobs(irandom(0,1), "Atlantis X23", "Loyalistes", x, y, 500, function(mob) mob:orderDefendTarget(bigShip); end)
                     else
-                        generateMobs(irandom(1,2), "MT52 Hornet", "Rebelles", X, Y, 500, function(mob) mob:orderAttack(bigShip); end)
+                        generateMobs(irandom(1,2), "MT52 Hornet", "Rebelles", x, y, 500, function(mob) mob:orderAttack(bigShip); end)
                     end
                     station.spawnCountdown = irandom(45 * 60,75 * 60);
                 end
