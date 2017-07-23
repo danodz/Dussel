@@ -18,7 +18,7 @@ scenarioParts = {
                 local x, y = player:getPosition();
                 if not player.menaced and player:getSectorName() == epave:getSectorName() then
                     player.menaced = true;
-                    maraudeursBoss[1]:sendCommsMessage(player, "Vous aurez pas notre loot!");
+                    maraudeursBoss[1]:sendCommsMessage(player, "Vous aurez pas notre épaves, nos trouvailles! Niaha!");
                 end
             end
 
@@ -51,7 +51,7 @@ scenarioParts = {
             for i,player in pairs(players) do
                 if not player.exploringRP and player:isDocked(epave) then
                     player.exploringRP = true;
-                    epave:sendCommsMessage(player, "Exploration RP");
+                    epave:sendCommsMessage(player, "Choisisez qui entrera dans le vaisseau et envoyez les à la console");
                 end
             end
         end
@@ -76,9 +76,10 @@ scenarioParts = {
                 end
             end
             if allDead then
-                sendCommToAll(station, "Des renforts arrivent, revenez à la station.");
+                sendCommToAll(station, "Des renforts arrivent, capitaines revenez à la station !");
             end
         end
+
     }
 };
 
@@ -90,13 +91,16 @@ function init()
     
     players = { --PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setPosition(-7640, 39663)
               PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Larth1"):setPosition(-7640, 39663):setWeaponStorage("Nuke", 0)
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 0)
-              , PlayerSpaceship():setFaction("Loyalistes"):setTemplate("MCorvette"):setCallSign("Ducal-2"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 0)
+              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 0):setBeamWeaponTurret(2, 360, 0, 10)
+
+              , PlayerSpaceship():setFaction("Loyalistes"):setTemplate("MCorvette"):setCallSign("Ducal-2"):setPosition(10850, -90000):setWeaponStorage("Nuke", 0)
               --, PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER"):setPosition(-7640, 39663)
               };
               
 
-    station = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setPosition(-7640, 39663);
+    station = SpaceStation():setTemplate("Medium Station"):setFaction("Vindh"):setPosition(-7640, 39663);
+    station = SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setPosition(10950, -90100);
+
     epave =  CpuShip():setFaction("Epave defence"):setTemplate("epave"):setCallSign("Indomptable"):setPosition(-50000, -30000):orderRoaming();
 
     scenarioParts[scenarioPart].init();
@@ -272,6 +276,10 @@ crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
 function update()
     scenarioParts[scenarioPart].update();
+
+    if not players[1]:isValid() and not players[2]:isValid() then
+        victory("Loyalistes");
+    end
 end
 
 function changePart(partName)
