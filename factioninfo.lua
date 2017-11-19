@@ -46,6 +46,8 @@ Les vaisseaux du Vindh n'hésitent pas une seconde à éradiquer ces aberrations
 baron = FactionInfo():setName("Barons")
 baron:setGMColor(204, 0, 204)
 baron:setEnemy(merillon)
+baron:setEnemy(vindh)
+baron:setEnemy(arianne)
 baron:setDescription([[Barons des états libres. 
 Ils sont pour la plupart toujours en conflits territoriaux avec la Sainte-Alliance des Mérillons]])
 
