@@ -177,15 +177,3 @@ function srandom(length)
         return ""
     end
 end
-
-function generateMobs(nb, template, faction, centerX, centerY, radius, fn)
-    local mobs = {};
-    
-    for i=1, nb, 1 do
-        local mob = CpuShip():setFaction(faction):setTemplate(template):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(irandom(centerX - radius, centerX + radius), irandom(centerY - radius, centerY + radius))
-        fn(mob);
-        table.insert(mobs, mob);
-    end
-    
-    return mobs;
-end
