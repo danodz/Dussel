@@ -1,8 +1,8 @@
 --Name: Conquete
+printTimer = 0;
 
 players = { PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Larth1"):setPosition(-7640, 39663):setWeaponStorage("Nuke", 0):setReputationPoints(1000)
           , PlayerSpaceship():setFaction("Merillon"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 1):setReputationPoints(1000)
-          , PlayerSpaceship():setFaction("Loyalistes"):setTemplate("VCorvette"):setCallSign("Ducal-2"):setPosition(-24068, -27131):setWeaponStorage("Nuke", 0)
           };
 
 function init()
@@ -12,12 +12,27 @@ function init()
     stations = {fuelStation, ammoStation, engiStation};
 end
 
---TODO make station undestructable
 function update()
+    printTimer = printTimer + 1;
+
     for i,station in pairs(stations) do
+        station.station:setShields(1000,1000,1000);
+
         station.respawnTimer = station.respawnTimer + 1;
         station.pointTimer = station.pointTimer + 1;
         
+        if station.pointTimer == 60 then
+            station.points[station.station:getFaction()] = station.points[station.station:getFaction()] + 1;
+            station.pointTimer = 0;
+        end
+
+        if printTimer > 60 * 5 then
+            print(station.station:getCallSign());
+            for faction,points in pairs(station.points) do
+                print(faction, points)
+            end
+        end
+
         local hornets = countLivingAndDead(station.troops.hornets).living;
         local atlantis = countLivingAndDead(station.troops.atlantis).living;
         if station.respawnTimer >= 1000 then
@@ -54,13 +69,17 @@ function update()
             end end end end
         end
     end
+    if printTimer > 60 * 5 then
+        printTimer = 0;
+    end
 end
 
 function mkConquestStation(faction, callSign, x, y)
     return { station = SpaceStation():setTemplate("Large Station"):setFaction(faction):setCallSign(callSign):setPosition(x, y):setCommsFunction(convertStationComms(100))
-           , points = { vindh = 0
-                      , ariane = 0
-                      , merillon = 0
+           , points = { Vindh = 0
+                      , Arianne = 0
+                      , Merillon = 0
+                      , Barons = 0
                       }
            , troops = { hornets = {}
                       , atlantis = {}
