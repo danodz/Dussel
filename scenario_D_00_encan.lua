@@ -18,7 +18,7 @@ function update()
     for i,station in pairs(stations) do
         station:setShields(1000,1000,1000);
 
-        --station.data.respawnTimer = station.data.respawnTimer + 1;
+        station.data.respawnTimer = station.data.respawnTimer + 1;
         
         if printTimer > 60 * 5 then
             print(station:getCallSign());
