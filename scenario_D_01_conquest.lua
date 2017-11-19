@@ -6,6 +6,9 @@ players = { PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCa
           };
 
 function init()
+    script = Script()
+    addGMFunction("Update Ships", function() script:run("shipUpdate.lua") end);
+
     fuelStation = mkConquestStation("Vindh", "Fuel", 75080, 42370);
     ammoStation = mkConquestStation("Merillon", "Ammo", -9857, 37918);
     engiStation = mkConquestStation("Barons", "Engi", -5632, 39312);
