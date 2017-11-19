@@ -6,24 +6,68 @@ players = { PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCa
           };
 
 function init()
-    FuelStation = mkConquestStation("Vindh", "Fuel", -7508, 42370);
-    AmmoStation = mkConquestStation("Merillon", "Ammo", -9857, 37918);
-    EngineerStation = mkConquestStation("Barons", "Engi", -5632, 39312);
+    fuelStation = mkConquestStation("Vindh", "Fuel", 75080, 42370);
+    ammoStation = mkConquestStation("Merillon", "Ammo", -9857, 37918);
+    engiStation = mkConquestStation("Barons", "Engi", -5632, 39312);
+    stations = {fuelStation, ammoStation, engiStation};
 end
 
+--TODO make station undestructable
 function update()
+    for i,station in pairs(stations) do
+        station.respawnTimer = station.respawnTimer + 1;
+        station.pointTimer = station.pointTimer + 1;
+        
+        local hornets = countLivingAndDead(station.troops.hornets).living;
+        local atlantis = countLivingAndDead(station.troops.atlantis).living;
+        if station.respawnTimer >= 1000 then
+            local x,y = station.station:getPosition();
+
+            function addHornets()
+                mobs = generateMobs(irandom(1,3), "MU52 Hornet", station.station:getFaction(), x, y, 1000, function(mob) mob:orderDefendTarget(station.station) end);
+                for i,mob in pairs(mobs) do
+                    table.insert(station.troops.hornets, mob);
+                end
+            end
+
+            function addAtlantis()
+                mobs = generateMobs(1, "Atlantis X23", station.station:getFaction(), x, y, 1000, function(mob) mob:orderDefendTarget(station.station) end);
+                for i,mob in pairs(mobs) do
+                    table.insert(station.troops.atlantis, mob);
+                end
+            end
+
+            if hornets < 6 then
+                addHornets();
+                station.respawnTimer = 0;
+            else if atlantis < 1 then
+                addAtlantis();
+                station.respawnTimer = 0;
+            else if hornets < 12 then
+                addHornets();
+                station.respawnTimer = 0;
+            else if atlantis < 2 then
+                addAtlantis();
+                station.respawnTimer = 0;
+            else
+                station.respawnTimer = 0;
+            end end end end
+        end
+    end
 end
 
 function mkConquestStation(faction, callSign, x, y)
-    EngineerStation = { station = SpaceStation():setTemplate("Large Station"):setFaction(faction):setCallSign(callSign):setPosition(x, y):setCommsFunction(convertStationComms(100))
-                      , investment = { vindh = 0
-                                     , ariane = 0
-                                     , merillon = 0
-                                     }
-                      , troops = { hornets = {}
-                                 , atlantis = {}
-                                 }
-                      };
+    return { station = SpaceStation():setTemplate("Large Station"):setFaction(faction):setCallSign(callSign):setPosition(x, y):setCommsFunction(convertStationComms(100))
+           , points = { vindh = 0
+                      , ariane = 0
+                      , merillon = 0
+                      }
+           , troops = { hornets = {}
+                      , atlantis = {}
+                      }
+           , respawnTimer = 750
+           , pointTimer = 0
+           };
 end
 
 function convertStationComms(price)
@@ -76,4 +120,43 @@ function generateMobs(nb, template, faction, centerX, centerY, radius, fn)
         end
     
         return mobs;
+end
+
+function countLivingAndDead(...)
+    local status = { living = 0
+                   , dead = 0
+                   };
+    for i,mobs in ipairs({...}) do
+        for i,mob in pairs(mobs) do
+            if mob:isValid() then
+                status.living = status.living + 1;
+            else
+                status.dead = status.dead + 1;
+            end
+        end
+    end
+    return status;
+end
+
+charset = {}
+-- QWERTYUIOPASDFGHJKL tZXCVBNM
+for i = 65,  90 do table.insert(charset, string.char(i)) end
+function srandom(length)
+    if length > 0 then
+        return srandom(length - 1) .. charset[irandom(1, #charset)]
+    else
+        return ""
+    end
+end
+
+function generateMobs(nb, template, faction, centerX, centerY, radius, fn)
+    local mobs = {};
+    
+    for i=1, nb, 1 do
+        local mob = CpuShip():setFaction(faction):setTemplate(template):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(irandom(centerX - radius, centerX + radius), irandom(centerY - radius, centerY + radius))
+        fn(mob);
+        table.insert(mobs, mob);
+    end
+    
+    return mobs;
 end
