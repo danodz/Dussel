@@ -44,6 +44,7 @@ function updateMothership(ship, enemy)
         function addHunters(fn)
             mobs = generateMobs(irandom(1,3), "Chasseur", ship:getFaction(), x, y, 1000, fn);
             for i,mob in pairs(mobs) do
+                mob:setScanned(true);
                 table.insert(ship.data.troops, mob);
             end
         end
