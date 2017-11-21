@@ -9,9 +9,9 @@ function init()
     script = Script()
     addGMFunction("Update Ships", function() script:run("shipUpdate.lua") end);
 
-    fuelStation = mkConquestStation("Vindh", "Fuel", 75080, 42370);
-    ammoStation = mkConquestStation("Merillon", "Ammo", -9857, 37918);
-    engiStation = mkConquestStation("Barons", "Engi", -5632, 39312);
+    fuelStation = mkConquestStation("Loyal Vindh", "Fuel", 75080, 42370);
+    ammoStation = mkConquestStation("Loyal Merillon", "Ammo", -9857, 37918);
+    engiStation = mkConquestStation("Loyal Barons", "Engi", -5632, 39312);
     stations = {fuelStation, ammoStation, engiStation};
 end
 
@@ -35,15 +35,16 @@ function update()
         if station.data.respawnTimer >= 1000 then
             local x,y = station:getPosition();
 
+            local faction = split(station:getFaction(), " ")[2];
             function addHornets()
-                mobs = generateMobs(irandom(1,3), "MU52 Hornet", station:getFaction(), x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
+                mobs = generateMobs(irandom(1,3), "MU52 Hornet", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
                 for i,mob in pairs(mobs) do
                     table.insert(station.data.troops.hornets, mob);
                 end
             end
 
             function addAtlantis()
-                mobs = generateMobs(1, "Atlantis X23", station:getFaction(), x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
+                mobs = generateMobs(1, "Atlantis X23", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
                 for i,mob in pairs(mobs) do
                     table.insert(station.data.troops.atlantis, mob);
                 end
@@ -87,9 +88,13 @@ function mkConquestStation(faction, callSign, x, y)
 end
 
 function investOrSupplyComms()
-    setCommsMessage("Etes vous ici pour acheter des munitions ou pour investir?")
-    addCommsReply("Investir", investComms)
-    addCommsReply("Acheter", supplyComms)
+    if comms_source:isDocked(comms_target) then
+        setCommsMessage("Etes vous ici pour acheter des munitions ou pour investir?")
+        addCommsReply("Investir", investComms)
+        addCommsReply("Acheter", supplyComms)
+    else
+        setCommsMessage("Veuillez dock pour acheter ou investir")
+    end
 end
 
 function investCommsReply(price)
@@ -176,4 +181,16 @@ function srandom(length)
     else
         return ""
     end
+end
+
+function split(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={} ; i=1
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+        t[i] = str
+        i = i + 1
+    end
+    return t
 end

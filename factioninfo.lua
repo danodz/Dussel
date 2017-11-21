@@ -21,8 +21,20 @@ arianne = FactionInfo():setName("Arianne")
 arianne:setGMColor(0,255,255)
 arianne:setEnemy(neutral)
 arianne:setEnemy(vindh)
-arianne:setEnemy(arianne)
+arianne:setEnemy(merillon)
 arianne:setDescription([[Le Conglomerat d'arianne est un assemblement de marchands et stations minières aux extrémités de la galaxie célésienne.]])
+
+vindhLoyal = FactionInfo():setName("Loyal Vindh")
+vindhLoyal:setGMColor(255, 102, 0)
+vindhLoyal:setDescription([[Faction loyale à l'empire du vindh]])
+
+merillonLoyal = FactionInfo():setName("Loyal Merillon")
+merillonLoyal:setGMColor(255, 255, 128)
+merillonLoyal:setDescription([[Faction loyale à la sainte alliance des Mérillons]])
+
+arianneLoyal = FactionInfo():setName("Loyal Arianne")
+arianneLoyal:setGMColor(0,255,255)
+arianneLoyal:setDescription([[Faction loyale au conglomerat d'arianne]])
 
 wreckDefend = FactionInfo():setName("Epave defence")
 wreckDefend:setGMColor(255, 255, 255)
@@ -50,6 +62,10 @@ baron:setEnemy(vindh)
 baron:setEnemy(arianne)
 baron:setDescription([[Barons des états libres. 
 Ils sont pour la plupart toujours en conflits territoriaux avec la Sainte-Alliance des Mérillons]])
+
+baronLoyal = FactionInfo():setName("Loyal Barons")
+baronLoyal:setGMColor(204, 0, 204)
+baronLoyal:setDescription([[Loyal aux barons des états libres.]])
 
 loyalistes = FactionInfo():setName("Loyalistes")
 loyalistes:setGMColor(255, 0, 0)
