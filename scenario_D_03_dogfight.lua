@@ -1,4 +1,4 @@
---Name: Combat de chasseurs
+--Name: Combat de chasseur
 function init()
     localMothership = mkConquestMothership("Vindh","local",-5000,0);
     baronMothership = mkConquestMothership("Merillon","baron",5000,0);
@@ -34,9 +34,13 @@ function update()
 end
 
 function updateMothership(ship, enemy)
+    if not ship:isValid() then
+        victory(enemy:getFaction());
+    end
+
     ship.data.respawnTimer = ship.data.respawnTimer + 1;
 
-    local hornets = countLivingAndDead(ship.data.troops).living;
+    local hunters = countLivingAndDead(ship.data.troops).living;
     if ship.data.respawnTimer >= 1000 then
         local x,y = ship:getPosition();
         local ex,ey = enemy:getPosition();
@@ -49,18 +53,15 @@ function updateMothership(ship, enemy)
             end
         end
 
-        if hornets < 6 then
+        if hunters < 6 then
             addHunters(function(mob) mob:orderDefendTarget(ship) end);
             ship.data.respawnTimer = 0;
-        else if hornets < 12 then
-            addHunters(function(mob) mob:orderFlyTowards(ex,ey) end);
-            ship.data.respawnTimer = 0;
-        else if hornets < 18 then
+        else if hunters < 18 then
             addHunters(function(mob) mob:orderAttack(enemy) end);
             ship.data.respawnTimer = 0;
         else
             ship.data.respawnTimer = 0;
-        end end end
+        end end
     end
 end
 
