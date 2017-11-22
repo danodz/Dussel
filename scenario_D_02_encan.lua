@@ -97,22 +97,35 @@ function investOrSupplyComms()
     end
 end
 
-function investCommsReply(price)
-    addCommsReply("Investir ".. price .." credits", function()
-        if not comms_source:takeReputationPoints(price) then setCommsMessage("Vous ne les avez meme pas"); return end
-        setCommsMessage("Merci, on ne l'oubliera pas")
-        comms_target.data.points[comms_source:getFaction()] = comms_target.data.points[comms_source:getFaction()] + price
-        addCommsReply("Faire autre chose", investOrSupplyComms) 
-    end)
-end
-
 function investComms()
-    setCommsMessage("Investir dans la station?")
+    local points = comms_target.data.points;
+    setCommsMessage("Investir dans la station? \nVindh : " .. points.Vindh .. "\nMerillon : " .. points.Merillon .. "\nArianne : " .. points.Arianne)
     investCommsReply(50);
     investCommsReply(100);
     investCommsReply(150);
     investCommsReply(200);
+
     addCommsReply("Annuler", investOrSupplyComms) 
+end
+
+function investCommsReply(price)
+    addCommsReply("Investir ".. price .." credits", function()
+        local points = comms_target.data.points;
+        if not comms_source:takeReputationPoints(price) then setCommsMessage("Vous ne les avez meme pas"); return end
+        setCommsMessage("Merci, on ne l'oubliera pas")
+        points[comms_source:getFaction()] = points[comms_source:getFaction()] + price
+        addCommsReply("Faire autre chose", investOrSupplyComms) 
+
+        local highFaction = "";
+        for faction,point in pairs(points) do
+            if highFaction == "" or points[highFaction] < point then
+                highFaction = faction;
+            end
+        end
+        print(highFaction);
+        comms_target:setFaction("Loyal " .. highFaction);
+
+    end)
 end
 
 function supplyComms()
