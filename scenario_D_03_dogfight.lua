@@ -48,7 +48,7 @@ function updateMothership(ship, enemy)
         function addHunters(fn)
             mobs = generateMobs(irandom(1,3), "Chasseur", ship:getFaction(), x, y, 1000, fn);
             for i,mob in pairs(mobs) do
-                mob:setScanned(true);
+                mob:setScannedByFaction(ship:getFaction(), true);
                 table.insert(ship.data.troops, mob);
             end
         end
@@ -66,7 +66,7 @@ function updateMothership(ship, enemy)
 end
 
 function mkConquestMothership(faction, callSign, x, y)
-    local mothership = PlayerSpaceship():setTemplate("Mothership"):setFaction(faction):setCallSign(callSign):setPosition(x, y);
+    local mothership = PlayerSpaceship():setTemplate("Mothership"):setFaction(faction):setCallSign(callSign):setPosition(x, y):setScanned(false):setScannedByFaction(faction,true);
     mothership.data = { troops = {}
                       , respawnTimer = 750
                       }
@@ -74,7 +74,7 @@ function mkConquestMothership(faction, callSign, x, y)
 end
 
 function mkPlayer(faction, x, y)
-    return PlayerSpaceship():setTemplate("Chasseur"):setFaction(faction):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y)
+    return PlayerSpaceship():setTemplate("Chasseur"):setFaction(faction):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y):setScanned(false):setScannedByFaction(faction,true);
 end
 
 function countLivingAndDead(...)

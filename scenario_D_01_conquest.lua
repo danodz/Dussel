@@ -49,6 +49,7 @@ function update()
                 mobs = generateMobs(irandom(1,3), "MU52 Hornet", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
                 for i,mob in pairs(mobs) do
                     table.insert(station.data.troops.hornets, mob);
+                    mob:setScannedByFaction(faction, true);
                 end
             end
 
@@ -56,6 +57,7 @@ function update()
                 mobs = generateMobs(1, "Atlantis X23", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
                 for i,mob in pairs(mobs) do
                     table.insert(station.data.troops.atlantis, mob);
+                    mob:setScannedByFaction(faction, true);
                 end
             end
 
