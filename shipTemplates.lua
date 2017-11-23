@@ -20,3 +20,4 @@ require("shipTemplates_Dreadnaught.lua")
 --]]
 require("shipTemplates_Dussel.lua")
 require("shipTemplates_Mothership.lua")
+require("shipTemplates_OLD.lua")

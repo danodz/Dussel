@@ -147,6 +147,8 @@ template:addDoor(7, 3, false);
 template:addDoor(3, 4, true);
 template:addDoor(3, 4, false);
 
+template:setDockClasses("Chasseur")
+
 
 --[----------------------Vindh----------------------]
 

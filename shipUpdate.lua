@@ -1,5 +1,5 @@
 function init()
-    playerSigns = {"Larth1", "Vasserand"};
+    playerSigns = {"Larth1", "VSR"};
     players = {};
     for i,sign in pairs(playerSigns) do
         for i=1,#playerSigns,1 do
@@ -15,7 +15,8 @@ updates = {
     Larth1 = function(larth)
     end,
 
-    Vasserand = function(vasserand)
+    VSR = function(vasserand)
+    vasserand:setWeaponStorage("Nuke", 1);
     end
 
 }
