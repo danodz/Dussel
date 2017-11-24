@@ -20,7 +20,6 @@ end
 function update()
     printTimer = printTimer + 1;
 
-    --print(#stations);
     for i,station in pairs(stations) do
         local faction = split(station:getFaction(), " ")[2];
         station:setShields(1000,1000,1000);
@@ -84,7 +83,7 @@ function update()
 end
 
 function mkConquestStation(faction, callSign, x, y)
-    local station = SpaceStation():setTemplate("Large Station"):setFaction(faction):setCallSign(callSign):setPosition(x, y):setCommsFunction(convertStationComms(100));
+    local station = SpaceStation():setTemplate("Large Station"):setFaction(faction):setCallSign(callSign):setPosition(x, y):setCommsFunction(stationComms(100));
     station.data = { points = { Vindh = 0
                               , Arianne = 0
                               , Merillon = 0
@@ -99,48 +98,61 @@ function mkConquestStation(faction, callSign, x, y)
     return station;
 end
 
-function convertStationComms(price)
+function stationComms(price)
     return function()
+    local points = comms_target.data.points;
+        local commsMessage = "Statut de la station : \nVindh : " .. points.Vindh .. "\nMerillon : " .. points.Merillon .. "\nArianne : " .. points.Arianne;
+    
         if comms_source:isDocked(comms_target) then
             if split(comms_target:getFaction(), " ")[2] == comms_source:getFaction() then
-                setCommsMessage("De quoi as-tu besoin");
-                sellStuffComm("Nuke", 1000);
-                sellStuffComm("Homing", 10);
-                sellStuffComm("HVLI", 10);
-                sellStuffComm("EMP", 10);
-                sellStuffComm("Mine", 10);
+                commsMessage = commsMessage .. "\n\nAcheter";
+                addCommsReply("yes", supplyComms);
             else
-                setCommsMessage("Obtenir la loyautÃ© de la station pour sa faction (".. price .." crÃ©dits)")
-                addCommsReply("J'ai les crÃ©dits", function()
-                    if not comms_source:takeReputationPoints(price) then setCommsMessage("On ne s'allie pas Ã  des pauvres"); return end
-                    setCommsMessage("Vos arguments sont convaincants")
-                    comms_target:setFaction("Loyal " .. comms_source:getFaction())
-                    addCommsReply("Acheter des trucs?", convertStationComms(0))
-                end)
+                commsMessage = commsMessage .. "\n\nConvertir?";
+                addCommsReply("oui", convertStationComms(price));
             end
         else
-            setCommsMessage("Veuillez dock pour commercer")
+            commsMessage = commsMessage .. "\n\nPas dock";
         end
+        setCommsMessage(commsMessage);
+    end
+end
+
+function convertStationComms(price)
+    return function()
+        setCommsMessage("Obtenir la loyauté de la station pour sa faction (".. price .." crédits)")
+        addCommsReply("J'ai les crédits", function()
+            if not comms_source:takeReputationPoints(price) then setCommsMessage("On ne s'allie pas à des pauvres"); return end
+            setCommsMessage("Vos arguments sont convaincants")
+            comms_target:setFaction("Loyal " .. comms_source:getFaction())
+            addCommsReply("Acheter des trucs?", supplyComms)
+        end)
     end
 end
 
 function supplyComms()
+    setCommsMessage("De quoi as-tu besoin");
+    sellStuffComm("Nuke", 1000);
+    sellStuffComm("Homing", 10);
+    sellStuffComm("HVLI", 10);
+    sellStuffComm("EMP", 10);
+    sellStuffComm("Mine", 10);
 end
 
 function sellStuffComm(weapon, price)
         addCommsReply("1 ".. weapon .." pour " .. price, function()
             if not comms_source:takeReputationPoints(price) then
                 setCommsMessage("Pas assez de reputation.");
-                addCommsReply("Je veux acheter autre chose.", convertStationComms(0)) 
+                addCommsReply("Je veux acheter autre chose.", supplyComms) 
                 return;
             end
             if comms_source:getWeaponStorage(weapon) == comms_source:getWeaponStorageMax(weapon) then
                 setCommsMessage("Pas assez de place dans ton vaisseau");
-                addCommsReply("Je veux acheter autre chose.", convertStationComms(0)) 
+                addCommsReply("Je veux acheter autre chose.", supplyComms) 
                 return
             end
             setCommsMessage("Merci");
-            addCommsReply("Je veux acheter autre chose.", convertStationComms(0)) 
+            addCommsReply("Je veux acheter autre chose.", supplyComms) 
     
             comms_source:setWeaponStorage(weapon, comms_source:getWeaponStorage(weapon) + 1);
         end)
