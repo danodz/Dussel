@@ -124,7 +124,7 @@ function investCommsReply(price)
                 highFaction = faction;
             end
         end
-        print(highFaction);
+
         comms_target:setFaction("Loyal " .. highFaction);
 
     end)
@@ -145,15 +145,18 @@ function sellStuffReply(weapon, price)
             if not comms_source:takeReputationPoints(price) then
                 setCommsMessage("Pas assez de reputation.");
                 addCommsReply("Je veux acheter autre chose.", supplyComms) 
+                addCommsReply("Je veux investir dans la faction.", investComms) 
                 return;
             end
             if comms_source:getWeaponStorage(weapon) == comms_source:getWeaponStorageMax(weapon) then
                 setCommsMessage("Pas assez de place dans ton vaisseau");
                 addCommsReply("Je veux acheter autre chose.", supplyComms) 
+                addCommsReply("Je veux investir dans la faction.", investComms) 
                 return
             end
             setCommsMessage("Merci");
             addCommsReply("Je veux acheter autre chose.", supplyComms) 
+            addCommsReply("Je veux investir dans la faction.", investComms) 
     
             comms_source:setWeaponStorage(weapon, comms_source:getWeaponStorage(weapon) + 1);
         end)
