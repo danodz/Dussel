@@ -2,7 +2,7 @@
 function init()
     drawMap();
     localMothership = mkConquestMothership("Loyalistes","local",-63000,-50000);
-    baronMothership = mkConquestMothership("Rebels","baron",0,-66000);
+    baronMothership = mkConquestMothership("Resistance","baron",0,-66000);
     motherships = {localMothership, baronMothership};
     localPlayers = {};
     baronPlayers = {};
@@ -11,11 +11,11 @@ function init()
         table.insert(localPlayers, mkPlayer("Loyalistes", -63000, -50000));
     end
     for i=1,6,1 do
-        table.insert(baronPlayers, mkPlayer("Rebels", 0, -66000));
+        table.insert(baronPlayers, mkPlayer("Resistance", 0, -66000));
     end
 
     generateMobs(2, "Atlantis X23", "Loyalistes", -63000,-50000, 1000, function(mob) mob:orderDefendTarget(localMothership) end);
-    generateMobs(2, "Atlantis X23", "Rebels", 0, -66000, 1000, function(mob) mob:orderDefendTarget(baronMothership) end);
+    generateMobs(2, "Atlantis X23", "Resistance", 0, -66000, 1000, function(mob) mob:orderDefendTarget(baronMothership) end);
 
     script = Script()
 end
@@ -34,7 +34,7 @@ function update()
     local bx,by = baronMothership:getPosition();
     for i,ship in pairs(baronPlayers) do
         if not ship:isValid() then
-            baronPlayers[i] = mkPlayer("Rebels", bx,by);
+            baronPlayers[i] = mkPlayer("Resistance", bx,by);
         end
     end
 end

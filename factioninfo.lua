@@ -75,7 +75,7 @@ loyalistes:setEnemy(arianne)
 loyalistes:setEnemy(merillon)
 loyalistes:setDescription([[Troupes loyaux à un Duc de Dussel]])
 
-rebels = FactionInfo():setName("Rebels")
+rebels = FactionInfo():setName("Resistance")
 rebels:setGMColor(0, 0, 255)
 rebels:setEnemy(loyalistes)
 rebels:setDescription([[Troupes opposés à un Duc de Dussel]])
