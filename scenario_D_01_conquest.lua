@@ -173,10 +173,10 @@ end
 function supplyComms()
     setCommsMessage("De quoi as-tu besoin");
     sellStuffComm("Nuke", 1000);
-    sellStuffComm("Homing", 10);
-    sellStuffComm("HVLI", 10);
-    sellStuffComm("EMP", 10);
-    sellStuffComm("Mine", 10);
+    sellStuffComm("Homing", 5);
+    sellStuffComm("HVLI", 5);
+    sellStuffComm("EMP", 20);
+    sellStuffComm("Mine", 5);
 end
 
 function sellStuffComm(weapon, price)
@@ -187,7 +187,7 @@ function sellStuffComm(weapon, price)
                 return;
             end
             if comms_source:getWeaponStorage(weapon) == comms_source:getWeaponStorageMax(weapon) then
-                setCommsMessage("Pas assez de place dans ton vaisseau");
+                setCommsMessage("Vous n'avez pas assez de place dans votre vaisseau");
                 addCommsReply("Je veux acheter autre chose.", supplyComms) 
                 return
             end
