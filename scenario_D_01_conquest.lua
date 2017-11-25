@@ -147,6 +147,10 @@ function stationComms(price)
             if split(comms_target:getFaction(), " ")[2] == comms_source:getFaction() then
                 commsMessage = commsMessage .. "\n\nAcheter";
                 addCommsReply("yes", supplyComms);
+                addCommsReply("Parler avec les locaux", function ()
+                    setCommsMessage("Vous pouvez sortir du vaisseau et venir parler à l'organisation")
+                    addCommsReply("Je préfère acheter quelque chose", supplyComms) 
+                end)
             else
                 commsMessage = commsMessage .. "\n\nConvertir?";
                 addCommsReply("oui", convertStationComms(price));
@@ -160,9 +164,9 @@ end
 
 function convertStationComms(price)
     return function()
-        setCommsMessage("Obtenir la loyauté de la station pour sa faction (".. price .." crédits)")
-        addCommsReply("J'ai les crédits", function()
-            if not comms_source:takeReputationPoints(price) then setCommsMessage("On ne s'allie pas à des pauvres"); return end
+        setCommsMessage("Obtenir la loyauté de la station pour sa faction (".. price .." répuation)")
+        addCommsReply("J'ai la réputation", function()
+            if not comms_source:takeReputationPoints(price) then setCommsMessage("Malheureusement, vous n'êtes pas assez crédibles... (manque de réputation)"); return end
             setCommsMessage("Vos arguments sont convaincants")
             comms_target:setFaction("Loyal " .. comms_source:getFaction())
             addCommsReply("Acheter des trucs?", supplyComms)
@@ -171,7 +175,7 @@ function convertStationComms(price)
 end
 
 function supplyComms()
-    setCommsMessage("De quoi as-tu besoin");
+    setCommsMessage("De quoi avez-vous besoin");
     sellStuffComm("Nuke", 1000);
     sellStuffComm("Homing", 5);
     sellStuffComm("HVLI", 5);
