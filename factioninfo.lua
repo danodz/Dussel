@@ -63,9 +63,9 @@ baron:setEnemy(arianne)
 baron:setDescription([[Barons des états libres. 
 Ils sont pour la plupart toujours en conflits territoriaux avec la Sainte-Alliance des Mérillons]])
 
-baronLoyal = FactionInfo():setName("Loyal Barons")
-baronLoyal:setGMColor(204, 0, 204)
-baronLoyal:setDescription([[Loyal aux barons des états libres.]])
+loyalisteLoyal = FactionInfo():setName("Loyal Loyalistes")
+loyalisteLoyal:setGMColor(204, 0, 204)
+loyalisteLoyal:setDescription([[Loyal aux barons des états libres.]])
 
 loyalistes = FactionInfo():setName("Loyalistes")
 loyalistes:setGMColor(255, 0, 0)
