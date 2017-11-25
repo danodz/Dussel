@@ -1,4 +1,4 @@
--- Name: Embuscade
+-- Name: Mothership
 -- Description: You are surrounded by astroids, enemies and mines.
 -- Type: Basic
 
@@ -44,12 +44,11 @@ function init()
         setCirclePos(Asteroid(), random(0, 360), random(10000, 20000))
     end
 
-    Script():run("playership/all_playership.lua");
-    
+   
     localPlayers = {};
- 	mothership = PlayerSpaceship():setTemplate("Mothership"):setFaction("Resistance"):setCallSign("Mother"):setPosition(0, 0):setScanned(false):setScannedByFaction(faction,true);
+ 	mothership = PlayerSpaceship():setTemplate("Cuirasse"):setFaction("Resistance"):setCallSign("Mother"):setPosition(0, 0);
 
- 	for i=1,6,1 do
+ 	for i=1,12,1 do
         table.insert(localPlayers, mkPlayer("Resistance", 0, 0));
     end
 
@@ -57,12 +56,12 @@ end
 
 
 function mkPlayer(faction, x, y)
-    return PlayerSpaceship():setTemplate("Chasseur"):setFaction(faction):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y):setScanned(false):setScannedByFaction(faction,true);
+    return PlayerSpaceship():setTemplate("Chasseur"):setFaction(faction):setCallSign(irandom(2,3) .. irandom(10,999)):setPosition(x, y):setScanned(false):setScannedByFaction(faction,true);
 end
 
 function update(delta)
 	local lx,ly = mothership:getPosition();
-    
+     
     for i,ship in pairs(localPlayers) do
         if not ship:isValid() then
             localPlayers[i] = mkPlayer("Resistance", lx,ly);
