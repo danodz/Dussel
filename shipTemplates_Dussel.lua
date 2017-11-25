@@ -1,12 +1,12 @@
 --[[                  Dussel
-Depuis le dÈclin de la fÈdÈration, les vaisseaux que l'on retrouve dans l'espace cÈlÈsien son limitÈs, improvisÈs et aucun ne peut rivaliser avec les grandes stations de bataille fÈdÈrÈs.
+Depuis le d√©clin de la f√©d√©ration, les vaisseaux que l'on retrouve dans l'espace c√©l√©sien son limit√©s, improvis√©s et aucun ne peut rivaliser avec les grandes stations de bataille f√©d√©r√©s.
 
-Les vaisseaux les plus communs sont divisÈs en six sous-classes : 
-* Intercepteur / interceptor : Petit, rapide avec une grande maneuvrabilitÈ. Sans jump ou warp
-* …claireur / Scout : Petit, rapide, grande maneuvrabilitÈ, avec jump et warp. Peu de missiles. Utile pour dÈcouvrir et miner le territoire. 
-* FrÈgate / Frigate : Moyen, balancÈ
-* Destroyer / Destroyer : Gros, lent, arme de destruction principalement sur les cÙtÈs. 
-* Croiseur / Cruiser : Gros, peut hÈberger des intercepteurs, lent, principalement armÈ de lasers
+Les vaisseaux les plus communs sont divis√©s en six sous-classes : 
+* Intercepteur / interceptor : Petit, rapide avec une grande maneuvrabilit√©. Sans jump ou warp
+* √âclaireur / Scout : Petit, rapide, grande maneuvrabilit√©, avec jump et warp. Peu de missiles. Utile pour d√©couvrir et miner le territoire. 
+* Fr√©gate / Frigate : Moyen, balanc√©
+* Destroyer / Destroyer : Gros, lent, arme de destruction principalement sur les c√¥t√©s. 
+* Croiseur / Cruiser : Gros, peut h√©berger des intercepteurs, lent, principalement arm√© de lasers
 
 On retrouvera plus rarement les suviants : 
 * Destroyer lourd / Heavy destroyer
@@ -17,14 +17,14 @@ On retrouvera plus rarement les suviants :
 
 Chaque faction modifie les vaisseaux types selon leurs technologies : 
 * Empire du vindh : beam +2 dmg, hull +50
-* Sainte Alliance des MÈrillons : beam -1 sec, shield +20/+20
-* ConglomÈrat d'Arianne : speed (+10, +2, +2), WeaponStorage +50%, Radartrace = Transport
+* Sainte Alliance des M√©rillons : beam -1 sec, shield +20/+20
+* Conglom√©rat d'Arianne : speed (+10, +2, +2), WeaponStorage +50%, Radartrace = Transport
 ----------------------------------------------------------]]
 
 
 --[[----------------------Chasseur----------------------]]
-template = ShipTemplate():setName("Chasseur"):setClass("Chasseur",""):setModel("small_frigate_4")
-template:setDescription([[Le Chaseur est un petit vaisseau de dÈfense de station ou parfois envoyÈ en station lorsque jumelÈ ‡ un vaisseau mËre.]])
+template = ShipTemplate():setName("Chasseur"):setClass("Chasseur",""):setModel("small_fighter_1")
+template:setDescription([[Le Chaseur est un petit vaisseau de d√©fense de station ou parfois envoy√© en station lorsque jumel√© √† un vaisseau m√®re.]])
 template:setRadarTrace("radar_fighter.png")
 template:setHull(50)
 template:setShields(100, 50)
@@ -63,23 +63,23 @@ template:addDoor(3, 3, false);
 --[----------------------Vindh----------------------]
 
 variation = template:copy("C-Ouvrier"):setClass("Chasseur", "Vindh")
+variation:setModel("dark_fighter_6")
 variation:setBeam(0,15, 0, 2000.0, 6.0, 8)
 variation:setBeam(1,100, 0, 750.0, 3.0, 6)
 variation:setHull(65)
-variation:setDescription([[Similaire au chasseur, l'Ouvrier bÈnificie des coques renforcÈes du vindh et de lasers ‡ fusion plus puissants]])
-
+variation:setDescription([[Similaire au chasseur, l'Ouvrier b√©nificie des coques renforc√©es du vindh et de lasers √† fusion plus puissants]])
 
 variation = variation:copy("Ouvrier"):setType("playership")
 variation:setCombatManeuver(600, 300)
 
---[---------------------MÈrillon----------------------]
+--[---------------------M√©rillon----------------------]
 
-variation = template:copy("C-Chasseur1"):setClass("Chasseur","MÈrillon")
+variation = template:copy("C-Chasseur1"):setClass("Chasseur","M√©rillon")
 variation:setModel("LindwurmFighterGrey")
 variation:setBeam(0,15, 0, 2000.0, 4.5, 6)
 variation:setBeam(1,100, 0, 1000.0, 2.5, 5)
 variation:setShields(110,60)
---variation:setDescription([[Similaire au raptor, l'Apotre bÈnificie des saints boucliers et de lasers ‡ meilleure cadence]])
+--variation:setDescription([[Similaire au raptor, l'Apotre b√©nificie des saints boucliers et de lasers √† meilleure cadence]])
 
 variation = variation:copy("Apotre"):setType("playership")
 variation:setCombatManeuver(600, 300)
@@ -92,7 +92,7 @@ variation:setRadarTrace("radar_transport.png")
 variation:setSpeed(225, 60, 60)
 variation:setWeaponStorage("HVLI", 10)
 variation:setWeaponStorage("Homing", 4)
---variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau Èclaireur, possËde de plus grandes quantitÈs de missiles et une propulsion accrue]])
+--variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau √©claireur, poss√®de de plus grandes quantit√©s de missiles et une propulsion accrue]])
 
 variation = variation:copy("Camelot"):setType("playership")
 variation:setCombatManeuver(600, 300)
@@ -104,7 +104,7 @@ variation:setCombatManeuver(600, 300)
 
 --[[----------------------Corvette----------------------]]
 
-template = ShipTemplate():setName("D3-Corvette"):setClass("Corvette","basic"):setModel("battleship_destroyer_1_upgraded")
+template = ShipTemplate():setName("D3-Corvette"):setClass("Corvette","basic"):setModel("small_frigate_4")
 template:setRadarTrace("radar_cruiser.png")
 template:setHull(150)
 template:setShields(100, 100)
@@ -112,7 +112,7 @@ template:setSpeed(80, 10, 10)
 template:setCombatManeuver(300, 150)
 template:setJumpDrive(true)
 template:setEnergyStorage(800)
-template:setRepairCrewCount(1)-- Arc, Dir, Range, CycleTime, Dmgtemplate:setBeam(0,20, 0, 2000.0, 6.0, 6)
+template:setRepairCrewCount(1)-- Arc, Dir, Range, CycleTime, Dmg 	template:setBeam(0,20, 0, 2000.0, 6.0, 6)
 template:setBeam(1,100, 0, 1000.0, 6.0, 10)
 template:setTubes(4, 10.0)
 template:setWeaponStorage("HVLI", 4)
@@ -155,20 +155,20 @@ template:setDockClasses("Chasseur")
 variation = template:copy("C-Citoyen"):setClass("Corvette","basic")
 variation:setBeam(1,100, 0, 1000.0, 6.0, 12)
 variation:setHull(160)
-variation:setDescription([[Similaire au raptor, le Citoyen bÈnificie des coques renforcÈes du vindh et de lasers ‡ fusion plus puissants]])
+variation:setDescription([[Similaire au raptor, le Citoyen b√©nificie des coques renforc√©es du vindh et de lasers √† fusion plus puissants]])
 
 
 variation = variation:copy("VCorvette"):setType("playership"):setClass("Vindh","Corvette")
 variation:setCombatManeuver(600, 300)
 
---[---------------------MÈrillon----------------------]
+--[---------------------M√©rillon----------------------]
 
 variation = template:copy("C-Apotre"):setClass("Corvette","basic")
 variation:setModel("LindwurmFighterGrey")
 variation:setBeam(0,15, 0, 2000.0, 5.0, 6)
 variation:setBeam(1,100, 0, 1000.0, 5.0, 10)
 variation:setShields(220,220)
-variation:setDescription([[Similaire au raptor, l'Apotre bÈnificie des saints boucliers et de lasers ‡ meilleure cadence]])
+variation:setDescription([[Similaire au raptor, l'Apotre b√©nificie des saints boucliers et de lasers √† meilleure cadence]])
 
 variation = variation:copy("MCorvette"):setType("playership"):setClass("Merillon","Corvette")
 variation:setCombatManeuver(600, 300)
@@ -182,7 +182,7 @@ variation:setSpeed(130, 24, 24)
 variation:setWeaponStorage("Mine", 15)
 variation:setWeaponStorage("Homing", 9)
 variation:setWeaponStorage("EMP", 3)
-variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau Èclaireur, possËde de plus grandes quantitÈs de missiles et une propulsion accrue]])
+variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau √©claireur, poss√®de de plus grandes quantit√©s de missiles et une propulsion accrue]])
 
 variation = variation:copy("ACorvette"):setType("playership"):setClass("Arianne","Corvette")
 variation:setCombatManeuver(600, 300)
@@ -196,7 +196,7 @@ variation:setCombatManeuver(600, 300)
 
 --[[----------------------Raptor----------------------]]
 template = ShipTemplate():setName("Raptor"):setClass("Dussel","Raptor"):setModel("small_frigate_4")
-template:setDescription([[Le Raptor est un vaisseau Èclaireur munis d'un systËme de saut stellaire. Souvent employÈ pour explorer les territoires dangereux et miner le territoire. Sa maneuvrabilitÈ en fait un redoutable ennemi sur le champs de bataille]])
+template:setDescription([[Le Raptor est un vaisseau √©claireur munis d'un syst√®me de saut stellaire. Souvent employ√© pour explorer les territoires dangereux et miner le territoire. Sa maneuvrabilit√© en fait un redoutable ennemi sur le champs de bataille]])
 template:setRadarTrace("radar_fighter.png")
 template:setHull(75)
 template:setShields(200, 200)
@@ -253,20 +253,20 @@ variation = template:copy("R-Citoyen"):setClass("Dussel","Raptor")
 variation:setBeam(0,15, 0, 2000.0, 6.0, 8)
 variation:setBeam(1,100, 0, 1000.0, 6.0, 12)
 variation:setHull(100)
-variation:setDescription([[Similaire au raptor, le Citoyen bÈnificie des coques renforcÈes du vindh et de lasers ‡ fusion plus puissants]])
+variation:setDescription([[Similaire au raptor, le Citoyen b√©nificie des coques renforc√©es du vindh et de lasers √† fusion plus puissants]])
 
 
 variation = variation:copy("Citoyen"):setType("playership"):setClass("Vindh","Raptor")
 variation:setCombatManeuver(600, 300)
 
---[---------------------MÈrillon----------------------]
+--[---------------------M√©rillon----------------------]
 
 variation = template:copy("R-Apotre"):setClass("Dussel","Raptor")
 variation:setModel("LindwurmFighterGrey")
 variation:setBeam(0,15, 0, 2000.0, 5.0, 6)
 variation:setBeam(1,100, 0, 1000.0, 5.0, 10)
 variation:setShields(220,220)
-variation:setDescription([[Similaire au raptor, l'Apotre bÈnificie des saints boucliers et de lasers ‡ meilleure cadence]])
+variation:setDescription([[Similaire au raptor, l'Apotre b√©nificie des saints boucliers et de lasers √† meilleure cadence]])
 
 variation = variation:copy("Apotre"):setType("playership"):setClass("Merillon","Raptor")
 variation:setCombatManeuver(600, 300)
@@ -280,7 +280,7 @@ variation:setSpeed(130, 24, 24)
 variation:setWeaponStorage("Mine", 15)
 variation:setWeaponStorage("Homing", 9)
 variation:setWeaponStorage("EMP", 3)
-variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau Èclaireur, possËde de plus grandes quantitÈs de missiles et une propulsion accrue]])
+variation:setDescription([[ Le Camelot, vaisseau de transport converti en vaisseau √©claireur, poss√®de de plus grandes quantit√©s de missiles et une propulsion accrue]])
 
 variation = variation:copy("Camelot"):setType("playership"):setClass("Arianne","Raptor")
 variation:setCombatManeuver(600, 300)
@@ -291,7 +291,7 @@ variation:setCombatManeuver(600, 300)
 
 --[[----------------------Frigate----------------------]]
 template = ShipTemplate():setName("Frigate"):setClass("Dussel","Frigate"):setModel("battleship_destroyer_1_upgraded")
-template:setDescription([[La frÈgate est un vaisseau balancÈ utilisÈ pour toute type de mission et prÈconisÈ par les aventuriers ]])
+template:setDescription([[La fr√©gate est un vaisseau balanc√© utilis√© pour toute type de mission et pr√©conis√© par les aventuriers ]])
 template:setRadarTrace("radar_cruiser.png")
 template:setHull(150)
 template:setShields(200, 200)
@@ -362,19 +362,19 @@ variation = template:copy("F-Camarade"):setClass("Dussel","Frigate")
 variation:setBeam(0,100, -20, 1500.0, 6.0, 10)
 variation:setBeam(1,100,  20, 1500.0, 6.0, 10)
 variation:setHull(200)
-variation:setDescription([[ Le Camarade bÈnificie des coques renforcÈes du vindh et de lasers ‡ fusion plus puissants]])
+variation:setDescription([[ Le Camarade b√©nificie des coques renforc√©es du vindh et de lasers √† fusion plus puissants]])
 
 variation = variation:copy("Camarade"):setType("playership"):setClass("Vindh","Frigate")
 variation:setCombatManeuver(400, 250)
 
---[---------------------MÈrillon----------------------]
+--[---------------------M√©rillon----------------------]
 
 variation = template:copy("F-Celesien"):setClass("Dussel","Frigate")
 variation:setModel("AdlerLongRangeScoutGrey")
 variation:setBeam(0,100, -20, 1500.0, 5.0, 8)
 variation:setBeam(1,100,  20, 1500.0, 5.0, 8)
 variation:setShields(220,220)
-variation:setDescription([[ Le CÈlÈsien bÈnificie des saints boucliers et de lasers ‡ meilleure cadence]])
+variation:setDescription([[ Le C√©l√©sien b√©nificie des saints boucliers et de lasers √† meilleure cadence]])
 
 variation = variation:copy("Celesien"):setType("playership"):setClass("Merillon","Frigate")
 variation:setCombatManeuver(400, 250)
@@ -388,7 +388,7 @@ variation:setSpeed(100, 12, 12)
 template:setWeaponStorage("Homing", 18)
 template:setWeaponStorage("Mine", 12)
 template:setWeaponStorage("EMP", 6)
-variation:setDescription([[ Le marchand, vaisseau de transport converti, possËde un plus grand cargo d'armement et une propulsion accrue]])
+variation:setDescription([[ Le marchand, vaisseau de transport converti, poss√®de un plus grand cargo d'armement et une propulsion accrue]])
 
 variation = variation:copy("Marchand"):setType("playership"):setClass("Arianne","Frigate")
 variation:setCombatManeuver(400, 250)
@@ -400,7 +400,7 @@ variation:setCombatManeuver(400, 250)
 
 --[[----------------------Destroyer----------------------]]
 template = ShipTemplate():setName("Destroyer"):setClass("Dussel","Destroyer"):setModel("battleship_destroyer_5_upgraded")
-template:setDescription([[Le destroyer est un vaisseau de guerre redoutable. Lent ‡ manoeuvrer, quiconque entre toutetfois dans sa ligne de tir peut faire ses priËres...]])
+template:setDescription([[Le destroyer est un vaisseau de guerre redoutable. Lent √† manoeuvrer, quiconque entre toutetfois dans sa ligne de tir peut faire ses pri√®res...]])
 template:setRadarTrace("radar_dread.png")
 template:setHull(300)
 template:setShields(200, 200)
@@ -473,12 +473,12 @@ variation:setBeam(2,100, -90, 1500.0, 6.0, 10)
 variation:setBeam(3,100, 90, 1500.0, 6.0, 10)
 variation:setBeam(4,100, 90, 1500.0, 6.0, 10)
 variation:setHull(350)
-variation:setDescription([[ L'Artheurge est une version dan-geu-reuse du camarade et bÈnificie des coques renforcÈes du vindh et de lasers ‡ fusion plus puissants]])
+variation:setDescription([[ L'Artheurge est une version dan-geu-reuse du camarade et b√©nificie des coques renforc√©es du vindh et de lasers √† fusion plus puissants]])
 
 variation = variation:copy("Artheurge"):setType("playership"):setClass("Vindh","Destroyer")
 variation:setCombatManeuver(200, 125)
 
---[---------------------MÈrillon----------------------]
+--[---------------------M√©rillon----------------------]
 
 variation = template:copy("D-Eveque"):setClass("Dussel","Destroyer")
 variation:setModel("AtlasHeavyFighterGrey")
@@ -489,7 +489,7 @@ variation:setBeam(2,100, -90, 1500.0, 5.0, 8)
 variation:setBeam(3,100, 90, 1500.0, 5.0, 8)
 variation:setBeam(4,100, 90, 1500.0, 5.0, 8)
 variation:setShields(220,220)
-variation:setDescription([[ L'…vÍque bÈnificie des saints boucliers et de lasers ‡ meilleure cadence]])
+variation:setDescription([[ L'√âv√™que b√©nificie des saints boucliers et de lasers √† meilleure cadence]])
 
 variation = variation:copy("Eveque"):setType("playership"):setClass("Merillon","Destroyer")
 variation:setCombatManeuver(200, 125)
@@ -505,8 +505,75 @@ variation:setWeaponStorage("Homing", 30)
 variation:setWeaponStorage("HVLI", 40)
 variation:setWeaponStorage("Nuke", 3)
 variation:setWeaponStorage("EMP", 9)
-variation:setDescription([[ La caravanne, vaisseau de transport converti, possËde un plus grand cargo d'armement et une propulsion accrue]])
+variation:setDescription([[ La caravanne, vaisseau de transport converti, poss√®de un plus grand cargo d'armement et une propulsion accrue]])
 
 variation = variation:copy("Caravanne"):setType("playership"):setClass("Arianne","Destroyer")
 variation:setCombatManeuver(200, 125)
 
+
+
+---////////////////////////// \\\\\\\\\\\\\\\\\\\\\\\\\\---
+
+
+--[[----------------------Battlecruiser----------------------]]
+
+
+-- The battle station is a huge ship with many defensive features. It can be docked by smaller ships.
+template = ShipTemplate():setName("Battlecruiser"):setClass("Dussel","Battlecruiser"):setModel("Ender Battlecruiser")
+template:setDescription([[Le cuirass√© est √† la fois r√©sistant, tr√®s puissant, arm√© de 12 canons lasers et peut abriter des chasseurs. ]])
+template:setRadarTrace("radar_battleship.png")
+
+template:setHull(150)
+template:setShields(2500)
+template:setSpeed(20, 1.5, 3)
+template:setCombatManeuver(200, 125)
+template:setJumpDrive(true)
+
+template:setEnergyStorage(1500)
+template:setRepairCrewCount(4)
+
+template:setDockClasses("Chasseur")
+
+--                  Arc, Dir, Range, CycleTime, Dmg
+template:setBeam(0, 120, -90, 2500.0, 6.1, 4)
+template:setBeam(1, 120, -90, 2500.0, 6.0, 4)
+template:setBeam(2, 120,  90, 2500.0, 6.1, 4)
+template:setBeam(3, 120,  90, 2500.0, 6.0, 4)
+template:setBeam(4, 120, -90, 2500.0, 5.9, 4)
+template:setBeam(5, 120, -90, 2500.0, 6.2, 4)
+template:setBeam(6, 120,  90, 2500.0, 5.9, 4)
+template:setBeam(7, 120,  90, 2500.0, 6.2, 4)
+template:setBeam(8, 120, -90, 2500.0, 6.1, 4)
+template:setBeam(9, 120, -90, 2500.0, 6.0, 4)
+template:setBeam(10, 120,  90, 2500.0, 6.1, 4)
+template:setBeam(11, 120,  90, 2500.0, 6.0, 4)
+
+
+template:addRoomSystem(1, 0, 3, 1, "Maneuver");
+template:addRoomSystem(2, 1, 2, 2, "Reactor");
+template:addRoomSystem(1, 2, 1, 3, "RearShield");
+template:addRoomSystem(5, 2, 3, 1, "MissileSystem");
+template:addRoomSystem(8, 2, 1, 3, "FrontShield");
+template:addRoomSystem(2, 3, 2, 1, "Warp");
+template:addRoom(5, 3, 3, 1);
+template:addRoom(4, 2, 1, 3);
+template:addRoomSystem(2, 4, 2, 2, "JumpDrive");
+template:addRoomSystem(5, 4, 3, 1, "BeamWeapons");
+template:addRoomSystem(1, 6, 3, 1, "Impulse");
+
+template:addDoor(2, 1, true);
+template:addDoor(3, 3, true);
+template:addDoor(6, 3, true);
+template:addDoor(3, 4, true);
+template:addDoor(6, 4, true);
+template:addDoor(2, 6, true);
+
+template:addDoor(2, 3, false);
+template:addDoor(4, 2, false);
+template:addDoor(4, 4, false);
+template:addDoor(5, 3, false);
+template:addDoor(8, 3, false);
+
+
+variation = variation:copy("Cuirasse"):setType("playership"):setClass("Dussel","Battlecruiser")
+variation:setModel("Ender Battlecruiser")

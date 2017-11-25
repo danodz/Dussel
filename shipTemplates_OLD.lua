@@ -3,7 +3,7 @@ These are older ship templates, going to be replaced soon.
 ----------------------------------------------------------]]
 
 --[[ Player ships --]]
-template = ShipTemplate():setName("Player Cruiser"):setModel("battleship_destroyer_5_upgraded"):setType("playership")
+template = ShipTemplate():setName("Player Cruiser"):setModel("battleship_destroyer_5_upgraded")	--:setType("playership")
 template:setRadarTrace("radar_cruiser.png")
 --                  Arc, Dir, Range, CycleTime, Dmg
 template:setBeam(0, 90, -15, 1000.0, 6.0, 10)
@@ -59,7 +59,7 @@ template:addDoor(8, 4, false);
 --template:addDoor(2, 2, false);
 --template:addDoor(2, 5, false);
 
-template = ShipTemplate():setName("Player Missile Cr."):setModel("space_cruiser_4"):setType("playership")
+template = ShipTemplate():setName("Player Missile Cr."):setModel("space_cruiser_4") --:setType("playership")
 template:setRadarTrace("radar_missile_cruiser.png")
 --                  Arc, Dir, Range, CycleTime, Dmg
 --Setup 7 tubes. 2 forward for any type of missile, and 2 on each side of the ship and 1 in the rear. The side tubes are exclusive for homing missiles. The rear is exclusive for mines.
@@ -113,7 +113,7 @@ template:addDoor(6, 4, false);
 template:addDoor(8, 3, false);
 template:addDoor(8, 4, false);
 
-template = ShipTemplate():setName("Player Fighter"):setModel("small_fighter_1"):setType("playership")
+template = ShipTemplate():setName("Player Fighter"):setModel("small_fighter_1")	--:setType("playership")
 template:setRadarTrace("radar_fighter.png")
 --                  Arc, Dir, Range, CycleTime, Dmg
 template:setBeam(0, 40, -10, 1000.0, 6.0, 8)
@@ -264,7 +264,7 @@ template:setShields(300, 300, 300, 300, 300)
 template:setSpeed(30, 1.5, 5)
 
 -- The battle station is a huge ship with many defensive features. It can be docked by smaller ships.
-template = ShipTemplate():setName("Battlestation"):setModel("Ender Battlecruiser")
+template = ShipTemplate():setName("Battlestation"):setModel("Ender Battlecruiser")	--:setType("playership")
 template:setRadarTrace("radar_battleship.png")
 --                  Arc, Dir, Range, CycleTime, Dmg
 template:setBeam(0, 120, -90, 2500.0, 6.1, 4)

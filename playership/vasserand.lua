@@ -10,3 +10,4 @@ vasserand:setWeaponStorageMax("Mine", 4);
 vasserand:setWeaponStorage("Mine", 4);
 -- 1 nuke
 vasserand:setWeaponStorage("Nuke", 1);
+
