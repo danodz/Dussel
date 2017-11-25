@@ -112,7 +112,7 @@ function stationComms(price)
                 addCommsReply("oui", convertStationComms(price));
             end
         else
-            commsMessage = commsMessage .. "\n\nPas dock";
+            commsMessage = commsMessage .. "\n\nVous n'êtes pas docké";
         end
         setCommsMessage(commsMessage);
     end
