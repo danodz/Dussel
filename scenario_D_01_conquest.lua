@@ -1,11 +1,12 @@
 --Name: Conquete
 
 printTimer = 0;
+spawnWaveTimer = 0;
 
 function init()
-    fuelStation = mkConquestStation("Loyal Barons", "Fuel",-9305, 492);
-    ammoStation = mkConquestStation("Loyal Barons", "Ammo",40622, -70410);
-    engiStation = mkConquestStation("Loyal Barons", "Engi",-59380, -68638);
+    fuelStation = mkConquestStation("Loyal Loyalistes", "Fuel",-9305, 492);
+    ammoStation = mkConquestStation("Loyal Loyalistes", "Ammo",40622, -70410);
+    engiStation = mkConquestStation("Loyal Loyalistes", "Engi",-59380, -68638);
     stations = {fuelStation, ammoStation, engiStation};
     drawMap();
 
@@ -15,6 +16,10 @@ function init()
     SpaceStation():setTemplate("Large Station"):setPosition(-10945, -38542):setFaction("Rebels"):setCallSign("Supply");
     
     playerShipsGM();
+    addGMFunction("spawn wave", spawnWave);
+    for i=1,10,1 do
+        spawnWave();
+    end
 end
 
 function playerShipsGM()
@@ -25,8 +30,25 @@ function playerShipsGM()
     addGMFunction("viceImperiumDoleo", function() Script():run("playership/viceImperiumDoleo.lua"); end);
 end
 
+function spawnWave()
+    local x = irandom(-70000, 46000);
+    local y = irandom(-101000, 0);
+    generateMobs(irandom(2,4), "MU52 Hornet", "Loyalistes", x, y, 5000, function(mob) mob:orderRoaming() end);
+
+    if irandom(1,10) == 10 then
+        generateMobs(1, "Atlantis X23", "Loyalistes", x, y, 5000, function(mob) mob:orderRoaming() end);
+    end
+
+    spawnWaveTimer = 0;
+end
+
 function update()
     printTimer = printTimer + 1;
+    spawnWaveTimer = spawnWaveTimer + 1;
+
+    if spawnWaveTimer == 60 * 60 * 5 then
+        spawnWave();
+    end
 
     for i,station in pairs(stations) do
         local faction = split(station:getFaction(), " ")[2];
@@ -49,11 +71,12 @@ function update()
 
         local hornets = countLivingAndDead(station.data.troops.hornets).living;
         local atlantis = countLivingAndDead(station.data.troops.atlantis).living;
-        if station.data.respawnTimer >= 1000 then
+        local piranah = countLivingAndDead(station.data.troops.piranah).living;
+        if station.data.respawnTimer >= 60 * 60 * 2 then
             local x,y = station:getPosition();
 
             function addHornets()
-                mobs = generateMobs(irandom(1,3), "MU52 Hornet", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
+                mobs = generateMobs(1, "MU52 Hornet", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
                 for i,mob in pairs(mobs) do
                     table.insert(station.data.troops.hornets, mob);
                     mob:setScannedByFaction(faction, true);
@@ -68,6 +91,14 @@ function update()
                 end
             end
 
+            function addPiranah()
+                mobs = generateMobs(1, "Piranha F12", faction, x, y, 1000, function(mob) mob:orderDefendTarget(station) end);
+                for i,mob in pairs(mobs) do
+                    table.insert(station.data.troops.piranah, mob);
+                    mob:setScannedByFaction(faction, true);
+                end
+            end
+
             if hornets < 6 then
                 addHornets();
                 station.data.respawnTimer = 0;
@@ -77,8 +108,8 @@ function update()
             else if hornets < 12 then
                 addHornets();
                 station.data.respawnTimer = 0;
-            else if atlantis < 2 then
-                addAtlantis();
+            else if piranah < 1 then
+                addPiranah();
                 station.data.respawnTimer = 0;
             else
                 station.data.respawnTimer = 0;
@@ -95,10 +126,11 @@ function mkConquestStation(faction, callSign, x, y)
     station.data = { points = { Vindh = 0
                               , Arianne = 0
                               , Merillon = 0
-                              , Barons = 0
+                              , Loyalistes = 0
                               }
                    , troops = { hornets = {}
                               , atlantis = {}
+                              , piranah = {}
                               }
                    , respawnTimer = 750
                    , pointTimer = 0
@@ -255,29 +287,12 @@ function drawMap()
     Asteroid():setPosition(6803, -81790)
     Asteroid():setPosition(6017, -80379)
     Asteroid():setPosition(6963, -79404)
-    Asteroid():setPosition(6948, -78095)
-    Asteroid():setPosition(6046, -78197)
-    Asteroid():setPosition(6003, -77920)
-    Asteroid():setPosition(6366, -77528)
-    Asteroid():setPosition(7850, -77047)
-    Asteroid():setPosition(8301, -78357)
-    Asteroid():setPosition(9116, -78633)
-    Asteroid():setPosition(8025, -79695)
-    Asteroid():setPosition(7574, -80495)
-    Asteroid():setPosition(8432, -80160)
     Asteroid():setPosition(9203, -77513)
-    Asteroid():setPosition(9392, -77266)
-    Asteroid():setPosition(9683, -78138)
-    Asteroid():setPosition(9625, -79055)
-    Asteroid():setPosition(11225, -77978)
     Asteroid():setPosition(10643, -78371)
-    Asteroid():setPosition(11719, -78648)
-    Asteroid():setPosition(13378, -78298)
     Asteroid():setPosition(12665, -77644)
     Asteroid():setPosition(8548, -80917)
     Asteroid():setPosition(10483, -80771)
     Asteroid():setPosition(12272, -78298)
-    Asteroid():setPosition(12607, -81062)
     Asteroid():setPosition(15982, -77149)
     Asteroid():setPosition(14032, -81528)
     Asteroid():setPosition(14003, -77702)
