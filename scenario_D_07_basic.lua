@@ -56,6 +56,9 @@ function addWave(enemyList,type,a,d)
 	end
 end
 
+
+
+
 -- Returns a semi-random heading.
 -- cnt: A counter, generally between 1 and the number of enemy groups.
 -- enemy_group_count: A number of enemy groups, generally set by the scenario type.
@@ -71,9 +74,7 @@ end
 
 function init()
 	-- Spawn a player Atlantis.
-	
-	Script():run("playership/all_playership.lua");
-
+	playerShipsGM();
 	--player = PlayerSpaceship():setFaction("Human Navy"):setTemplate("Atlantis")
 
 	enemyList = {}
@@ -82,16 +83,16 @@ function init()
 
 	-- Randomly distribute 3 allied stations throughout the region.
 	n = 0
-	station_1 = SpaceStation():setTemplate('Small Station'):setRotation(random(0, 360)):setFaction("Dussel")
+	station_1 = SpaceStation():setTemplate('Small Station'):setRotation(random(0, 360)):setFaction("Resistance"):setCallSign("Station résidentielle")
 	table.insert(stationList, station_1)
 	table.insert(friendlyList, setCirclePos(station_1, 0, 0, n * 360 / 3 + random(-30, 30), random(10000, 22000)))
 	n = 1
 	table.insert(stationList, station_2)
-	station_2 = SpaceStation():setTemplate('Medium Station'):setRotation(random(0, 360)):setFaction("Dussel")
+	station_2 = SpaceStation():setTemplate('Medium Station'):setRotation(random(0, 360)):setFaction("Resistance"):setCallSign("Temple Céleste")
 	table.insert(friendlyList, setCirclePos(station_2, 0, 0, n * 360 / 3 + random(-30, 30), random(10000, 22000)))
 	n = 2
 	table.insert(stationList, station_3)
-	station_3 = SpaceStation():setTemplate('Large Station'):setRotation(random(0, 360)):setFaction("Dussel")
+	station_3 = SpaceStation():setTemplate('Large Station'):setRotation(random(0, 360)):setFaction("Resistance"):setCallSign("Université d'Emerand")
 	table.insert(friendlyList, setCirclePos(station_3, 0, 0, n * 360 / 3 + random(-30, 30), random(10000, 22000)))
 
 	-- Start the players with 300 reputation.
@@ -149,12 +150,12 @@ function init()
 		d = random(15000, 20000 + math.random(20) * 1500)
 		friendlyShip = {'Phobos T3','MU52 Hornet','Piranha F12'}
 		friendlyShipIndex = math.random(#friendlyShip)
-		table.insert(friendlyList, setCirclePos(CpuShip():setTemplate(friendlyShip[friendlyShipIndex]):setRotation(a):setFaction("Dussel"):orderRoaming():setScanned(true), 0, 0, a + random(-5, 5), d + random(-100, 100)))
+		table.insert(friendlyList, setCirclePos(CpuShip():setTemplate(friendlyShip[friendlyShipIndex]):setRotation(a):setFaction("Resistance"):orderRoaming():setScanned(true), 0, 0, a + random(-5, 5), d + random(-100, 100)))
 	end)
 
 	-- Let the GM declare the Humans (players) victorious.
 	addGMFunction("Win", function()
-		victory("Dussel");
+		victory("Resistance");
 	end)
 
 	-- Set the number of enemy waves based on the scenario variation.
@@ -253,6 +254,14 @@ function init()
 	Script():run("util_random_transports.lua")
 end
 
+function playerShipsGM()
+    addGMFunction("all_playership", function() Script():run("playership/all_playership.lua"); end);
+    addGMFunction("nexusVoid", function() Script():run("playership/nexusVoid.lua"); end);
+    addGMFunction("succubiCherubim", function() Script():run("playership/succubiCherubim.lua"); end);
+    addGMFunction("vasserand", function() Script():run("playership/vasserand.lua"); end);
+    addGMFunction("viceImperiumDoleo", function() Script():run("playership/viceImperiumDoleo.lua"); end);
+end
+
 function update(delta)
 	enemy_count = 0
 	friendly_count = 0
@@ -277,7 +286,7 @@ function update(delta)
 	-- In the Empty variation, the GM must use the Win button to declare
 	-- a Human victory.
 	if (enemy_count == 0 and getScenarioVariation() ~= "Empty") then
-		victory("Dussel");
+		victory("Resistance");
 	end
 
 	-- If all allies are destroyed, the Humans (players) lose.
