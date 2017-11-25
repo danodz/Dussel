@@ -10,10 +10,10 @@ function init()
     stations = {fuelStation, ammoStation, engiStation};
     drawMap();
 
-    SpaceStation():setTemplate("Large Station"):setPosition(-54970, -25095):setFaction("Rebels"):setCallSign("Supply");
-    SpaceStation():setTemplate("Large Station"):setPosition(36027, -27490):setFaction("Rebels"):setCallSign("Supply");
-    SpaceStation():setTemplate("Large Station"):setPosition(-11129, -85331):setFaction("Rebels"):setCallSign("Supply");
-    SpaceStation():setTemplate("Large Station"):setPosition(-10945, -38542):setFaction("Rebels"):setCallSign("Supply");
+    SpaceStation():setTemplate("Large Station"):setPosition(-54970, -25095):setFaction("Resistance"):setCallSign("Supply");
+    SpaceStation():setTemplate("Large Station"):setPosition(36027, -27490):setFaction("Resistance"):setCallSign("Supply");
+    SpaceStation():setTemplate("Large Station"):setPosition(-11129, -85331):setFaction("Resistance"):setCallSign("Supply");
+    SpaceStation():setTemplate("Large Station"):setPosition(-10945, -38542):setFaction("Resistance"):setCallSign("Supply");
     
     playerShipsGM();
     addGMFunction("spawn wave", spawnWave);
