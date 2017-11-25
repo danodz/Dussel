@@ -1,10 +1,6 @@
 --Name: Encan
 printTimer = 0;
 
-players = { PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Larth1"):setPosition(-7640, 39663):setWeaponStorage("Nuke", 0):setReputationPoints(1000)
-          , PlayerSpaceship():setFaction("Merillon"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-7540, 39663):setWeaponStorage("Nuke", 1):setReputationPoints(1000)
-          };
-
 function init()
     script = Script()
     addGMFunction("Update Ships", function() script:run("shipUpdate.lua") end);
@@ -13,6 +9,32 @@ function init()
     ammoStation = mkConquestStation("Loyal Merillon", "Ammo", -9857, 37918);
     engiStation = mkConquestStation("Loyal Barons", "Engi", -5632, 39312);
     stations = {fuelStation, ammoStation, engiStation};
+
+    playerShipsGM();
+    addGMFunction("spawn wave", spawnWave);
+    for i=1,10,1 do
+        spawnWave();
+    end
+end
+
+function playerShipsGM()
+    addGMFunction("all_playership", function() Script():run("playership/all_playership.lua"); end);
+    addGMFunction("nexusVoid", function() Script():run("playership/nexusVoid.lua"); end);
+    addGMFunction("succubiCherubim", function() Script():run("playership/succubiCherubim.lua"); end);
+    addGMFunction("vasserand", function() Script():run("playership/vasserand.lua"); end);
+    addGMFunction("viceImperiumDoleo", function() Script():run("playership/viceImperiumDoleo.lua"); end);
+end
+
+function spawnWave()
+    local x = irandom(-70000, 46000);
+    local y = irandom(-101000, 0);
+    generateMobs(irandom(2,4), "MU52 Hornet", "Loyalistes", x, y, 5000, function(mob) mob:orderRoaming() end);
+
+    if irandom(1,10) == 10 then
+        generateMobs(1, "Atlantis X23", "Loyalistes", x, y, 5000, function(mob) mob:orderRoaming() end);
+    end
+
+    spawnWaveTimer = 0;
 end
 
 function update()
