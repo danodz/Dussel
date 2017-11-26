@@ -1,12 +1,25 @@
 --Name : Champs de mine
 
 function init()
-    player = PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Camarade"):setPosition(11900, 7600);
-    player:setHull(250)
-    player:setShields(200,200)
-    player:setRepairCrewCount(0);
-    player:commandAddWaypoint(30033, -5021);
-    player:commandAddWaypoint(57317, -13281);
+
+    nexusvoid = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("NV"):setPosition(11900, 7600);
+    nexusvoid:setJumpDrive(false)
+    nexusvoid:setShields(200,200)
+    nexusvoid:setRepairCrewCount(0);
+    nexusvoid:setHull(250)
+    nexusvoid:commandAddWaypoint(30033, -5021);
+    nexusvoid:commandAddWaypoint(57317, -13281);
+
+    viceimperium = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("VID"):setPosition(11900, 7600);
+
+    -- batterie d'appoint +100
+    viceimperium:setEnergyLevelMax(900)
+    viceimperium:setEnergyLevel(900)
+    viceimperium:setShields(200,200)
+    viceimperium:setRepairCrewCount(0);
+    viceimperium:setHull(250)
+    viceimperium:commandAddWaypoint(30033, -5021);
+    viceimperium:commandAddWaypoint(57317, -13281);
 
     station = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("DS15037"):setPosition(57317, -13281)
 
@@ -904,19 +917,29 @@ function init()
     Mine():setPosition(37909, 7099)
     Mine():setPosition(39032, 9479)
     Mine():setPosition(41083, 11763)
-    station:sendCommsMessage(player, "Vous etes scrap, votre ingenieur est mort. Venez me voir au cadran E7 pour une réparation d'urgence. Je remarque des aussi des ressources au cadron E6");
+    station:sendCommsMessage(nexusvoid, "Lors de votre dernier jump, vous avez frappé un champs de mine, votre ingenieur est fortement blessé. Venez me voir au cadran E7 pour une réparation d'urgence. Je remarque des aussi des ressources au cadron E6");
+    station:sendCommsMessage(viceimperium, "Lors de votre dernier jump, vous avez frappé un champs de mine, votre ingenieur est fortement blessé. Venez me voir au cadran E7 pour une réparation d'urgence. Je remarque des aussi des ressources au cadron E6");
 
 end
 
 function update()
-    player:setSystemHealth("Maneuver", 0.95);
-    player:setSystemHealth("BeamWeapons", 0.84);
-    player:setSystemHealth("RearShield", 0.43);
-    player:setSystemHealth("Reactor", 0.78);
-    player:setSystemHealth("JumpDrive", -1.0);
-    player:setSystemHealth("FrontShield", 0.88);
-    player:setSystemHealth("Impulse", 0.9);
-    player:setSystemHealth("MissileSystem", 0.3);
+    nexusvoid:setSystemHealth("Maneuver", 0.95);
+    nexusvoid:setSystemHealth("BeamWeapons", 0.84);
+    nexusvoid:setSystemHealth("RearShield", 0.43);
+    nexusvoid:setSystemHealth("Reactor", 0.78);
+    nexusvoid:setSystemHealth("JumpDrive", -1.0);
+    nexusvoid:setSystemHealth("FrontShield", 0.88);
+    nexusvoid:setSystemHealth("Impulse", 0.9);
+    nexusvoid:setSystemHealth("MissileSystem", 0.3);
+
+    viceimperium:setSystemHealth("Maneuver", 0.95);
+    viceimperium:setSystemHealth("BeamWeapons", 0.84);
+    viceimperium:setSystemHealth("RearShield", 0.43);
+    viceimperium:setSystemHealth("Reactor", 0.78);
+    viceimperium:setSystemHealth("JumpDrive", -1.0);
+    viceimperium:setSystemHealth("FrontShield", 0.88);
+    viceimperium:setSystemHealth("Impulse", 0.9);
+    viceimperium:setSystemHealth("MissileSystem", 0.3);
 end
 
 -- Will generate a structured minefield x and y are top left the width and height are in mine numbers

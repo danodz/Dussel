@@ -1,4 +1,4 @@
---Name: C01-03B Station recherche
+--Name: Butin
 crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
 
 nbPlayers = 3;
@@ -94,10 +94,24 @@ function init()
     temple = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("Temple"):setPosition(1000, 1000);
     stationDuc = SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setCallSign("Duchesse3"):setPosition(45500, -25000);
     templeDefence = generateMobs(10, "MT52 Hornet", "Loyalistes", 1000, 1000, 1000, function(mob) mob:orderDefendTarget(temple) end );
-    
-    players = { --PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setPosition(-7640, 39663)
-              PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("SCHER"):setPosition(21000, 85400);
-              --, PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER"):setPosition(-7640, 39663)
+
+
+viceimperium = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("VID"):setPosition(0,0);
+
+
+-- batterie d'appoint +100
+viceimperium:setEnergyLevelMax(900)
+viceimperium:setEnergyLevel(900)
+
+
+nexusvoid = PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("NV"):setPosition(0,0);
+
+nexusvoid:setWarpDrive(true)
+
+
+
+    players = { viceimperium
+                , nexusvoid
               };
 
     scenarioParts[scenarioPart].init();
