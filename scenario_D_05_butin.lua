@@ -90,7 +90,7 @@ function init()
         addGMFunction(partName, function() changePart(partName) end);
     end
 
-    station = SpaceStation():setTemplate("Medium Station"):setFaction("Vindh"):setCallSign("Vini-3"):setPosition(21000, 85400);
+    station = SpaceStation():setTemplate("Medium Station"):setFaction("Arianne"):setCallSign("Vini-3"):setPosition(21000, 85400);
     temple = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("Temple"):setPosition(1000, 1000);
     stationDuc = SpaceStation():setTemplate("Medium Station"):setFaction("Loyalistes"):setCallSign("Duchesse3"):setPosition(45500, -25000);
     templeDefence = generateMobs(10, "MT52 Hornet", "Loyalistes", 1000, 1000, 1000, function(mob) mob:orderDefendTarget(temple) end );
