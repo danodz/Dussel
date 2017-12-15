@@ -1,7 +1,5 @@
---Name: C01-03A Révolte station
+--Name: C01-03A Révolte statio2
 crewPosition = {"Helms", "Weapons", "Engineering", "Science", "Relay"};
-
-nbPlayers = 3;
 
 scenarioPart = "alert";
 
@@ -10,28 +8,27 @@ scenarioParts = {
 -- Part 1
     alert = {
         init = function() 
-            sendCommToAll(rebelStation, "Appel à l'aide ! Nous avons reconquis une base du Duc au secteur E2, mais les loyalistes sont revenus en force. Nous avons besoin d'aide !");
-            rebels = generateMobs(5, "MT52 Hornet", "Rebelles", -40786, -7425, 1000, function(mob) mob:orderDefendTarget(rebelStation) end)
+            sendCommToAll(ResistanceStation, "Appel à l'aide ! Nous avons reconquis une base du Duc au secteur E2, mais les loyalistes sont revenus en force. Nous avons besoin d'aide !");
+            Resistance = generateMobs(5, "MT52 Hornet", "Resistance", -40786, -7425, 1000, function(mob) mob:orderDefendTarget(ResistanceStation) end)
             attLoyalists = generateMobs(10, "MT52 Hornet", "Loyalistes", -50786, -7425, 2000, function(mob) mob:orderRoaming() end)
-            stationLoyal:sendCommsMessage(players[3], "Capitaine du Ducal-2, la station en C6 est traitre au Duc et se dit rebelle. Montrez-leur la force du Duc.")
 
         end,
         update = function()
-            -- if allDead(attloyalists) then
-            --     changePart("explore");
-            -- end
+            if allDead(attloyalists) then
+                changePart("explore");
+            end
         end
     },
 
 -- Part 2
     explore = {
         init = function() 
-            sendCommToAll(rebelStation, "Merci de votre aide, venez nous voir en personne sur la base d'opération. Nous avons du bon équipement à bon prix et une offre à vous faire...")
+            sendCommToAll(ResistanceStation, "Merci de votre aide, venez nous voir en personne sur la base d'opération. Nous avons du bon équipement à bon prix et une offre à vous faire...")
         end,
         update = function()
             for i,player in pairs(players) do
                 allDocked = true;
-                if player:isDocked(rebelStation) then
+                if player:isDocked(ResistanceStation) then
                     station:sendCommsMessage(player, "Choisisez qui entrera dans la station et envoyez les à la console");
                     player.docked = true;
                 end
@@ -48,7 +45,7 @@ scenarioParts = {
 -- Part 3
     liberation = {
         init = function() 
-            sendCommToAll(rebelStation, "Aidez nous à libérer les autres stations en C4 et H5 !");
+            sendCommToAll(ResistanceStation, "Aidez nous à libérer les autres stations en C4 et H5 !");
         end,
         update = function()
             local allLiberated = true;
@@ -58,26 +55,25 @@ scenarioParts = {
                     station.station:setFaction("Independent");
                     for i,player in pairs(players) do
                         if player:isDocked(station.station) then
-                            station:conquered("Rebelles");
+                            station:conquered("Resistance");
                             station:sendCommsMessage(player, "Merci de nous avoir aidé, maintenant par le Céleste, aidez-nous à libérer une autre station.");
                         end
                     end
                 end
             end
             if allLiberated then
-                victory("Vindh")
             end
         end
     },
 --     retour = {
 --         init = function()
---             sendCommToAll(rebelStation, "Merci d'avoir libéré les environs. Revenez me voir");
+--             sendCommToAll(ResistanceStation, "Merci d'avoir libéré les environs. Revenez me voir");
 --         end,
 --         update = function()
             
 --             for i,player in pairs(players) do
 --                 allDocked = true;
---                 if player:isDocked(rebelStation) and not player.docked then
+--                 if player:isDocked(ResistanceStation) and not player.docked then
 --                     station:sendCommsMessage(player, "Merci d'avoir libéré les environs. Revenez me voir");
 --                     player.docked = true;
 --                 end
@@ -90,9 +86,8 @@ scenarioParts = {
 };
 
 function init()
-
-    miningStation = SpaceStation():setTemplate("Medium Station"):setFaction("Rebelles"):setCallSign("Station minière"):setPosition(-40692, -9680)
-    rebelStation = SpaceStation():setTemplate("Large Station"):setFaction("Rebelles"):setCallSign("Base d'opération rebelle"):setPosition(-40786, -7425)
+    miningStation = SpaceStation():setTemplate("Medium Station"):setFaction("Resistance"):setCallSign("Station minière"):setPosition(-40692, -9680)
+    ResistanceStation = SpaceStation():setTemplate("Large Station"):setFaction("Resistance"):setCallSign("Base d'opération "):setPosition(-40786, -7425)
     
     stationsToLiberate = { makeStationToLiberate("Loyalistes", -11839, -42575, 10)
                          , makeStationToLiberate("Loyalistes", 11839, 42575, 10)
@@ -102,11 +97,9 @@ function init()
         addGMFunction(partName, function() changePart(partName) end);
     end
     
-    players = { --PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("ARI"):setPosition(-7640, 39663)
-              PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Larth1"):setPosition(-95000, 32500):setWeaponStorage("Nuke", 0)
-              , PlayerSpaceship():setFaction("Vindh"):setTemplate("VCorvette"):setCallSign("Vasserand"):setPosition(-95000, 32500):setWeaponStorage("Nuke", 0)
-              , PlayerSpaceship():setFaction("Loyalistes"):setTemplate("MCorvette"):setCallSign("Ducal-2"):setPosition(46000, -13500):setWeaponStorage("Nuke", 0):setReputationPoints(150):setShieldsMax(160, 160)
-              --, PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("MER"):setPosition(-7640, 39663)
+    players = { PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("NV"):setPosition(-95000, 32500)
+              , PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("SCHER"):setPosition(-95000, 32500)
+              , PlayerSpaceship():setFaction("Merillon"):setTemplate("MCorvette"):setCallSign("VID"):setPosition(-95000, 32500)
               };
               
     station = SpaceStation():setTemplate("Medium Station"):setFaction("Vindh"):setPosition(-95000, 32500);
@@ -114,23 +107,6 @@ function init()
 
 
     scenarioParts[scenarioPart].init();
-
-    addGMFunction("CleanShips", function()
-        for i,player in pairs(players) do
-
-            local emptyShip = true
-
-            for i,position in pairs(crewPosition) do
-                if  player:hasPlayerAtPosition(position) then
-                    emptyShip = false
-                end
-            end
-
-            if emptyShip then
-               player:destroy()
-            end
-        end
-    end)
 
     Nebula():setPosition(41642, -11011)
     Nebula():setPosition(9913, -35315)
@@ -282,21 +258,21 @@ function init()
     WarpJammer():setFaction("Independent"):setPosition(-39708, -48479)
     WarpJammer():setFaction("Independent"):setPosition(9913, 53799)
 
-    stationRebel2 = SpaceStation():setTemplate("Medium Station"):setFaction("Rebelles"):setCallSign("Liberta-3"):setPosition(28268, -52829)
+    stationRebel2 = SpaceStation():setTemplate("Medium Station"):setFaction("Resistance"):setCallSign("Liberta-3"):setPosition(28268, -52829)
 
-    CpuShip():setFaction("Rebelles"):setTemplate("MU52 Hornet"):setCallSign("BR42"):setPosition(29697, -53432):orderDefendTarget(stationRebel2)
+    CpuShip():setFaction("Resistance"):setTemplate("MU52 Hornet"):setCallSign("BR42"):setPosition(29697, -53432):orderDefendTarget(stationRebel2)
     Mine():setPosition(31178, -54217)
     Mine():setPosition(35047, -46190)
-    CpuShip():setFaction("Rebelles"):setTemplate("MU52 Hornet"):setCallSign("BR44"):setPosition(28188, -50369):orderDefendTarget(stationRebel2)
+    CpuShip():setFaction("Resistance"):setTemplate("MU52 Hornet"):setCallSign("BR44"):setPosition(28188, -50369):orderDefendTarget(stationRebel2)
     Mine():setPosition(29828, -49829)
     Mine():setPosition(21396, -54488)
-    CpuShip():setFaction("Rebelles"):setTemplate("MU52 Hornet"):setCallSign("CV39"):setPosition(25257, -52677):orderDefendTarget(stationRebel2)
+    CpuShip():setFaction("Resistance"):setTemplate("MU52 Hornet"):setCallSign("CV39"):setPosition(25257, -52677):orderDefendTarget(stationRebel2)
     Mine():setPosition(26115, -50167)
     Mine():setPosition(22521, -46404)
-    CpuShip():setFaction("Rebelles"):setTemplate("Atlantis X23"):setCallSign("Liberté-3"):setPosition(28498, -54497):orderDefendTarget(stationRebel2):setWeaponStorage("Homing", 6)
-    CpuShip():setFaction("Rebelles"):setTemplate("MU52 Hornet"):setCallSign("SS40"):setPosition(26323, -54142):orderDefendTarget(stationRebel2)
-    CpuShip():setFaction("Rebelles"):setTemplate("MU52 Hornet"):setCallSign("S41"):setPosition(28188, -56051):orderDefendTarget(stationRebel2)
-    CpuShip():setFaction("Rebelles"):setTemplate("MU52 Hornet"):setCallSign("VK43"):setPosition(31562, -51745):orderDefendTarget(stationRebel2)
+    CpuShip():setFaction("Resistance"):setTemplate("Atlantis X23"):setCallSign("Liberté-3"):setPosition(28498, -54497):orderDefendTarget(stationRebel2):setWeaponStorage("Homing", 6)
+    CpuShip():setFaction("Resistance"):setTemplate("MU52 Hornet"):setCallSign("SS40"):setPosition(26323, -54142):orderDefendTarget(stationRebel2)
+    CpuShip():setFaction("Resistance"):setTemplate("MU52 Hornet"):setCallSign("S41"):setPosition(28188, -56051):orderDefendTarget(stationRebel2)
+    CpuShip():setFaction("Resistance"):setTemplate("MU52 Hornet"):setCallSign("VK43"):setPosition(31562, -51745):orderDefendTarget(stationRebel2)
     Mine():setPosition(37592, -48142)
 
 
@@ -305,10 +281,6 @@ end
 
 function update()
     scenarioParts[scenarioPart].update();
-
-    if not stationRebel2:isValid() then
-        stationLoyal:sendCommsMessage(players[3], "Capitaine du Ducal-2, félicitation pour cet effort. D'autres stations se sont rebellées dans le secteur. Détruisez-les, de même que les forces Vindh présentes...")
-    end
 end
 
 function changePart(partName)
