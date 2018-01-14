@@ -15,14 +15,8 @@ function init()
     trader.kredits = 100;
     trader.inventorySpace = 80;
     
-    trader:addCustomButton("relay", "displayInventory", "Afficher l'inventaire", function()
-        local inv = "";
-        for name,item in pairs(trader.inventory) do
-            if item.amount ~= 0 then
-                inv = inv .. name .. " : " .. item.amount .. "\n";
-            end
-        end
-        trader:addCustomMessage("relay", "displayInventoryMsg", inv);
+    trader:addCustomButton("relay", "displayInventory", "Afficher l'inventaire", function() 
+        trader:addCustomMessage("relay", "displayInventoryMsg", getInventoryStr(trader));
     end);
     
     local questStart = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("DS5"):setPosition(0,0);
@@ -34,7 +28,8 @@ function init()
 
     questStart:setCommsFunction(function()
         setCommsMessage("Que voulez vous?");
-        stationTrade();
+        tradeBuyComm();
+        tradeSellComm();
     end);
 end
 

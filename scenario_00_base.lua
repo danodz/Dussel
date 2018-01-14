@@ -20,14 +20,8 @@ addGMFunction("viceImperiumDoleo", playerShipFn("viceImperiumDoleo"));
     trader.kredits = 100;
     trader.inventorySpace = 80;
     
-    trader:addCustomButton("relay", "displayInventory", "Afficher l'inventaire", function()
-        local inv = "";
-        for name,item in pairs(trader.inventory) do
-            if item.amount ~= 0 then
-                inv = inv .. name .. " : " .. item.amount .. "\n";
-            end
-        end
-        trader:addCustomMessage("relay", "displayInventoryMsg", inv);
+    trader:addCustomButton("relay", "displayInventory", "Afficher l'inventaire", function() 
+        trader:addCustomMessage("relay", "displayInventoryMsg", getInventoryStr(trader));
     end);
     
     local questStart = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("DS5"):setPosition(0,0);
@@ -39,7 +33,8 @@ addGMFunction("viceImperiumDoleo", playerShipFn("viceImperiumDoleo"));
 
     questStart:setCommsFunction(function()
         setCommsMessage("Que voulez vous?");
-        stationTrade();
+        tradeBuyComm();
+        tradeSellComm();
     end);
 end
 
@@ -219,8 +214,20 @@ function makeInventory(override)
     return inv
 end
 
-function stationTrade()
+function getInventoryStr(player)
+    local inv = "Kredits : " .. player.kredits .. "\n";
+    for name,item in pairs(player.inventory) do
+        if item.amount ~= 0 then
+            inv = inv .. name .. " : " .. item.amount .. "\n";
+        end
+    end
+    return inv
+end
+
+function tradeBuyComm()
     addCommsReply("Acheter", stationTradeBuyList);
+end
+function tradeSellComm()
     addCommsReply("Vendre", stationTradeSellList);
 end
 

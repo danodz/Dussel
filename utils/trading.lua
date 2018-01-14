@@ -18,8 +18,20 @@ function makeInventory(override)
     return inv
 end
 
-function stationTrade()
+function getInventoryStr(player)
+    local inv = "Kredits : " .. player.kredits .. "\n";
+    for name,item in pairs(player.inventory) do
+        if item.amount ~= 0 then
+            inv = inv .. name .. " : " .. item.amount .. "\n";
+        end
+    end
+    return inv
+end
+
+function tradeBuyComm()
     addCommsReply("Acheter", stationTradeBuyList);
+end
+function tradeSellComm()
     addCommsReply("Vendre", stationTradeSellList);
 end
 
