@@ -38,6 +38,14 @@ end
 
 --[[{{utils/dussel.lua}}]]--
 
+availableItems = { Patates = { amount = 0, value = 5 }
+                 , Fer = { amount = 0, value = 5 }
+                 , Carbone = { amount = 0, value = 5 }
+                 , questItem = { amount = 0, value = 5 }
+                 , Homing = { amount = 0, value = 5 }
+                 , Mine = { amount = 0, value = 5 }
+                 }
+
 --[[{{utils/trading.lua}}]]--
 
 --[[{{utils/shipUpdate.lua}}]]--

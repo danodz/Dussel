@@ -5,9 +5,6 @@ function playerShipFn(name)
     end
 end
 
-function update()
-end
-
 function printShips()
     for i,player in pairs(players) do
         print(player:getCallSign());

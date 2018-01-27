@@ -1,14 +1,6 @@
-inventoryTemplate = { Patates = { amount = 0, value = 5 }
-                    , Fer = { amount = 0, value = 5 }
-                    , Carbone = { amount = 0, value = 5 }
-                    , questItem = { amount = 0, value = 5 }
-                    , Homing = { amount = 0, value = 5 }
-                    , Mine = { amount = 0, value = 5 }
-                    }
-
 function makeInventory(override)
     local inv = {};
-    for name,value in pairs(inventoryTemplate) do
+    for name,value in pairs(availableItems) do
         if override[name] then
             inv[name] = deepCopy(override[name]);
         else
@@ -39,7 +31,7 @@ function stationTradeBuyList()
     setCommsMessage("Que voulez-vous acheter?");
     for name,item in pairs(comms_target.inventory) do
         if not (item.amount == 0) then
-            addCommsReply("nous avons " .. item.amount .. " " .. name .. " pour " .. item.value .. " rep", stationTradeBuyItem(name, item) );
+            addCommsReply("nous avons " .. item.amount .. " " .. name .. " pour " .. item.value .. " Kredits", stationTradeBuyItem(name, item) );
         end
     end
 end

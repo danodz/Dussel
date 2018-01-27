@@ -161,3 +161,12 @@ It is known, however, that the strict Ktlitan hierarchy starts with their Queen 
 Hive:setEnemy(human)
 Hive:setEnemy(exuari)
 Hive:setEnemy(kraylor)
+
+Gentil = FactionInfo():setName("Gentil")
+Gentil:setGMColor(255, 102, 0)
+Gentil:setDescription([[Les bon qui gagnent parce qu'ils sont fin]])
+
+Mechant = FactionInfo():setName("Michant")
+Mechant:setGMColor(255, 255, 128)
+Mechant:setEnemy(Gentil)
+Mechant:setDescription([[Les gros pas fin]])
