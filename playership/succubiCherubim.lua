@@ -1,5 +1,5 @@
-function spawnSuccubiCherubim()
-    succubiCherubim = PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("SCHER"):setPosition(0,0);
+function spawnSuccubiCherubim(x,y)
+    succubiCherubim = PlayerSpaceship():setFaction("Arianne"):setTemplate("ACorvette"):setCallSign("SCHER"):setPosition(x,y);
     
     succubiCherubim.inventory = makeInventory({});
     succubiCherubim.kredits = 300;
@@ -10,5 +10,5 @@ function spawnSuccubiCherubim()
     end);
     table.insert(players, succubiCherubim);
 end
-addGMFunction("Succubi Cherubim", spawnSuccubiCherubim);
+addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
