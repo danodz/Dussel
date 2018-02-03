@@ -38,7 +38,7 @@ end
 
 function stationTradeBuyItem(name, item)
     return function()
-        if comms_source.kredits <= item.value then
+        if comms_source.kredits < item.value then
             setCommsMessage("Vous n'avez pas les kredits pour l'acheter");
         else
     
