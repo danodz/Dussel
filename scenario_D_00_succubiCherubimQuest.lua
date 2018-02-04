@@ -35,11 +35,11 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
 
     --LABO
-    labo = SpaceStation():setTemplate("Small Station"):setFaction("Arianne"):setCallSign("labo"):setPosition(-28093, 42285)
-    labo.inventory = makeInventory( { technologie = {amount = 25, value = 0}
-                                    , matiere_premiere = {amount = 35, value = 0}
-                                    , produit_chimique = {amount = 10, value = 0}
-                                    , travailleur = {amount = 15, value = 0}
+    labo = SpaceStation():setTemplate("Small Station"):setFaction("Independent"):setCallSign("labo"):setPosition(-28093, 42285)
+    labo.inventory = makeInventory( { technologie = {amount = 0, value = 0}
+                                    , matiere_premiere = {amount = 0, value = 0}
+                                    , produit_chimique = {amount = 0, value = 0}
+                                    , travailleur = {amount = 0, value = 0}
                                     , drogue = {amount = 0, value = 0}
                                     });
     labo:setCommsFunction(function()
@@ -54,6 +54,9 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
     --La bande des fassmasha
     fassmashaIsOn = true;
     hellPit = SpaceStation():setTemplate("Small Station"):setFaction("Charognards"):setCallSign("hell pitt"):setPosition(29781, 48526)
+    hellPit:setCommsFunction(function()
+        setCommsMessage("j’vai vous chrusher la fass.");
+    end);
     fassmashaGangs = { fassmashaGang(), fassmashaGang(), fassmashaGang()}
 
     --Le sherif
@@ -135,7 +138,7 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
                                               });
     zoneIndustriel:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
-            setCommsMessage("Bienvenue a la zone industrielle 354. Le meilleur fournisseur de technologie du secteur 87. \n\nIl paraît qu'il y a un grand navire mercenaire qui a fait mouillage dans le secteur h5: le Sébastopol. On dit qu’ils sont puissants et respectent leurs contrats.");
+            setCommsMessage("Bienvenue a la zone industrielle 354. Le meilleur fournisseur de technologie du secteur 87. \n\nIl paraît qu'il y a un grand navire mercenaire qui a fait mouillage dans le secteur I5: le Sébastopol. On dit qu’ils sont puissants et respectent leurs contrats.");
             tradeSellComm();
             tradeBuyComm();
         else
