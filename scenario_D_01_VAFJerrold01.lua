@@ -588,17 +588,17 @@ function update()
 end
 
 function mkPatrollingShip(x1,y1,x2,y2)
-    local ship = CpuShip():setFaction("Merillon"):setTemplate("Adv. Striker"):setCallSign("NC22"):setPosition(x1, y1)
+    local ship = CpuShip():setFaction("Merillon"):setTemplate("Adv. Striker"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x1, y1)
     table.insert(merillonShips, ship);
     patrol(ship, {{x = x1, y = y1},{x = x2, y = y2}});
 end
 
 function mkFormation(x,y)
-    local ship = CpuShip():setFaction("Merillon"):setTemplate("F-Camarade"):setCallSign("S39"):setPosition(x, y):orderStandGround():setWeaponStorage("EMP", 1):setWeaponStorage("Nuke", 0)
-    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign("SS32"):setPosition(x+500, y):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
-    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign("SS32"):setPosition(x-500, y):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
-    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign("SS32"):setPosition(x, y+500):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
-    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign("SS32"):setPosition(x, y-500):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
+    local ship = CpuShip():setFaction("Merillon"):setTemplate("F-Camarade"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y):orderStandGround():setWeaponStorage("EMP", 1):setWeaponStorage("Nuke", 0)
+    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x+500, y):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
+    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x-500, y):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
+    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y+500):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
+    CpuShip():setFaction("Merillon"):setTemplate("Adder MK5"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x, y-500):setWeaponStorage("HVLI", 3):orderDefendLocation(x,y);
     table.insert(merillonShips, ship);
 end
 
