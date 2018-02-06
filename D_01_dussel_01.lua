@@ -1,5 +1,5 @@
--- Name: Nexus01
--- Description: Premiere mission du nexus 01. Établir des radars pour trianguler un signal de détection de reliques...
+-- Name: Dussel_01
+-- Description: Mission dussel
 -- Type: Basic
 
 require("utils.lua")
@@ -12,9 +12,9 @@ require("utils.lua")
 players = {};
 availableItems = { plutonium = {amount = 0, value = 0}
                  }
-plutonium = 0;
-radarCount = 0;
-atWarWithResistance = false;
+waveCounter = 0;
+stations = {};
+nbVulnerable = 3;
 
 
 --[[{{utils/dussel.lua}}]]--
@@ -22,23 +22,26 @@ atWarWithResistance = false;
 --[[{{utils/trading.lua}}]]--
 
 function init()
-    --[[{{playership/nexusVoid.lua}}]]--
-    spawnNexusvoid(187213, -88611);
+    --[[{{playership/vafJerrold.lua}}]]--
+    --[[{{playership/succubiCherubim.lua}}]]--
+    spawnVafJerrold(187213, -88611);
+    spawnSuccubiCherubim(187213, -88611);
+
     planets()
     decors()
 
     -- station de départ
-    dusselStation = SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setCallSign("Dussel-3b"):setPosition(188672, -88430)
+    dusselStation = SpaceStation():setTemplate("Huge Station"):setFaction("Dussel"):setCallSign("Dussel-2"):setPosition(188672, -88430)
     dusselStation:setCommsFunction(function()
-        if radarCount == 3 then
-            setCommsMessage("Êtes vous prêts à activer les radars?");
-            addCommsReply("Activer!", function()
-                setCommsMessage("");
-                victory("Merillon");
-            end);
-        else
-            setCommsMessage("Changez les trois stations en radar");
-        end
+        setCommsMessage("que puis-je pour vous");
+        addCommsReply("Convertir 100 de réputation pour 50 plutonium", function()
+            if comms_source:takeReputationPoints(100) then
+                setCommsMessage("Avec plaisir");
+                comms_source.inventory.plutonium.amount = comms_source.inventory.plutonium.amount + 50;
+            else
+                setCommsMessage("Vous n'avez pas assez de reputation");
+            end
+        end);
     end);
     -- discussion donne la localisation des 3 stations à convertir en radars
     -- lorsque les 3 sont convertis, donne une nouvelle option de "lancer le signal" = victoire Merillon.
@@ -46,9 +49,9 @@ function init()
     -- options pour ramasser du plutonium : parler avec la résistance locale pour des missions ou détruire les épaves dans le champs d'astéroides.
 
     -- stations à transformer en radar
-    stationToRadar(143141, -181406,"Dussel_r2" )
-    stationToRadar(110295, -68671,"Dussel_r1" )
-    stationToRadar(270629, -107641,"Dussel_r3" )
+    firewallStation(143141, -181406,"Dussel_r2" )
+    firewallStation(110295, -68671,"Dussel_r1" )
+    firewallStation(270629, -107641,"Dussel_r3" )
     -- ajouter une communication permettant de payer un nombre de plutonium pour les transformer en radar fonctionnel. Concrètement ça les transforme en station moyenne (détruire et créer une nouvelle station au même emplacement ?)
 
     
@@ -57,18 +60,17 @@ function init()
 
     -- quête : chaque épave détruire rapporte un nombre de plutonium pour la construction des radars (+10 plutonium par épave détruite)
 
-    wrecks = { CpuShip():setFaction("Épave"):setTemplate("Adv. Gunship"):setCallSign("CSS2"):setPosition(216928, -212081):orderStandGround():setWeaponStorage("Homing", 2)
-             , CpuShip():setFaction("Épave"):setTemplate("Adv. Gunship"):setCallSign("NC3"):setPosition(231721, -204093):orderStandGround():setImpulseMaxSpeed(0.0):setWeaponStorage("Homing", 2)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("UTI4"):setPosition(224061, -211870):orderStandGround():setShieldsMax(0.00):setShields(0.00):setWeaponTubeCount(0):setWeaponStorageMax("HVLI", 0):setWeaponStorage("HVLI", 0):setBeamWeapon(0, 34, 0, 800, 5.0, 2.0):setBeamWeaponTurret(0, 0, 0, 0)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("UTI5"):setPosition(226937, -212589):orderStandGround():setWeaponStorage("HVLI", 3)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("NC6"):setPosition(231849, -196293):orderStandGround():setWeaponStorage("HVLI", 3)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("SS7"):setPosition(239997, -194855):orderStandGround():setWeaponStorage("HVLI", 3)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("S8"):setPosition(214115, -221935):orderStandGround():setWeaponStorage("HVLI", 3)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("BR9"):setPosition(244191, -185389):orderStandGround():setWeaponStorage("HVLI", 3)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK4"):setCallSign("UTI11"):setPosition(222743, -216064):orderStandGround():setWeaponStorage("HVLI", 1)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK4"):setCallSign("VS12"):setPosition(216033, -226368):orderStandGround():setWeaponStorage("HVLI", 1)
-             , CpuShip():setFaction("Épave"):setTemplate("Adder MK4"):setCallSign("NC13"):setPosition(244071, -191380):orderStandGround():setWeaponStorage("HVLI", 1)
-             };
+    CpuShip():setFaction("Épave"):setTemplate("Adv. Gunship"):setCallSign("CSS2"):setPosition(216928, -212081):orderStandGround():setWeaponStorage("Homing", 2)
+    CpuShip():setFaction("Épave"):setTemplate("Adv. Gunship"):setCallSign("NC3"):setPosition(231721, -204093):orderStandGround():setImpulseMaxSpeed(0.0):setWeaponStorage("Homing", 2)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("UTI4"):setPosition(224061, -211870):orderStandGround():setShieldsMax(0.00):setShields(0.00):setWeaponTubeCount(0):setWeaponStorageMax("HVLI", 0):setWeaponStorage("HVLI", 0):setBeamWeapon(0, 34, 0, 800, 5.0, 2.0):setBeamWeaponTurret(0, 0, 0, 0)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("UTI5"):setPosition(226937, -212589):orderStandGround():setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("NC6"):setPosition(231849, -196293):orderStandGround():setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("SS7"):setPosition(239997, -194855):orderStandGround():setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("S8"):setPosition(214115, -221935):orderStandGround():setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK5"):setCallSign("BR9"):setPosition(244191, -185389):orderStandGround():setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK4"):setCallSign("UTI11"):setPosition(222743, -216064):orderStandGround():setWeaponStorage("HVLI", 1)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK4"):setCallSign("VS12"):setPosition(216033, -226368):orderStandGround():setWeaponStorage("HVLI", 1)
+    CpuShip():setFaction("Épave"):setTemplate("Adder MK4"):setCallSign("NC13"):setPosition(244071, -191380):orderStandGround():setWeaponStorage("HVLI", 1)
 
     -- épave qui, lorsque proche du vaisseau joueur, devient de faction "charognard" et attaque le joueur. 
     -- alternative facile : faction charognard depuis le début. Les joueurs devront juste le scanner pour s'en rendre compte
@@ -104,7 +106,11 @@ function init()
     -- station de la résistance avec laquelle les joueurs pourront avoir des missions. 
     resistance = SpaceStation():setTemplate("Small Station"):setFaction("Resistance"):setCallSign("DS245"):setPosition(149490, -27739)
     resistance:setCommsFunction(function()
-        setCommsMessage("On a des quest pour vous");
+        if freeStationIsOn or emergencyIsOn then
+            setCommsMessage("On a des quest pour vous");
+        else
+            setCommsMessage("On a plus rien pour vous");
+        end
 
         if freeStationIsOn then
             if toFree:getFaction() == "Barons" then
@@ -114,7 +120,7 @@ function init()
             else
                 addCommsReply("On l'a libéré", function()
                     setCommsMessage("Bravo, voici votre plutonium");
-                    plutonium = plutonium + 100;
+                    comms_source.inventory.plutonium.amount = comms_source.inventory.plutonium.amount + 100;
                     freeStationIsOn = false;
                 end);
             end
@@ -123,24 +129,12 @@ function init()
         if emergencyIsOn then
             addCommsReply("defendre d'urgence", function()
                 setCommsMessage("Va en C18");
+                emergencyIsOn = false;
                 for i,ship in pairs(surpriseAttack) do
                     ship:orderAttack(toDefendResistance);
                 end
             end);
         end
-
-        addCommsReply("prendre le plutonium par la force", function()
-            setCommsMessage("Alors c'est la guerre");
-            for i,ship in pairs(resistanceShips) do
-                ship:setFaction("Charognards");
-                resistance:setCommsFunction(function()
-                    setCommsMessage("");
-                end);
-                toDefendResistance:setCommsFunction(function()
-                    setCommsMessage("");
-                end);
-            end
-        end);
     end)
 
     -- missions données en échange de plutonium : 
@@ -148,32 +142,32 @@ function init()
         -- b. défendre en urgence la station DS246 avant qu'elle ne soit détruite (faire attaquer les barons qui sont juste à côté) +100 plutonium
         -- c. option d'attaquer la résistance pour voler leur plutonium (les 2 stations et toutes les unités de la résistance deviennent "charognard" et chacune rapportent un nombre de plutonium lorsque détruits. (unités 5, station 100))
 
-    resistanceShips = { CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("NC25"):setPosition(146600, -27964):orderDefendLocation(146600, -27964)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("CV27"):setPosition(151057, -30420):orderDefendLocation(151057, -30420)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("VK28"):setPosition(151572, -25963):orderDefendLocation(151572, -25963)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("SS30"):setPosition(148325, -29654):orderDefendLocation(148325, -29654):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CSS31"):setPosition(147222, -26515):orderDefendLocation(147222, -26515):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CSS32"):setPosition(148792, -24578):orderDefendLocation(148792, -24578):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("S33"):setPosition(151898, -27350):orderDefendLocation(151898, -27350):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("NC34"):setPosition(151063, -24511):orderDefendLocation(151063, -24511):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CV35"):setPosition(149961, -31558):orderDefendLocation(149961, -31558):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CCN36"):setPosition(144417, -26415):orderDefendLocation(144417, -26415):setWeaponStorage("HVLI", 3)
-                      --Defend toDefendResistance
-                      , CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("CV37"):setPosition(265835, -51635):orderDefendLocation(265835, -51635)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("UTI38"):setPosition(268941, -54465):orderDefendLocation(268941, -54465)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adv. Gunship"):setCallSign("CSS39"):setPosition(266663, -54258):orderDefendLocation(266663, -54258):setWeaponStorage("Homing", 2)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("SS41"):setPosition(263627, -53291):orderDefendLocation(263627, -53291):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("NC42"):setPosition(266180, -57570):orderDefendLocation(266180, -57570):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("VK43"):setPosition(273151, -54465):orderDefendLocation(273151, -54465):setWeaponStorage("HVLI", 3)
-                      , CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("BR44"):setPosition(272806, -50392):orderDefendLocation(272806, -50392):setWeaponStorage("HVLI", 3)
-                      };
+    CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("NC25"):setPosition(146600, -27964):orderDefendLocation(146600, -27964)
+    CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("CV27"):setPosition(151057, -30420):orderDefendLocation(151057, -30420)
+    CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("VK28"):setPosition(151572, -25963):orderDefendLocation(151572, -25963)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("SS30"):setPosition(148325, -29654):orderDefendLocation(148325, -29654):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CSS31"):setPosition(147222, -26515):orderDefendLocation(147222, -26515):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CSS32"):setPosition(148792, -24578):orderDefendLocation(148792, -24578):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("S33"):setPosition(151898, -27350):orderDefendLocation(151898, -27350):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("NC34"):setPosition(151063, -24511):orderDefendLocation(151063, -24511):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CV35"):setPosition(149961, -31558):orderDefendLocation(149961, -31558):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("CCN36"):setPosition(144417, -26415):orderDefendLocation(144417, -26415):setWeaponStorage("HVLI", 3)
+
+    CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("CV37"):setPosition(265835, -51635):orderDefendLocation(265835, -51635)
+    CpuShip():setFaction("Resistance"):setTemplate("Defense platform"):setCallSign("UTI38"):setPosition(268941, -54465):orderDefendLocation(268941, -54465)
+    CpuShip():setFaction("Resistance"):setTemplate("Adv. Gunship"):setCallSign("CSS39"):setPosition(266663, -54258):orderDefendLocation(266663, -54258):setWeaponStorage("Homing", 2)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("SS41"):setPosition(263627, -53291):orderDefendLocation(263627, -53291):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("NC42"):setPosition(266180, -57570):orderDefendLocation(266180, -57570):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("VK43"):setPosition(273151, -54465):orderDefendLocation(273151, -54465):setWeaponStorage("HVLI", 3)
+    CpuShip():setFaction("Resistance"):setTemplate("Adder MK5"):setCallSign("BR44"):setPosition(272806, -50392):orderDefendLocation(272806, -50392):setWeaponStorage("HVLI", 3)
+    
         
     -- station à défendre
     toDefendResistance = SpaceStation():setTemplate("Medium Station"):setFaction("Resistance"):setCallSign("DS246"):setPosition(269300, -52516)
     toDefendResistance:setCommsFunction(function()
         if allDead(surpriseAttack) then
             setCommsMessage("Merci vous nous avez sauvé. Voici 100 plutonium");
-            plutonium = plutonium + 100;
+            comms_source.inventory.plutonium.amount = comms_source.inventory.plutonium.amount + 100;
             toDefendResistance:setCommsFunction(function()
                 setCommsMessage("");
             end);
@@ -195,45 +189,35 @@ function init()
                      , CpuShip():setFaction("Barons"):setTemplate("Adder MK6"):setCallSign("VK54"):setPosition(310799, -32357):orderDefendLocation(310799, -32357):setWeaponStorage("HVLI", 7)
                      };
     WarpJammer():setFaction("Barons"):setPosition(307852, -31569)
-
 end
 
 function update()
-    for i,ship in pairs(wrecks) do
-        if not ship:isValid() then
-            plutonium = plutonium + 10
-            table.remove(wrecks,i);
+    waveCounter = waveCounter + 1;
+    if waveCounter >= 2 * 60 * 60 then
+        waveCounter = 0;
+        local nbDestroyed;
+        for i,station in pairs(stations) do
+            if station:isValid() then
+                if station.vulnerable then
+                    local x,y = station:getPosition();
+                    generateMobs(15/nbVulnerable, "Atlantis X23", "Spectre", math.floor(x), math.floor(y), 10000, function(mob) mob:orderAttack(station) end)
+                end
+            else
+                nbDestroyed = nbDestroyed + 1;
+            end
+        end
+        if nbDestroyed >= 2 then
+            victory("Spectre");
+        end
+        if nbVulnerable == nbDestroyed then
+            victory("Arianne");
         end
     end
 
-    if atWarWithResistance then
-        for i,ship in pairs(resistanceShips) do
-            if not ship:isValid() then
-                plutonium = plutonium + 5
-                table.remove(resistanceShips,i);
-            end
-        end
-
-        if resistance ~= nil and not resistance:isValid() then
-            plutonium = plutonium + 100;
-            resistance = nil;
-        end
-
-        if toDefendResistance ~= nil and not toDefendResistance:isValid() then
-            plutonium = plutonium + 100;
-            toDefendResistance = nil;
-        end
-    end
-
-    if notRealWreck ~= nil then
-        if not notRealWreck:isValid() then
-            plutonium = plutonium + 25;
-            notRealWreck = nil;
-        else
-            if distance(notRealWreck, nexusvoid) <= 4000 then
-                notRealWreck:setFaction("Charognards");
-                notRealWreck:orderDefendLocation(239398, -190421)
-            end
+    for i,player in pairs(players) do
+        if notRealWreck:isValid() and distance(notRealWreck, player) <= 4000 then
+            notRealWreck:setFaction("Charognards");
+            notRealWreck:orderDefendLocation(239398, -190421)
         end
     end
 
@@ -242,23 +226,21 @@ function update()
     end
 end
 
-function stationToRadar(x,y,callSign)
+function firewallStation(x,y,callSign)
     local station = SpaceStation():setTemplate("Small Station"):setFaction("Dussel"):setCallSign(callSign):setPosition(x, y)
     station:setCommsFunction(function()
-        if not comms_source:isDocked(comms_target) then
-            setCommsMessage("Venez nous voir en personne.")
-        else
-            setCommsMessage("Convertir la station en radar pour 100 plutonium")
-            addCommsReply("Le faire", function()
-                if plutonium <= 100 then
-                    plutonium = plutonium - 100;
-                    radarCount = radarCount + 1;
-                    SpaceStation():setTemplate("Medium Station"):setFaction("Dussel"):setCallSign(callSign):setPosition(x, y);
-                    station:destroy();
-                end
+        setCommsMessage("bzzzzzt");
+        if comms_source.inventory.plutonium.amount >= 150 then
+            addCommsReply("Installer le firewall", function()
+                    comms_source.inventory.plutonium.amount = comms_source.inventory.plutonium.amount - 150;
+                    comms_target.vulnerable = false;
+                    nbVulnerable = nbVulnerable - 1;
             end);
         end
+        
     end);
+    station.vulnerable = true;
+    table.insert(stations, station);
 end
 
 function planets()
