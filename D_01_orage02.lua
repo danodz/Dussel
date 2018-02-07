@@ -1,18 +1,18 @@
---Name: Succubi Cherubim quest
---Description: Quest personalisée du Succubi Cherubim
---https://www.youtube.com/watch?v=9ETFPdNIeYg
+--Name: Orage 02
+--Description: Copie du scenario du succubi cherubim pour l'orage
+
 require("utils.lua");
 players = {};
 availableItems = { technologie = {amount = 0, value = 5}
                  , matiere_premiere = {amount = 0, value = 5}
-                 , produit_chimique = {amount = 0, value = 5}
+                 , local_dissident = {amount = 0, value = 5}
                  , travailleur = {amount = 0, value = 5}
-                 , drogue = {amount = 0, value = 5}
+                 , esclave = {amount = 0, value = 5}
                  }
 function init()
-    --[[{{playership/succubiCherubim.lua}}]]--
+    --[[{{playership/orage.lua}}]]--
     addGMFunction("save", save);
-    spawnSuccubiCherubim(-57620, 40847);
+    spawnOrage(-57620, 40847);
 
     SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("nissan petrol"):setPosition(901, -13681)
     SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("caravan petrol"):setPosition(6431, 30917)
@@ -22,13 +22,13 @@ function init()
     labo = SpaceStation():setTemplate("Small Station"):setFaction("Independent"):setCallSign("labo"):setPosition(-28093, 42285)
     labo.inventory = makeInventory( { technologie = {amount = 0, value = 0}
                                     , matiere_premiere = {amount = 0, value = 0}
-                                    , produit_chimique = {amount = 0, value = 0}
+                                    , local_dissident = {amount = 0, value = 0}
                                     , travailleur = {amount = 0, value = 0}
-                                    , drogue = {amount = 0, value = 0}
+                                    , esclave = {amount = 0, value = 0}
                                     });
     labo:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
-            setCommsMessage("Yo étranger. J’ai entendu dire que vous seriez interessé à vous installer dans la région pour transmettre la \"bonne nouvelle\". Si tu nous fournis 25 ressource de tecnologie, 35 matières premières, 10 produit chimique et 15 travailleurs, on pourra transformer ce trou en labo qui fait du bon stock.");
+            setCommsMessage("Yo étranger. J’ai entendu dire que vous seriez interessé à vous installer dans la région pour transmettre la \"bonne nouvelle\". Si tu nous fournis 25 ressource de tecnologie, 35 matières premières, 10 locaux dissidents et 15 travailleurs, on pourra transformer ce trou en labo qui fait du bon stock.");
             tradeSellComm();
         else
             setCommsMessage("Venez nous voir sur place.");
@@ -51,9 +51,9 @@ function init()
     lawbringer:setCommsFunction(function()
         setCommsMessage("Étranger, vous êtes dans le comté de hustaston et j’en suis son protecteur. Je sais que vous êtes ici pour répandre votre fléau et je ne peux le tolérer. Mais je suis un homme de raison, si vous me prouvez que vous êtes des être de bonne volonté, je saurai me montrer magnanime.")
         addCommsReply("Se montrer magnanime (50 kredits et 20 drogues)", function()
-            if comms_source.kredits >= 50 and comms_source.inventory.drogue.amount >= 20 then
+            if comms_source.kredits >= 50 and comms_source.inventory.esclave.amount >= 20 then
                 comms_source.kredits = comms_source.kredits - 50
-                comms_source.inventory.drogue.amount = comms_source.inventory.drogue.amount - 20
+                comms_source.inventory.esclave.amount = comms_source.inventory.esclave.amount - 20
                 lawIsOn = false;
                 setCommsMessage("Voila un bel exemple de bonne volonté. Moi et mes hommes sauront vous laisser tranquille.")
             else
@@ -70,7 +70,7 @@ function init()
 
     --Usine de produits chimiques
     beltochen = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("beltochem corp"):setPosition(29029, -18414)
-    beltochen.inventory = makeInventory({ produit_chimique = {amount = 70, value = 3}
+    beltochen.inventory = makeInventory({ local_dissident = {amount = 70, value = 3}
                                         });
     beltochen:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -84,7 +84,7 @@ function init()
 
     --Grosse ville qui achete de la drogue
     derichbourg = SpaceStation():setTemplate("Large Station"):setFaction("Human Navy"):setCallSign("derichbourg"):setPosition(-49757, 2131)
-    derichbourg.inventory = makeInventory({ drogue = {amount = 0, value = 16}
+    derichbourg.inventory = makeInventory({ esclave = {amount = 0, value = 16}
                                           });
     derichbourg:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -101,7 +101,7 @@ function init()
     sanAntonio.inventory = makeInventory( { technologie = {amount = 15, value = 5}
                                           , matiere_premiere = {amount = 25, value = 3}
                                           , travailleur = {amount = 10, value = 8}
-                                          , drogue = {amount = 0, value = 10}
+                                          , esclave = {amount = 0, value = 10}
                                           });
     sanAntonio:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -118,7 +118,7 @@ function init()
     zoneIndustriel.inventory = makeInventory( { technologie = {amount = 25, value = 3}
                                               , matiere_premiere = {amount = 15, value = 8}
                                               , travailleur = {amount = 20, value = 5}
-                                              , drogue = {amount = 0, value = 12}
+                                              , esclave = {amount = 0, value = 12}
                                               });
     zoneIndustriel:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -161,9 +161,9 @@ function init()
                 setCommsMessage("t'a rien d'bon pour moé")
             end
         end);
-        addCommsReply("Offrir 20 drogue", function()
+        addCommsReply("Offrir 20 esclaves", function()
             if comms_source.inventory.matiere_premiere.amount >= 20 then
-                comms_source.inventory.drogue.amount = comms_source.inventory.drogue.amount - 20;
+                comms_source.inventory.esclave.amount = comms_source.inventory.esclave.amount - 20;
                 sniftheline:orderDefendTarget(labo);
                 setCommsMessage("m'en va checker l'stock")
             else
@@ -181,19 +181,19 @@ end
 function update()
     --Labo
     if labo:getFaction() ~= "Arianne" then
-        if labo.inventory.technologie.amount >= 25 and labo.inventory.matiere_premiere.amount >= 35 and labo.inventory.produit_chimique.amount >= 10 and labo.inventory.travailleur.amount >= 15 then
+        if labo.inventory.technologie.amount >= 25 and labo.inventory.matiere_premiere.amount >= 35 and labo.inventory.local_dissident.amount >= 10 and labo.inventory.travailleur.amount >= 15 then
 
             labo.inventory.technologie.amount = labo.inventory.technologie.amount - 25 
             labo.inventory.matiere_premiere.amount = labo.inventory.matiere_premiere.amount - 35 
-            labo.inventory.produit_chimique.amount = labo.inventory.produit_chimique.amount - 10 
+            labo.inventory.local_dissident.amount = labo.inventory.local_dissident.amount - 10 
             labo.inventory.travailleur.amount = labo.inventory.travailleur.amount - 15
 
             labo:setFaction("Arianne");
             labo:setCommsFunction(function()
                 if comms_source:isDocked(comms_target) then
                     setCommsMessage("Yo boss, vous savez ce qu'on fait ici c'est puissant!! Sans doute que les coincé du cul de la station Derichbourg vont vouloir l'acheter à haut prix. Mais le chien de garde aimerait pas trop ca. J'ai entendu dire qu’il était \"flattable\" si on avait un bon os.");
-                    labo.inventory.drogue.amount = labo.inventory.drogue.amount + labo.inventory.produit_chimique.amount;
-                    labo.inventory.produit_chimique.amount = 0;
+                    labo.inventory.esclave.amount = labo.inventory.esclave.amount + labo.inventory.local_dissident.amount;
+                    labo.inventory.local_dissident.amount = 0;
                     tradeSellComm();
                     tradeBuyComm();
                 else
@@ -281,12 +281,12 @@ end
 function attackLabOrPlayer()
     if labo:getFaction() == "Arianne" then
         if irandom(1,2) == 1 then
-            return succubiCherubim;
+            return orage;
         else
             return labo;
         end
     else
-        return succubiCherubim;
+        return orage;
     end
 end
 

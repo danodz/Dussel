@@ -27,8 +27,6 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
     addGMFunction("save", save);
     spawnSuccubiCherubim(-57620, 40847);
-    succubiCherubim.inventory.produit_chimique.amount = 10;
-    succubiCherubim.inventory.drogue.amount = 30;
 
     SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("nissan petrol"):setPosition(901, -13681)
     SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("caravan petrol"):setPosition(6431, 30917)
