@@ -1,4 +1,4 @@
--- Name: succubi cherubim 02
+-- Name: succubi cherubim_02
 -- Description: Amener un nouveau produit au labo
 -- Type: Basic
 
