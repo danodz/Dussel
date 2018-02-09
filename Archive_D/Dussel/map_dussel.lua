@@ -6,20 +6,16 @@
 
     -- dussel_3 = SpaceStation():setTemplate("Huge Station"):setFaction("Dussel"):setCallSign("D-3"):setPosition(-30012, -30015):setCommsFunction(commsDussel3)
 
-	
 	CpuShip():setFaction("Dussel"):setTemplate("Defense platform"):setCallSign("DD-1"):setPosition(-37462, -29879):orderStandGround()
     CpuShip():setFaction("Dussel"):setTemplate("Defense platform"):setCallSign("DD-2"):setPosition(-29924, -37278):orderStandGround()
     CpuShip():setFaction("Dussel"):setTemplate("Defense platform"):setCallSign("DD-3"):setPosition(-22500, -29933):orderStandGround()
     CpuShip():setFaction("Dussel"):setTemplate("Defense platform"):setCallSign("DD-4"):setPosition(-29953, -22461):orderStandGround()
 	
 	-- Spectres
-
 	CpuShip():setFaction("Spectre"):setTemplate("Tug"):setCallSign("CV72"):setPosition(-31090, -29075):orderStandGround()
     CpuShip():setFaction("Spectre"):setTemplate("Tug"):setCallSign("SS73"):setPosition(-99176, -85389):orderStandGround()
 	
 	-- Épaves
-        --Artifact():setPosition(1000, 9000):setModel("small_frigate_1"):setDescription("An old space derelict.")
-
 	CpuShip():setFaction("Epave"):setTemplate("Equipment Freighter 2"):setCallSign("S112"):setPosition(-41757, -23346)
     CpuShip():setFaction("Epave"):setTemplate("Transport1x1"):setCallSign("BR12"):setPosition(-48609, -31540)
     CpuShip():setFaction("Epave"):setTemplate("Transport1x3"):setCallSign("BR13"):setPosition(-43813, -40042)
