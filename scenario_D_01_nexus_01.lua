@@ -638,6 +638,7 @@ addGMFunction("nexusvoid", function() spawnNexusvoid(0,0) end);
 end
 
 function update()
+    nexusvoid.inventory.plutonium.amount = plutonium;
     for i,ship in pairs(wrecks) do
         if not ship:isValid() then
             plutonium = plutonium + 10

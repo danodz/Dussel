@@ -199,6 +199,7 @@ function init()
 end
 
 function update()
+    nexusvoid.inventory.plutonium.amount = plutonium;
     for i,ship in pairs(wrecks) do
         if not ship:isValid() then
             plutonium = plutonium + 10
