@@ -32,8 +32,8 @@ function init()
     objectiveStation = SpaceStation():setTemplate("Large Station"):setFaction("Dussel"):setCallSign("arnemak 3"):setPosition(270715, 30108)
 
     -- Stations de ravitaillement
-    endGameA = SpaceStation():setTemplate("Small Station"):setFaction("Arianne"):setCallSign("DS12937"):setPosition(70335, 50348)
-    endGameB = SpaceStation():setTemplate("Small Station"):setFaction("Arianne"):setCallSign("DS12938"):setPosition(190765, -28083)
+    endGameA = SpaceStation():setTemplate("Small Station"):setFaction("Dussel"):setCallSign("DS12937"):setPosition(70335, 50348)
+    endGameB = SpaceStation():setTemplate("Small Station"):setFaction("Dussel"):setCallSign("DS12938"):setPosition(190765, -28083)
 
     -- Troupes de chasseurs Merillons
     mkPatrollingShip(26326, -12034,8072, -42310)
@@ -106,18 +106,20 @@ function update()
     spotted = notSpotted;
 
     for i,ship in pairs(patrolling) do
-        local x,y = ship:getPosition();
-        local targetX = ship.patrolStatus.positions[ship.patrolStatus.targetIndex].x;
-        local targetY = ship.patrolStatus.positions[ship.patrolStatus.targetIndex].y;
-        if distance(ship, targetX, targetY) <= 1000 then
-            if ship.patrolStatus.positions[ship.patrolStatus.targetIndex + 1] then
-                ship.patrolStatus.targetIndex = ship.patrolStatus.targetIndex + 1;
-            else
-                ship.patrolStatus.targetIndex = 1;
-            end
+        if ship:isValid() then
+            local x,y = ship:getPosition();
             local targetX = ship.patrolStatus.positions[ship.patrolStatus.targetIndex].x;
             local targetY = ship.patrolStatus.positions[ship.patrolStatus.targetIndex].y;
-            ship:orderFlyTowards(targetX, targetY);
+            if distance(ship, targetX, targetY) <= 1000 then
+                if ship.patrolStatus.positions[ship.patrolStatus.targetIndex + 1] then
+                    ship.patrolStatus.targetIndex = ship.patrolStatus.targetIndex + 1;
+                else
+                    ship.patrolStatus.targetIndex = 1;
+                end
+                local targetX = ship.patrolStatus.positions[ship.patrolStatus.targetIndex].x;
+                local targetY = ship.patrolStatus.positions[ship.patrolStatus.targetIndex].y;
+                ship:orderFlyTowards(targetX, targetY);
+            end
         end
     end
 
