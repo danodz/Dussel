@@ -7,7 +7,7 @@ availableItems = { technologie = {amount = 0, value = 5}
                  , matiere_premiere = {amount = 0, value = 5}
                  , produit_chimique = {amount = 0, value = 5}
                  , travailleur = {amount = 0, value = 5}
-                 , drogue = {amount = 0, value = 5}
+                 , drogue = {amount = 0, value = 16}
                  }
 function init()
     function spawnSuccubiCherubim(x,y)
@@ -91,7 +91,7 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
     --Usine de produits chimiques
     beltochen = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("beltochem corp"):setPosition(29029, -18414)
-    beltochen.inventory = makeInventory({ produit_chimique = {amount = 70, value = 3}
+    beltochen.inventory = makeInventory({ produit_chimique = {amount = 80, value = 0}
                                         });
     beltochen:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -105,7 +105,7 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
     --Grosse ville qui achete de la drogue
     derichbourg = SpaceStation():setTemplate("Large Station"):setFaction("Independent"):setCallSign("derichbourg"):setPosition(-49757, 2131)
-    derichbourg.inventory = makeInventory({ drogue = {amount = 0, value = 16}
+    derichbourg.inventory = makeInventory({ drogue = {amount = 0, value = 20}
                                           });
     derichbourg:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -120,9 +120,8 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
     --Chantier naval: vend de la tech, des matiere premiere et des travailleurs. Achete drogue
     sanAntonio = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("san antonio"):setPosition(-4491, 476)
     sanAntonio.inventory = makeInventory( { technologie = {amount = 15, value = 5}
-                                          , matiere_premiere = {amount = 25, value = 3}
+                                          , matiere_premiere = {amount = 35, value = 3}
                                           , travailleur = {amount = 10, value = 8}
-                                          , drogue = {amount = 0, value = 10}
                                           });
     sanAntonio:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -136,10 +135,9 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
     --Zone industriel 354: vend de la tech, des matiere premiere et des travailleurs. Achete drogue
     zoneIndustriel = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("zone 354"):setPosition(-23939, -14650)
-    zoneIndustriel.inventory = makeInventory( { technologie = {amount = 25, value = 3}
+    zoneIndustriel.inventory = makeInventory( { technologie = {amount = 20, value = 3}
                                               , matiere_premiere = {amount = 15, value = 8}
-                                              , travailleur = {amount = 20, value = 5}
-                                              , drogue = {amount = 0, value = 12}
+                                              , travailleur = {amount = 10, value = 5}
                                               });
     zoneIndustriel:setCommsFunction(function()
         if comms_source:isDocked(comms_target) then
@@ -173,18 +171,18 @@ addGMFunction("Succubi Cherubim", function() spawnSuccubiCherubim(0,0) end);
 
     sniftheline:setCommsFunction(function()
         setCommsMessage("té tu la pou ‘me propser d’quoi d’bon pour moé ou pour krever");
-        addCommsReply("Offrir 100 Kredits", function()
-            if comms_source.kredits >= 100 then
-                comms_source.kredits = comms_source.kredits - 100;
+        addCommsReply("Offrir 50 Kredits", function()
+            if comms_source.kredits >= 50 then
+                comms_source.kredits = comms_source.kredits - 50;
                 sniftheline:orderDefendTarget(labo);
                 setCommsMessage("m'en va checker l'stock")
             else
                 setCommsMessage("t'a rien d'bon pour moé")
             end
         end);
-        addCommsReply("Offrir 20 drogue", function()
-            if comms_source.inventory.matiere_premiere.amount >= 20 then
-                comms_source.inventory.drogue.amount = comms_source.inventory.drogue.amount - 20;
+        addCommsReply("Offrir 10 drogue", function()
+            if comms_source.inventory.matiere_premiere.amount >= 10 then
+                comms_source.inventory.drogue.amount = comms_source.inventory.drogue.amount - 10;
                 sniftheline:orderDefendTarget(labo);
                 setCommsMessage("m'en va checker l'stock")
             else
