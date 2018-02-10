@@ -12,7 +12,7 @@ availableItems = { technologie = {amount = 0, value = 5}
 function init()
     --[[{{playership/succubiCherubim.lua}}]]--
     addGMFunction("save", save);
-    spawnSuccubiCherubim(-57620, 40847);
+    spawnSuccubiCherubim(-36424, 37001);
 
     SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("nissan petrol"):setPosition(901, -13681)
     SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("caravan petrol"):setPosition(6431, 30917)
@@ -41,13 +41,20 @@ function init()
     hellPit:setCommsFunction(function()
         setCommsMessage("j’vai vous chrusher la fass.");
     end);
-    fassmashaGangs = { fassmashaGang(), fassmashaGang(), fassmashaGang()}
+    generateMobs(3, "Adder MK6", "Charognards", 29700, 48500, 1500, function(mob) mob:orderDefendTarget(hellPit) end)
+    generateMobs(1, "Phobos M3", "Charognards", 29700, 48500, 1500, function(mob) mob:orderDefendTarget(hellPit) end)
+    fassmashaGangs = { fassmashaGang()}
 
     --Le sherif
     lawIsOn = true;
     lawSpawn = 0;
     blockadeSpawn = 0;
-    lawbringer = CpuShip():setFaction("Gentil"):setTemplate("Destroyer"):setCallSign("Lawbringer"):setPosition(-52572, 2450):orderRoaming():setHullMax(200):setHull(200):setShieldsMax(100.00, 102.00):setShields(100.00, 102.00):setWeaponStorage("Nuke", 0):setWeaponStorage("EMP", 0):setWeaponStorageMax("HVLI", 50):setWeaponStorage("HVLI", 50):setBeamWeapon(5, 121, -180, 2000, 7.9, 11.8):setBeamWeaponTurret(5, 0, 0, 0)
+    lawTroops = {};
+    lawbringer = CpuShip():setFaction("Loyalistes"):setTemplate("Destroyer"):setCallSign("Lawbringer"):setPosition(-52572, 2450):orderDefendLocation(-52572, 2450):setHullMax(200):setHull(200):setShieldsMax(100.00, 102.00):setShields(100.00, 102.00):setWeaponStorage("Nuke", 0):setWeaponStorage("EMP", 0):setWeaponStorageMax("HVLI", 50):setWeaponStorage("HVLI", 50):setBeamWeapon(5, 121, -180, 2000, 7.9, 11.8):setBeamWeaponTurret(5, 0, 0, 0)
+    mergeTables(lawTroops, generateMobs(1, "Blockade Runner", "Loyalistes", -52572, 2450, 2000, function(mob) mob:orderDefendLocation(-52572, 2450) end));
+    generateMobs(4, "Adder MK4", "Loyalistes", -52572, 2450, 2000, function(mob) table.insert(lawTroops, mob); mob:orderDefendLocation(-52572, 2450) end);
+    generateMobs(1, "Piranha F8", "Loyalistes", -52572, 2450, 2000, function(mob) table.insert(lawTroops, mob); mob:orderDefendLocation(-52572, 2450) end);
+
     lawbringer:setCommsFunction(function()
         setCommsMessage("Étranger, vous êtes dans le comté de hustaston et j’en suis son protecteur. Je sais que vous êtes ici pour répandre votre fléau et je ne peux le tolérer. Mais je suis un homme de raison, si vous me prouvez que vous êtes des être de bonne volonté, je saurai me montrer magnanime.")
         addCommsReply("Se montrer magnanime (50 kredits et 20 drogues)", function()
@@ -55,18 +62,18 @@ function init()
                 comms_source.kredits = comms_source.kredits - 50
                 comms_source.inventory.drogue.amount = comms_source.inventory.drogue.amount - 20
                 lawIsOn = false;
+                lawbringer:setFaction("Arianne");
+
+                for i,ship in pairs(lawTroops) do
+                    ship:destroy();
+                end
+
                 setCommsMessage("Voila un bel exemple de bonne volonté. Moi et mes hommes sauront vous laisser tranquille.")
             else
                 setCommsMessage("Il semblerait que vous n'ayez pas suffisament de bonne volonté dans votre soute.")
             end
         end);
     end);
-
-    --Les Merillons
-    merillonFalcons = generateMobs(10, "Flavia Falcon", "Merillon", 0, 10000, 60000, function(mob) mob:orderRoaming() end);
-    merillonCruisers = generateMobs(2, "Missile Cruiser", "Merillon", 0, 10000, 60000, function(mob) mob:orderRoaming() end);
-    merillonFrigates = generateMobs(2, "Frigate", "Merillon", 0, 10000, 60000, function(mob) mob:orderRoaming() end);
-    merillonRespawn = 0;
 
     --Usine de produits chimiques
     beltochen = SpaceStation():setTemplate("Medium Station"):setFaction("Independent"):setCallSign("beltochem corp"):setPosition(29029, -18414)
@@ -83,7 +90,7 @@ function init()
     end);
 
     --Grosse ville qui achete de la drogue
-    derichbourg = SpaceStation():setTemplate("Large Station"):setFaction("Human Navy"):setCallSign("derichbourg"):setPosition(-49757, 2131)
+    derichbourg = SpaceStation():setTemplate("Large Station"):setFaction("Independent"):setCallSign("derichbourg"):setPosition(-49757, 2131)
     derichbourg.inventory = makeInventory({ drogue = {amount = 0, value = 16}
                                           });
     derichbourg:setCommsFunction(function()
@@ -131,7 +138,7 @@ function init()
     end);
     
     --Sebastopol: mercenaire achetable pour aider la defense
-    sebastopol = CpuShip():setFaction("Independent"):setTemplate("Dreadnought"):setCallSign("Sebastopol"):setPosition(4607, 69495):orderRoaming():setHullMax(200):setHull(200):setShieldsMax(300.00, 300.00, 300.00, 0.00, 0.00):setShields(300.00, 300.00, 300.00, 0.00, 0.00):setWeaponTubeCount(2):setWeaponStorageMax("Homing", 20):setWeaponStorageMax("HVLI", 50):setBeamWeapon(0, 90, 335, 1500, 6.0, 14.9):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 90, 25, 1500, 6.0, 16.2):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 100, 300, 1000, 6.0, 16.2):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 100, 60, 1000, 6.0, 15.7):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 32, 0, 2000, 6.0, 19.6):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 105, 180, 1200, 6.0, 16.2):setBeamWeaponTurret(5, 0, 0, 0)
+    sebastopol = CpuShip():setFaction("Independent"):setTemplate("Dreadnought"):setCallSign("Sebastopol"):setPosition(4607, 69495):orderStandGround():setHullMax(200):setHull(200):setShieldsMax(300.00, 300.00, 300.00, 0.00, 0.00):setShields(300.00, 300.00, 300.00, 0.00, 0.00):setWeaponTubeCount(2):setWeaponStorageMax("Homing", 20):setWeaponStorageMax("HVLI", 50):setBeamWeapon(0, 90, 335, 1500, 6.0, 14.9):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 90, 25, 1500, 6.0, 16.2):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 100, 300, 1000, 6.0, 16.2):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 100, 60, 1000, 6.0, 15.7):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 32, 0, 2000, 6.0, 19.6):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 105, 180, 1200, 6.0, 16.2):setBeamWeaponTurret(5, 0, 0, 0)
 
     sebastopol:setCommsFunction(function()
         setCommsMessage("Salutation rusé représentant d’Arianne. Je suis le lord commander nataniel du Sébastopol. Nous sommes les protecteurs vertueux des marchant qui savent se montrer généreux. Nous sommes à la recherche d'un mécène prêt à investir 30 credit et 10 matiere premières pour nous voir pratiquer notre art. Interessé?");
@@ -148,7 +155,7 @@ function init()
     end);
 
     --Sniftheline: mercenaire achetable pour aider la defense aussi possible de l'attaquer
-    sniftheline = CpuShip():setFaction("Independent"):setTemplate("Tug"):setCallSign("sniftheline"):setPosition(1117, 17960):orderRoaming():setImpulseMaxSpeed(109.6):setRotationMaxSpeed(14.6):setJumpDrive(true):setShieldsMax(212.00):setShields(212.00):setBeamWeapon(0, 360, 0, 1000, 3.0, 13.1):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 271, 88, 1800, 3.6, 14.0):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 83, -180, 2600, 4.0, 18.6):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 3, -78, 5000, 4.2, 24.8):setBeamWeaponTurret(3, 0, 0, 0)
+    sniftheline = CpuShip():setFaction("Independent"):setTemplate("Tug"):setCallSign("sniftheline"):setPosition(1117, 17960):orderStandGround():setImpulseMaxSpeed(109.6):setRotationMaxSpeed(14.6):setJumpDrive(true):setShieldsMax(212.00):setShields(212.00):setBeamWeapon(0, 360, 0, 1000, 3.0, 13.1):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 271, 88, 1800, 3.6, 14.0):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 83, -180, 2600, 4.0, 18.6):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 3, -78, 5000, 4.2, 24.8):setBeamWeaponTurret(3, 0, 0, 0)
 
     sniftheline:setCommsFunction(function()
         setCommsMessage("té tu la pou ‘me propser d’quoi d’bon pour moé ou pour krever");
@@ -191,7 +198,7 @@ function update()
             labo:setFaction("Arianne");
             labo:setCommsFunction(function()
                 if comms_source:isDocked(comms_target) then
-                    setCommsMessage("Yo boss, vous savez ce qu'on fait ici c'est puissant!! Sans doute que les coincé du cul de la station Derichbourg vont vouloir l'acheter à haut prix. Mais le chien de garde aimerait pas trop ca. J'ai entendu dire qu’il était \"flattable\" si on avait un bon os.");
+                    setCommsMessage("Yo boss, vous savez ce qu'on fait ici c'est puissant!! Sans doute que les coincé du cul de la station Derichbourg en F2 vont vouloir l'acheter à haut prix. Mais le chien de garde aimerait pas trop ca. J'ai entendu dire qu’il était \"flattable\" si on avait un bon os.");
                     labo.inventory.drogue.amount = labo.inventory.drogue.amount + labo.inventory.produit_chimique.amount;
                     labo.inventory.produit_chimique.amount = 0;
                     tradeSellComm();
@@ -207,7 +214,7 @@ function update()
     if fassmashaIsOn then
         if not hellPit:isValid() then
             fassmashaIsOn = false;
-            CpuShip():setFaction("Charognards"):setTemplate("Starhammer II"):setCallSign("y'ur d8"):setPosition(31185, 49509):orderFlyTowards(33515, 52990):setHullMax(300):setHull(300):setImpulseMaxSpeed(56.6):setRotationMaxSpeed(10.1):setJumpDrive(false):setWarpDrive(true):setShieldsMax(23.00, 0.00, 0.00, 0.00, 0.00):setShields(23.00, 0.00, 0.00, 0.00, 0.00):setWeaponTubeCount(6):setWeaponTubeDirection(5, -180):setWeaponStorage("Homing", 0):setWeaponStorage("EMP", 0):setWeaponStorageMax("HVLI", 50):setWeaponStorage("HVLI", 50)
+            CpuShip():setFaction("Charognards"):setTemplate("Starhammer II"):setCallSign("y'ur d8"):setPosition(31185, 49509):orderAttack(succubiCherubim):setHullMax(300):setHull(300):setImpulseMaxSpeed(56.6):setRotationMaxSpeed(10.1):setJumpDrive(false):setWarpDrive(true):setShieldsMax(23.00, 0.00, 0.00, 0.00, 0.00):setShields(23.00, 0.00, 0.00, 0.00, 0.00):setWeaponTubeCount(6):setWeaponTubeDirection(5, -180):setWeaponStorage("Homing", 0):setWeaponStorage("EMP", 0):setWeaponStorageMax("HVLI", 50):setWeaponStorage("HVLI", 50)
         end
         
         for i,gang in pairs(fassmashaGangs) do
@@ -231,11 +238,11 @@ function update()
             local toAttack = attackLabOrPlayer();
 
             if blockadeSpawn >= 5 then
-                generateMobs(1, "Blockade Runner", "Gentil", -47000, 5500, 1500, function(mob) mob:orderAttack(toAttack) end);
+                mergeTables(lawTroops,generateMobs(1, "Blockade Runner", "Loyalistes", -47000, 5500, 1500, function(mob) mob:orderAttack(toAttack) end));
                 blockadeSpawn = 0;
             else
-                generateMobs(4, "Adder MK4", "Gentil", -47000, 5500, 1500, function(mob) mob:orderAttack(toAttack) end);
-                generateMobs(1, "Piranha F8", "Gentil", -47000, 5500, 1500, function(mob) mob:orderAttack(toAttack) end);
+                mergeTables(lawTroops,generateMobs(4, "Adder MK4", "Loyalistes", -47000, 5500, 1500, function(mob) mob:orderAttack(toAttack) end));
+                mergeTables(lawTroops,generateMobs(1, "Piranha F8", "Loyalistes", -47000, 5500, 1500, function(mob) mob:orderAttack(toAttack) end));
             end
 
             lawSpawn = 0;
@@ -245,27 +252,6 @@ function update()
         
     end
     
-    --Les Merillons
-    if merillonRespawn >= 3 * 60 * 60 then
-        for i,merillonShip in pairs(merillonFalcons) do
-            if not merillonShip:isValid() then
-                merillonFalcons[i] = generateMobs(1, "Flavia Falcon", "Merillon", 0, 10000, 60000, function(mob) mob:orderRoaming() end)[1];
-            end
-        end
-        for i,merillonShip in pairs(merillonCruisers) do
-            if not merillonShip:isValid() then
-                merillonCruisers[i] = generateMobs(2, "Missile Cruiser", "Merillon", 0, 10000, 60000, function(mob) mob:orderRoaming() end)[1];
-            end
-        end
-        for i,merillonShip in pairs(merillonFrigates) do
-            if not merillonShip:isValid() then
-                merillonFrigates[i] = generateMobs(2, "Frigate", "Merillon", 0, 10000, 60000, function(mob) mob:orderRoaming() end)[1];
-            end
-        end
-        merillonRespawn = 0;
-    else
-        merillonRespawn = merillonRespawn + 1;
-    end
 end
 
 function fassmashaGang()
@@ -300,7 +286,6 @@ end
     Nebula():setPosition(-31361, -14594)
     Nebula():setPosition(-21691, 36683)
     Nebula():setPosition(-36447, 36960)
-    CpuShip():setFaction("Vindh"):setTemplate("Nirvana R5"):setCallSign("CSS2"):setPosition(36933, 29339):orderRoaming()
     Asteroid():setPosition(5843, 13657)
     Asteroid():setPosition(-1926, -3094)
     Asteroid():setPosition(1026, 10965)
@@ -620,16 +605,16 @@ end
     VisualAsteroid():setPosition(-39215, -17706)
     VisualAsteroid():setPosition(24333, 52616)
     BlackHole():setPosition(23285, -25780)
-    WarpJammer():setFaction("Independent"):setPosition(30029, 47540)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("CSS24"):setPosition(30236, -21086):orderDefendLocation(30236, -21086):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("CCN25"):setPosition(30865, -20205):orderDefendLocation(30865, -20205):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("S26"):setPosition(31117, -21254):orderDefendLocation(31117, -21254):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("CCN27"):setPosition(31831, -18399):orderDefendLocation(31831, -18399):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("VK28"):setPosition(32965, -17224):orderDefendLocation(32965, -17224):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("CV29"):setPosition(31705, -17140):orderDefendLocation(31705, -17140):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("UTI30"):setPosition(31075, -19407):orderDefendLocation(31075, -19407):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("CCN31"):setPosition(32839, -20624):orderDefendLocation(32839, -20624):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Chasseur"):setCallSign("CV32"):setPosition(33216, -18651):orderDefendLocation(33216, -18651):setWeaponStorage("Homing", 1)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Defense platform"):setCallSign("NC34"):setPosition(29433, -21813):orderDefendLocation(41755, -18678):setHullMax(79):setHull(79):setShieldsMax(28.00, 39.00, 32.00, 37.00, 39.00, 46.00):setShields(28.00, 39.00, 32.00, 37.00, 39.00, 46.00):setBeamWeapon(0, 30, 0, 4000, 7.7, 7.7):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 30, 60, 4000, 7.7, 8.4):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 30, 120, 4000, 7.9, 7.7):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 30, 180, 4000, 7.8, 7.7):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 240, 4000, 7.5, 7.5):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 30, 300, 4000, 7.8, 7.5):setBeamWeaponTurret(5, 0, 0, 0)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Weapons platform"):setCallSign("SS35"):setPosition(26103, -17095):orderRoaming():setShieldsMax(37.00, 39.00, 50.00, 46.00, 34.00, 28.00):setShields(37.00, 39.00, 50.00, 46.00, 34.00, 28.00):setBeamWeapon(0, 30, 0, 4000, 7.8, 9.2):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 30, 60, 4000, 7.8, 8.4):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 30, 120, 4000, 7.6, 7.9):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 30, 180, 4000, 7.7, 7.9):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 240, 4000, 8.1, 7.7):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 30, 300, 4000, 8.3, 7.9):setBeamWeaponTurret(5, 0, 0, 0)
-    CpuShip():setFaction("Loyal Loyalistes"):setTemplate("Weapons platform"):setCallSign("UTI36"):setPosition(31379, -16404):orderRoaming():setShieldsMax(19.00, 32.00, 30.00, 32.00, 41.00, 34.00):setShields(19.00, 32.00, 30.00, 23.00, 41.00, 34.00):setBeamWeapon(0, 30, 0, 4000, 7.5, 8.4):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 30, 60, 4000, 7.7, 7.9):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 30, 120, 4000, 8.0, 7.7):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 30, 180, 4000, 7.8, 8.4):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 240, 4000, 7.6, 8.4):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 30, 300, 4000, 7.6, 7.7):setBeamWeaponTurret(5, 0, 0, 0)
+    WarpJammer():setFaction("Charognards"):setPosition(30029, 47540)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("CSS24"):setPosition(30236, -21086):orderDefendLocation(30236, -21086):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("CCN25"):setPosition(30865, -20205):orderDefendLocation(30865, -20205):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("S26"):setPosition(31117, -21254):orderDefendLocation(31117, -21254):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("CCN27"):setPosition(31831, -18399):orderDefendLocation(31831, -18399):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("VK28"):setPosition(32965, -17224):orderDefendLocation(32965, -17224):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("CV29"):setPosition(31705, -17140):orderDefendLocation(31705, -17140):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("UTI30"):setPosition(31075, -19407):orderDefendLocation(31075, -19407):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("CCN31"):setPosition(32839, -20624):orderDefendLocation(32839, -20624):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Chasseur"):setCallSign("CV32"):setPosition(33216, -18651):orderDefendLocation(33216, -18651):setWeaponStorage("Homing", 1)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Defense platform"):setCallSign("NC34"):setPosition(29433, -21813):orderDefendLocation(41755, -18678):setHullMax(79):setHull(79):setShieldsMax(28.00, 39.00, 32.00, 37.00, 39.00, 46.00):setShields(28.00, 39.00, 32.00, 37.00, 39.00, 46.00):setBeamWeapon(0, 30, 0, 4000, 7.7, 7.7):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 30, 60, 4000, 7.7, 8.4):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 30, 120, 4000, 7.9, 7.7):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 30, 180, 4000, 7.8, 7.7):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 240, 4000, 7.5, 7.5):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 30, 300, 4000, 7.8, 7.5):setBeamWeaponTurret(5, 0, 0, 0)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Weapons platform"):setCallSign("SS35"):setPosition(26103, -17095):orderStandGround():setShieldsMax(37.00, 39.00, 50.00, 46.00, 34.00, 28.00):setShields(37.00, 39.00, 50.00, 46.00, 34.00, 28.00):setBeamWeapon(0, 30, 0, 4000, 7.8, 9.2):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 30, 60, 4000, 7.8, 8.4):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 30, 120, 4000, 7.6, 7.9):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 30, 180, 4000, 7.7, 7.9):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 240, 4000, 8.1, 7.7):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 30, 300, 4000, 8.3, 7.9):setBeamWeaponTurret(5, 0, 0, 0)
+    CpuShip():setFaction("Loyalistes"):setTemplate("Weapons platform"):setCallSign("UTI36"):setPosition(31379, -16404):orderStandGround():setShieldsMax(19.00, 32.00, 30.00, 32.00, 41.00, 34.00):setShields(19.00, 32.00, 30.00, 23.00, 41.00, 34.00):setBeamWeapon(0, 30, 0, 4000, 7.5, 8.4):setBeamWeaponTurret(0, 0, 0, 0):setBeamWeapon(1, 30, 60, 4000, 7.7, 7.9):setBeamWeaponTurret(1, 0, 0, 0):setBeamWeapon(2, 30, 120, 4000, 8.0, 7.7):setBeamWeaponTurret(2, 0, 0, 0):setBeamWeapon(3, 30, 180, 4000, 7.8, 8.4):setBeamWeaponTurret(3, 0, 0, 0):setBeamWeapon(4, 30, 240, 4000, 7.6, 8.4):setBeamWeaponTurret(4, 0, 0, 0):setBeamWeapon(5, 30, 300, 4000, 7.6, 7.7):setBeamWeaponTurret(5, 0, 0, 0)

@@ -11,10 +11,15 @@ function makeInventory(override)
 end
 
 function getInventoryStr(player)
-    local inv = "Kredits : " .. player.kredits .. "\n";
-    for name,item in pairs(player.inventory) do
-        if item.amount ~= 0 then
-            inv = inv .. name .. " : " .. item.amount .. "\n";
+    local inv = "";
+    if player.kredits then
+        inv = "Kredits : " .. player.kredits .. "\n";
+    end
+    if player.inventory then
+        for name,item in pairs(player.inventory) do
+            if item.amount ~= 0 then
+                inv = inv .. name .. " : " .. item.amount .. "\n";
+            end
         end
     end
     return inv

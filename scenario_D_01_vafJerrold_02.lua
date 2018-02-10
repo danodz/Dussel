@@ -22,8 +22,10 @@ atWarWithResistance = false;
 function save()
     toWrite = "";
     for i,player in pairs(players) do
-        toWrite = toWrite .. "Inventory : " .. getInventoryStr(player);
-        toWrite = toWrite .. "Homing : " .. player:getWeaponStorage("Homing");
+        if player.inventory then
+            toWrite = toWrite .. "\nInventory : " .. getInventoryStr(player);
+        end
+        toWrite = toWrite .. "\nHoming : " .. player:getWeaponStorage("Homing");
         toWrite = toWrite .. "\nHVLI : " .. player:getWeaponStorage("HVLI");
         toWrite = toWrite .. "\nMine : " .. player:getWeaponStorage("Mine");
         toWrite = toWrite .. "\nNuke : " .. player:getWeaponStorage("Nuke");
@@ -342,10 +344,15 @@ function makeInventory(override)
 end
 
 function getInventoryStr(player)
-    local inv = "Kredits : " .. player.kredits .. "\n";
-    for name,item in pairs(player.inventory) do
-        if item.amount ~= 0 then
-            inv = inv .. name .. " : " .. item.amount .. "\n";
+    local inv = "";
+    if player.kredits then
+        inv = "Kredits : " .. player.kredits .. "\n";
+    end
+    if player.inventory then
+        for name,item in pairs(player.inventory) do
+            if item.amount ~= 0 then
+                inv = inv .. name .. " : " .. item.amount .. "\n";
+            end
         end
     end
     return inv

@@ -1,22 +1,28 @@
+
+--	neutre tous 
 neutral = FactionInfo():setName("Independent")
 neutral:setGMColor(128, 128, 128)
 neutral:setDescription([[Marchands indépendants, vaisseaux de croisières et flottilles privées arpentent les confins de l'espace, sans bannière ni couleurs.
 Bien que celà soit démenti par le Conglomerat d'Arianne, plusieurs rapportent avoir perdu leurs cargaisons aux mains de "marchands" du conglomérat.]])
 
+-- neutre joueurs et tous 
 dussel = FactionInfo():setName("Dussel")
 dussel:setGMColor(0, 0, 255)
 dussel:setDescription([[Vaisseaux restants des ducs de Dussel. 
 En nombre inférieur, ceux-ci ne s'interposent normalement pas aux grandes nations de la galaxie.]])
 
+-- ennemi tous
 vindh = FactionInfo():setName("Vindh")
 vindh:setGMColor(255, 102, 0)
 vindh:setDescription([[Empire du vindh]])
 
+-- ennemi tous
 merillon = FactionInfo():setName("Merillon")
 merillon:setGMColor(255, 255, 128)
 merillon:setEnemy(vindh)
 merillon:setDescription([[Sainte-Alliance des Mérillons]])
 
+-- ennemi tous
 arianne = FactionInfo():setName("Arianne")
 arianne:setGMColor(0,255,255)
 arianne:setEnemy(neutral)
@@ -24,6 +30,7 @@ arianne:setEnemy(vindh)
 arianne:setEnemy(merillon)
 arianne:setDescription([[Le Conglomerat d'arianne est un assemblement de marchands et stations minières aux extrémités de la galaxie célésienne.]])
 
+-- neutre "pro-faction"
 vindhLoyal = FactionInfo():setName("Loyal Vindh")
 vindhLoyal:setGMColor(255, 102, 0)
 vindhLoyal:setDescription([[Faction loyale à l'empire du vindh]])
@@ -36,37 +43,46 @@ arianneLoyal = FactionInfo():setName("Loyal Arianne")
 arianneLoyal:setGMColor(0,255,255)
 arianneLoyal:setDescription([[Faction loyale au Conglomerat d'Arianne]])
 
-wreckDefend = FactionInfo():setName("Épave défense")
+loyalisteLoyal = FactionInfo():setName("Loyal Loyalistes")
+loyalisteLoyal:setGMColor(204, 0, 204)
+loyalisteLoyal:setDescription([[Loyal aux barons des états libres.]])
+
+
+-- épave qui peut être détruite par les joueurs
+wreckDefend = FactionInfo():setName("Epave Rebut")
 wreckDefend:setGMColor(255, 255, 255)
-wreckDefend:setDescription([[Vaisseaux à la dérive. Flottant sans vie dans la noirceur de l'espace. Systeme de défense operationel.]])
+wreckDefend:setDescription([[Vaisseaux à la dérive. Flottant sans vie dans la noirceur de l'espace. Peut être détruite pour des ressources.]])
 wreckDefend:setEnemy(vindh)
 wreckDefend:setEnemy(arianne)
 wreckDefend:setEnemy(merillon)
 
-wreck = FactionInfo():setName("Épave")
+-- épave neutre
+wreck = FactionInfo():setName("Epave")
 wreck:setGMColor(255, 255, 255)
 wreck:setDescription([[Vaisseaux à la dérive. Flottant sans vie dans la noirceur de l'espace.]])
 
+-- ennemi tous
 spectre = FactionInfo():setName("Spectre")
 spectre:setGMColor(255, 255, 255)
 spectre:setEnemy(vindh)
+spectre:setEnemy(merillon)
+spectre:setEnemy(arianne)
+spectre:setEnemy(dussel)
 spectre:setDescription([[Vaisseaux à la dérive activés par un système informatique toujours fonctionnel. 
 La plupart les ignorent et les évitent, ne souhaitant éveiller leurs systèmes de défense ou découvrir le mystère qui plane sur eux.
 Certains croient même qu'ils sont animés des esprits de leurs équipages depuis longtemps disparus.
 Les vaisseaux du Vindh n'hésitent pas une seconde à éradiquer ces aberrations sans vie et réfutent toutes les superstitions à leurs propos.]])
 
+-- 
 baron = FactionInfo():setName("Barons")
 baron:setGMColor(204, 0, 204)
 baron:setEnemy(merillon)
 baron:setEnemy(vindh)
-baron:setEnemy(arianne)
+-- baron:setEnemy(arianne)
 baron:setDescription([[Barons des états libres. 
 Ils sont pour la plupart toujours en conflits territoriaux avec la Sainte-Alliance des Mérillons]])
 
-loyalisteLoyal = FactionInfo():setName("Loyal Loyalistes")
-loyalisteLoyal:setGMColor(204, 0, 204)
-loyalisteLoyal:setDescription([[Loyal aux barons des états libres.]])
-
+--
 loyalistes = FactionInfo():setName("Loyalistes")
 loyalistes:setGMColor(255, 0, 0)
 loyalistes:setEnemy(dussel)
@@ -75,19 +91,24 @@ loyalistes:setEnemy(arianne)
 loyalistes:setEnemy(merillon)
 loyalistes:setDescription([[Troupes loyaux à un Duc de Dussel]])
 
+-- ennemi 
 rebels = FactionInfo():setName("Resistance")
 rebels:setGMColor(0, 0, 255)
 rebels:setEnemy(loyalistes)
-rebels:setDescription([[Troupes opposés à un Duc de Dussel]])
+rebels:setDescription([[Troupes opposés à un Duc de Dussel. Typiquement supporté par les Mérillons pour récupérer les baronnies.]])
 
-namori = FactionInfo():setName("Namorites")
-namori:setGMColor(255, 0, 0)
-namori:setDescription([[vaisseaux étranges et mystérieux venant de la bordure Namori]])
-namori:setEnemy(vindh)
-namori:setEnemy(arianne)
-namori:setEnemy(merillon)
-namori:setEnemy(spectre)
 
+-- // Dussel tout
+
+-- namori = FactionInfo():setName("Namorites")
+-- namori:setGMColor(255, 0, 0)
+-- namori:setDescription([[vaisseaux étranges et mystérieux venant de la bordure Namori]])
+-- namori:setEnemy(vindh)
+-- namori:setEnemy(arianne)
+-- namori:setEnemy(merillon)
+-- namori:setEnemy(spectre)
+
+-- ennemi tous
 looter = FactionInfo():setName("Charognards")
 looter:setGMColor(255, 0, 0)
 looter:setDescription([[Vaisseaux sans foi ni loi, attaquant toute flotille ou station faible et scrutant l'espace à la recherche d'épaves abandonnées. 
@@ -96,7 +117,7 @@ looter:setEnemy(vindh)
 looter:setEnemy(arianne)
 looter:setEnemy(merillon)
 looter:setEnemy(spectre)
-looter:setEnemy(namori)
+--looter:setEnemy(namori)
 looter:setEnemy(neutral)
 
 
@@ -119,23 +140,23 @@ As soon as the Kraylor obtained reliable space flight, they immediately set out 
 
 Kraylor can live for weeks without air, food, or gravity, and consider humans to be weak creatures for dying within minutes of exposure to space. Because of their fortitude and cultural pressures against retreat, Kraylor ships do not contain escape pods.]])
 
-arlenians = FactionInfo():setName("Arlenians")
-arlenians:setGMColor(255, 128, 0)
-arlenians:setEnemy(kraylor)
-arlenians:setDescription([[Arlenians are energy-based life forms who long ago transcended physical reality through superior technology. Arlenians' energy forms also give them access to strong telepathic powers. Many consider Arlenians to be the first and oldest explorers of the galaxy.
+-- arlenians = FactionInfo():setName("Arlenians")
+-- arlenians:setGMColor(255, 128, 0)
+-- arlenians:setEnemy(kraylor)
+-- arlenians:setDescription([[Arlenians are energy-based life forms who long ago transcended physical reality through superior technology. Arlenians' energy forms also give them access to strong telepathic powers. Many consider Arlenians to be the first and oldest explorers of the galaxy.
 
-Despite all these advantages, they are very peaceful, as they see little value in material posession.
+-- Despite all these advantages, they are very peaceful, as they see little value in material posession.
 
-For unknown reasons, Arlenians started granting their anti-grav technology to other races, and almost all starfaring races' technology is based off Arlenian designs. Dissenters and skeptics claim that Arlenians see other races as playthings to add to their galactic playground, but most are more than happy to accept their technology in hopes that it will give them an advantage over the others.
+-- For unknown reasons, Arlenians started granting their anti-grav technology to other races, and almost all starfaring races' technology is based off Arlenian designs. Dissenters and skeptics claim that Arlenians see other races as playthings to add to their galactic playground, but most are more than happy to accept their technology in hopes that it will give them an advantage over the others.
 
-Destroying an Arlenian ship does not kill its crew. They simply phase out of existence in that point of spacetime and reappear in another. Nonetheless, the Kraylor are devoted to destroying the Arlenians, as they see the energy-based beings as physically powerless.]])
+-- Destroying an Arlenian ship does not kill its crew. They simply phase out of existence in that point of spacetime and reappear in another. Nonetheless, the Kraylor are devoted to destroying the Arlenians, as they see the energy-based beings as physically powerless.]])
 
 exuari = FactionInfo():setName("Exuari")
 exuari:setGMColor(255, 0, 128)
 exuari:setEnemy(neutral)
 exuari:setEnemy(human)
 exuari:setEnemy(kraylor)
-exuari:setEnemy(arlenians)
+--exuari:setEnemy(arlenians)
 exuari:setDescription([[Exuari are race of predatory amphibians with long noses. They once had an empire that stretched halfway across the galaxy, but their territory is now limited to a handful of star systems. For some reason, they find death to be outrageously funny, and several of their most famous comedians have died on stage.
 
 Upon making contact with other races, the chaotic Exuari found that killing aliens is more fun than killing their own people, and as such attack all non-Exauri on sight.]])
@@ -161,12 +182,3 @@ It is known, however, that the strict Ktlitan hierarchy starts with their Queen 
 Hive:setEnemy(human)
 Hive:setEnemy(exuari)
 Hive:setEnemy(kraylor)
-
-Gentil = FactionInfo():setName("Gentil")
-Gentil:setGMColor(255, 102, 0)
-Gentil:setDescription([[Les bon qui gagnent parce qu'ils sont fin]])
-
-Mechant = FactionInfo():setName("Michant")
-Mechant:setGMColor(255, 255, 128)
-Mechant:setEnemy(Gentil)
-Mechant:setDescription([[Les gros pas fin]])

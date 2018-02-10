@@ -22,8 +22,10 @@ atWarWithResistance = false;
 function save()
     toWrite = "";
     for i,player in pairs(players) do
-        toWrite = toWrite .. "Inventory : " .. getInventoryStr(player);
-        toWrite = toWrite .. "Homing : " .. player:getWeaponStorage("Homing");
+        if player.inventory then
+            toWrite = toWrite .. "\nInventory : " .. getInventoryStr(player);
+        end
+        toWrite = toWrite .. "\nHoming : " .. player:getWeaponStorage("Homing");
         toWrite = toWrite .. "\nHVLI : " .. player:getWeaponStorage("HVLI");
         toWrite = toWrite .. "\nMine : " .. player:getWeaponStorage("Mine");
         toWrite = toWrite .. "\nNuke : " .. player:getWeaponStorage("Nuke");
@@ -342,10 +344,15 @@ function makeInventory(override)
 end
 
 function getInventoryStr(player)
-    local inv = "Kredits : " .. player.kredits .. "\n";
-    for name,item in pairs(player.inventory) do
-        if item.amount ~= 0 then
-            inv = inv .. name .. " : " .. item.amount .. "\n";
+    local inv = "";
+    if player.kredits then
+        inv = "Kredits : " .. player.kredits .. "\n";
+    end
+    if player.inventory then
+        for name,item in pairs(player.inventory) do
+            if item.amount ~= 0 then
+                inv = inv .. name .. " : " .. item.amount .. "\n";
+            end
         end
     end
     return inv
@@ -543,43 +550,49 @@ addGMFunction("nexusvoid", function() spawnNexusvoid(0,0) end);
     -- station de la résistance avec laquelle les joueurs pourront avoir des missions. 
     resistance = SpaceStation():setTemplate("Small Station"):setFaction("Resistance"):setCallSign("DS245"):setPosition(149490, -27739)
     resistance:setCommsFunction(function()
-        setCommsMessage("On a des quest pour vous");
-
-        if freeStationIsOn then
-            if toFree:getFaction() == "Barons" then
-                addCommsReply("Liberer une station", function()
-                    setCommsMessage("Va en ZZ8");
-                end);
-            else
-                addCommsReply("On l'a libéré", function()
-                    setCommsMessage("Bravo, voici votre plutonium");
-                    plutonium = plutonium + 100;
-                    freeStationIsOn = false;
+        if comms_source:isDocked(comms_target) then
+            setCommsMessage("On a des quest pour vous");
+    
+            if freeStationIsOn then
+                if toFree:getFaction() == "Barons" then
+                    addCommsReply("Liberer une station", function()
+                        setCommsMessage("Va en ZZ8");
+                    end);
+                else
+                    addCommsReply("On l'a libéré", function()
+                        setCommsMessage("Bravo, voici votre plutonium");
+                        plutonium = plutonium + 100;
+                        freeStationIsOn = false;
+                    end);
+                end
+            end
+    
+            if emergencyIsOn then
+                addCommsReply("defendre d'urgence", function()
+                    setCommsMessage("Va en C18");
+                    for i,ship in pairs(surpriseAttack) do
+                        ship:orderAttack(toDefendResistance);
+                    end
                 end);
             end
-        end
-
-        if emergencyIsOn then
-            addCommsReply("defendre d'urgence", function()
-                setCommsMessage("Va en C18");
-                for i,ship in pairs(surpriseAttack) do
-                    ship:orderAttack(toDefendResistance);
+    
+            addCommsReply("prendre le plutonium par la force", function()
+                setCommsMessage("Alors c'est la guerre");
+                resistance:setFaction("Charognards");
+                toDefendResistance:setFaction("Charognards");
+                for i,ship in pairs(resistanceShips) do
+                    ship:setFaction("Charognards");
+                    resistance:setCommsFunction(function()
+                        setCommsMessage("");
+                    end);
+                    toDefendResistance:setCommsFunction(function()
+                        setCommsMessage("");
+                    end);
                 end
             end);
+        else
+            setCommsMessage("Venez nous voir en personne.");
         end
-
-        addCommsReply("prendre le plutonium par la force", function()
-            setCommsMessage("Alors c'est la guerre");
-            for i,ship in pairs(resistanceShips) do
-                ship:setFaction("Charognards");
-                resistance:setCommsFunction(function()
-                    setCommsMessage("");
-                end);
-                toDefendResistance:setCommsFunction(function()
-                    setCommsMessage("");
-                end);
-            end
-        end);
     end)
 
     -- missions données en échange de plutonium : 
@@ -610,14 +623,18 @@ addGMFunction("nexusvoid", function() spawnNexusvoid(0,0) end);
     -- station à défendre
     toDefendResistance = SpaceStation():setTemplate("Medium Station"):setFaction("Resistance"):setCallSign("DS246"):setPosition(269300, -52516)
     toDefendResistance:setCommsFunction(function()
-        if allDead(surpriseAttack) then
-            setCommsMessage("Merci vous nous avez sauvé. Voici 100 plutonium");
-            plutonium = plutonium + 100;
-            toDefendResistance:setCommsFunction(function()
+        if comms_source:isDocked(comms_target) then
+            if allDead(surpriseAttack) then
+                setCommsMessage("Merci vous nous avez sauvé. Voici 100 plutonium");
+                plutonium = plutonium + 100;
+                toDefendResistance:setCommsFunction(function()
+                    setCommsMessage("");
+                end);
+            else
                 setCommsMessage("");
-            end);
+            end
         else
-            setCommsMessage("");
+            setCommsMessage("Merci vous nous avez sauvé. Voici 100 plutonium");
         end
     end);
    
