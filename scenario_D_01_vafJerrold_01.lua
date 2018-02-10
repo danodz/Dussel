@@ -10,6 +10,7 @@ availableItems = {};
 merillonShips = {};
 patrolling = {};
 packageDropped = false;
+ambushIsOn = true;
 spotted = false;
 
 --Warning : Calling the save function will crash the script
@@ -470,11 +471,12 @@ addGMFunction("VAF-Jerrold", function() spawnVafJerrold(0,0) end);
     spawnVafJerrold(-70741, 10321);
     vafJerrold:setWeaponStorage("EMP", 1):setWeaponStorage("HVLI", 3)
     
-    -- Station de départ
-    SpaceStation():setTemplate("Small Station"):setFaction("Arianne"):setCallSign("krief logos"):setPosition(-69829, 10626)
-
     -- Station objectif (endroit où aller porter la cargaison)
     objectiveStation = SpaceStation():setTemplate("Large Station"):setFaction("Dussel"):setCallSign("arnemak 3"):setPosition(270715, 30108)
+
+    -- Station de départ
+    krief = SpaceStation():setTemplate("Small Station"):setFaction("Arianne"):setCallSign("krief logos"):setPosition(-69829, 10626)
+    krief:sendCommsMessage(vafJerrold, "Bienvenu équipage du Jaf-Jerrold, nous avons monté la cargaison à bord de votre vaisseau.\nVous devrez la délivrer au port spatial ".. objectiveStation:getCallSign() .." dans le secteur ".. objectiveStation:getSectorName() ..". La route sera longue et parsemée des flottes Mérillons qui commencent à s’implanter dans le secteur.\n\nLa cargaison ne doit pas être ouverte et encore moins découverte par les forces de l’ordre du secteur. Si un Mérillon devait vous interroger, assurez-vous de l’éliminer sans laisser de traces.\n(hors-jeu : venir nous voir à l’organisation si vous souhaitez voir son contenu)\n\nLe secteur est parsemmé de nébuleuses qui peuvent masquer votre position. Utilisez-les à votre avantage. Mais attention, les forces de la Sainte-Alliance on probablement établi des défenses dans certains de ces nuages stellaires.\n\nNous plaçons notre confiance en vos mains, une chance de prouver que vous pouvez encore être utiles.\n\nBonne course marchands.");
 
     -- Stations de ravitaillement
     endGameA = SpaceStation():setTemplate("Small Station"):setFaction("Dussel"):setCallSign("DS12937"):setPosition(70335, 50348)
@@ -542,8 +544,10 @@ function update()
     for i,ship in pairs(merillonShips) do
         if ship:getTarget() == vafJerrold then
             notSpotted = true;
+            ship:orderAttack(vafJerrold);
             if not spotted then
-                ship:sendCommsMessage(vafJerrold, "Que faites vous dans ce secteur ?? Intrus !\nNous devons vérifier votre cargo.")
+                ship:sendCommsMessage(vafJerrold, "Vaisseau marchand non-identifié, ici le navire Mérillon ".. ship:getCallSign() ..". Aucune autorisation n’a été détectée sous votre signature. Abaissez vos boucliers, arrêtez vos moteurs immédiatement et péparez-vous à une être fouillé par nos agents.")
+                ship:orderAttack(vafJerrold);
                 spotted = true;
             end
         end
@@ -569,6 +573,11 @@ function update()
     end
 
     if vafJerrold:isDocked(objectiveStation) and not packageDropped then
+        objectiveStation:sendCommsMessage(vafJerrold, "Bien Jaf-Jerrold, nous prendrons la cargaison à partir d’ici.\nVoici 100 Krédits pour votre ouvrage.\n\nVous pouvez maintenant vous rendre au port de l’une des stations de pont stellaire dans les secteurs XX ou XX pour quitter le secteur.\n\nLes Barons libre vous remercient !");
+        packageDropped = true;
+    end
+
+    if packageDropped and ambushIsOn and not vafJerrold:isDocked(objectiveStation) then
         -- Vaisseaux du vindh à faire apparaître en embuscade une fois que le joueur a porté la marchandise
         -- Voir s'il faut changer les order "roaming" au profit d'un "attack target" en ciblant le joueur.
         V1 = CpuShip():setFaction("Vindh"):setTemplate("F-Camarade"):setCallSign("BR28"):setPosition(266244, 23956):orderAttack(vafJerrold):setWeaponStorage("EMP", 0)
@@ -586,10 +595,12 @@ function update()
         V4 = CpuShip():setFaction("Vindh"):setTemplate("F-Camarade"):setCallSign("VK31"):setPosition(263030, 36575):orderAttack(vafJerrold):setWeaponStorage("EMP", 0)
         CpuShip():setFaction("Vindh"):setTemplate("C-Ouvrier"):setCallSign("CV32"):setPosition(262665, 35605):orderDefendTarget(V4):setWeaponStorage("Homing", 1)
         CpuShip():setFaction("Vindh"):setTemplate("C-Ouvrier"):setCallSign("CV33"):setPosition(263878, 37912):orderDefendTarget(V4):setWeaponStorage("Homing", 1)
+
+        V1:sendCommsMessage( vafJerrold, "Ici le commandant Crilkof de la flotte impériale du Vindh.\nLa cargaison mainetnant rendue, votre utilité s’arrête malheureusement ici.\nSoumettez-vous pacifiquement et vos souffrances seront brèves.\n\nGloire à l’empereur !");
         
-        endGameA:sendCommsMessage(vafJerrold, "Viens te réfugier chez nous dans le secteur ".. endGameA:getSectorName() .."ou chez notre homologue qui se trouve au secteur " .. endGameB:getSectorName());
-        packageDropped = true;
+        ambushIsOn = false;
     end
+
     if packageDropped and (vafJerrold:isDocked(endGameA) or vafJerrold:isDocked(endGameB)) then
         victory("Arianne");
     end
@@ -597,7 +608,7 @@ function update()
 end
 
 function mkPatrollingShip(x1,y1,x2,y2)
-    local ship = CpuShip():setFaction("Merillon"):setTemplate("Adv. Striker"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x1, y1)
+    local ship = CpuShip():setFaction("Merillon"):setTemplate("Adv. Striker"):setCallSign(srandom(irandom(2,3)) .. irandom(10,999)):setPosition(x1, y1):setJumpDrive(false):setWarpDrive(true)
     table.insert(merillonShips, ship);
     patrol(ship, {{x = x1, y = y1},{x = x2, y = y2}});
 end
